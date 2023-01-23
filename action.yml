@@ -1,0 +1,6 @@
+name: 'Heroplan Data Validator Action'
+description: 'The validator action for the heroplan data repo'
+author: 'gdibass<matt@gdibass.com>'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

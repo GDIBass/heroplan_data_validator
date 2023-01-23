@@ -1,0 +1,9 @@
+member_status:
+  none:
+    id: 0
+    key: none
+    description: No Alliance
+  request:
+    id: 1
+    key: requestoooo
+    description: Requested Join
