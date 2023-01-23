@@ -7,6 +7,8 @@ import { hasStrings } from "./interfaces/HasStrings";
 import verifyKeysAreStrings from "./validators/verifyKeysAreStrings";
 import { hasIntegers } from "./interfaces/HasIntegers";
 import verifyKeysAreIntegers from "./validators/verifyKeysAreIntegers";
+import { hasImages } from "./interfaces/HasImages";
+import verifyKeysAreImages from "./validators/verifyKeysAreImages";
 
 const validate = (config: Config, rawObject: object) => {
   if (hasRequiredKeys(config)) {
@@ -20,6 +22,9 @@ const validate = (config: Config, rawObject: object) => {
   }
   if (hasIntegers(config)) {
     verifyKeysAreIntegers(config, rawObject);
+  }
+  if (hasImages(config)) {
+    verifyKeysAreImages(config, rawObject);
   }
 }
 

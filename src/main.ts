@@ -5,6 +5,7 @@ import InvalidConfig from "./error/InvalidConfig";
 import YamlParseFailed from "./error/YamlParseFailed";
 import MissingRequiredKey from "./error/MissingRequiredKey";
 import loadAscensionsConfig from "./ascensions";
+import loadClassesConfig from "./classes";
 
 
 async function run(): Promise<void> {
@@ -12,6 +13,7 @@ async function run(): Promise<void> {
   try {
     const allianceConfig = await loadAllianceConfig();
     const ascensionsConfig = await loadAscensionsConfig();
+    const classesConfig = await loadClassesConfig();
   } catch (error) {
     if (error instanceof FileLoadFailed) {
       core.setFailed(error.message);
