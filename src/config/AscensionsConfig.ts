@@ -7,8 +7,8 @@ const requiredObjects = ['max_ascension', 'ascensions'];
 
 class AscensionsConfig implements Config, HasObjects, HasRequiredKeys {
 
-  public max_ascension: {[key: number]: number} = {};
-  public ascensions: {[key: number]: Ascension} = {};
+  public readonly max_ascension: {[key: number]: number} = {};
+  public readonly ascensions: {[key: number]: Ascension} = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);

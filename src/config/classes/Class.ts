@@ -7,7 +7,7 @@ import {
   validate,
   validateKeysMatch
 } from "../../validation";
-import InvalidConfig from "../../error/InvalidConfig";
+import validateImageType, { ImageType } from "../../validation/validateImageType";
 
 const requiredKeys = ['code', 'key', 'description', 'image'];
 const integerKeys = ['code'];
@@ -22,10 +22,10 @@ interface RawClass {
 }
 
 class Class implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages {
-  public code: number;
-  public key: string;
-  public description: string;
-  public image: string;
+  public readonly code: number;
+  public readonly key: string;
+  public readonly description: string;
+  public readonly image: string;
 
   constructor(classKey: string, rawYaml: object) {
     validate(this, rawYaml);
@@ -35,12 +35,7 @@ class Class implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImag
     this.description = (rawYaml as RawClass).description;
     this.image = (rawYaml as RawClass).image;
 
-    if (!this.image.endsWith(".png")) {
-      throw new InvalidConfig(
-        this,
-        `image must be a png ${this.image}`
-      );
-    }
+    validateImageType(this, 'image', this.image, ImageType.PNG);
 
     // TODO: Load image file and verify dimensions
   }

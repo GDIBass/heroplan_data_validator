@@ -6,7 +6,7 @@ const requiredObjects = ['member_status'];
 
 class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public member_status: {[key: string]: MemberStatus} = {};
+  public readonly member_status: {[key: string]: MemberStatus} = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);

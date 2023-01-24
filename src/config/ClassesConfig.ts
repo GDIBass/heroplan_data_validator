@@ -6,7 +6,7 @@ const objectKeys = ['classes'];
 
 class ClassesConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public classes: {[key: string]: Class} = {};
+  public readonly classes: {[key: string]: Class} = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);

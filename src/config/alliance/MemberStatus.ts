@@ -16,9 +16,9 @@ const requiredIntegers = [
 ];
 
 class MemberStatus implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
-  public id: number;
-  public key: string;
-  public description: string;
+  public readonly id: number;
+  public readonly key: string;
+  public readonly description: string;
 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);

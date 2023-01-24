@@ -36,10 +36,10 @@ interface RawAscension {
 }
 
 class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjects {
-  public key: number;
-  public description: string;
-  public star_max: {[key: number]: number} = {};
-  public limit_break: {[key: number]: number} = {};
+  public readonly key: number;
+  public readonly description: string;
+  public readonly star_max: {[key: number]: number} = {};
+  public readonly limit_break: {[key: number]: number} = {};
 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);
