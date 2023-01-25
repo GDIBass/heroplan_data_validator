@@ -5,9 +5,10 @@ import {
   HasRequiredKeys,
   HasStrings,
   validate,
-  validateKeysMatch
+  validateKeysMatch,
+  validateImageType,
+  ImageType,
 } from "../../validation";
-import validateImageType, { ImageType } from "../../validation/validateImageType";
 
 const requiredKeys = ['code', 'key', 'description', 'image'];
 const integerKeys = ['code'];

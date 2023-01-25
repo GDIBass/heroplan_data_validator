@@ -8,3 +8,4 @@ export { default as HasImages } from './interfaces/HasImages';
 export { default as validate } from './validate';
 export { default as validateKeysMatch } from './validateKeysMatch';
 export { default as validateNoDuplicateIds } from './validateNoDuplicateIds';
+export { default as validateImageType, ImageType } from './validateImageType';
