@@ -26,7 +26,7 @@ async function run(): Promise<void> {
     const ascensionsConfig = await loadAscensionsConfig();
     const classesConfig = await loadClassesConfig();
     const costumesConfig = await loadCostumesConfig();
-    const emblemsConfig = await loadEmblemsConfig();
+    const emblemsConfig = await loadEmblemsConfig(classesConfig);
     const familiesConfig = await loadFamiliesConfig();
     const filtersConfig = await loadFiltersConfig();
     const materialsConfig = await loadMaterialsConfig();
