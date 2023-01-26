@@ -21,3 +21,5 @@ class Reset implements HasRequiredKeys, HasImages {
   getRequiredKeys = () => requiredKeys;
   getImages = () => imageKeys;
 }
+
+export default Reset;

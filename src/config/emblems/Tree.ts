@@ -2,6 +2,9 @@ import { Config, HasObjects, HasRequiredKeys, HasStrings, validate, validateKeys
 import Node from "./Node";
 import validateNode from "./validateNode";
 import SplitNode from "./SplitNode";
+import ClassesConfig from "../ClassesConfig";
+import ohp from "../../util/ohp";
+import InvalidConfig from "../../error/InvalidConfig";
 
 const requiredKeys = [
   'key',
@@ -102,10 +105,16 @@ class Tree implements Config, HasRequiredKeys, HasStrings, HasObjects {
   public readonly 19: object;
   public readonly 20: string;
 
-  constructor(effectKey: string, rawYaml: object, nodes: {[key: string]: Node}) {
+  constructor(effectKey: string, rawYaml: object, nodes: {[key: string]: Node}, classesConfig: ClassesConfig) {
     validate(this, rawYaml);
     validateKeysMatch(this, effectKey, (rawYaml as RawTree).key);
     this['key'] = (rawYaml as RawTree)['key'];
+    if (!ohp(classesConfig.classes, this['key'])) {
+      throw new InvalidConfig(
+        this,
+        `${this['key']} is not a valid class, did you enter a valid class?`
+      );
+    }
     this[1] = validateNode(this, '1', (rawYaml as RawTree)[1], nodes);
     this[2] = new SplitNode((rawYaml as RawTree)[2], nodes);
     this[3] = new SplitNode((rawYaml as RawTree)[3], nodes);
@@ -133,3 +142,5 @@ class Tree implements Config, HasRequiredKeys, HasStrings, HasObjects {
   getStrings = () => stringKeys;
   getObjects = () => objectKeys;
 }
+
+export default Tree;

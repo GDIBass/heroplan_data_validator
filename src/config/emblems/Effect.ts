@@ -8,7 +8,7 @@ import {
   validateImageType,
   validateKeysMatch
 } from "../../validation";
-import { Mode } from "fs";
+import Mode from "./Mode";
 import ohp from "../../util/ohp";
 import InvalidConfig from "../../error/InvalidConfig";
 

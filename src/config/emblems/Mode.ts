@@ -23,3 +23,5 @@ class Mode implements Config, HasRequiredKeys, HasStrings {
   getRequiredKeys = () => requiredKeys;
   getStrings = () => stringKeys;
 }
+
+export default Mode;
