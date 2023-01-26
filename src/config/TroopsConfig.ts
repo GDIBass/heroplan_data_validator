@@ -7,6 +7,8 @@ class TroopsConfig implements Config, HasRequiredKeys {
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
+    // TODO: Load Troops
+    // TODO: Load Max Level By Stars
   }
 
   getClassName = () => TroopsConfig.name;

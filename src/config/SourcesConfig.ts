@@ -7,6 +7,7 @@ class SourcesConfig implements Config, HasRequiredKeys {
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
+    // TODO: Build sources
   }
 
   getClassName = () => SourcesConfig.name;

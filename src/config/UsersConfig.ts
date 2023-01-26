@@ -7,6 +7,8 @@ class UsersConfig implements Config, HasRequiredKeys {
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
+    // Build Sharing Modes
+    // Build Social Networks
   }
 
   getClassName = () => UsersConfig.name;

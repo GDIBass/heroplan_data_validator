@@ -7,6 +7,7 @@ class SpeedsConfig implements Config, HasRequiredKeys {
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
+    // TODO: Build Speeds
   }
 
   getClassName = () => SpeedsConfig.name;
