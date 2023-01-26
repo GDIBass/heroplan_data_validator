@@ -15,18 +15,18 @@ const objectKeys = ['ascensions'];
 class Filter implements Config, HasRequiredKeys, HasStrings, HasObjects {
   private readonly description: string;
   private readonly type: string;
-  private readonly ascensions: {[key: number]: number} = null;
+  private readonly ascensions: {[key: number]: number} = {};
 
   constructor (filter: string, rawYaml: object) {
-    validate(this);
+    validate(this, rawYaml);
     validateKeysMatch(this, filter, (rawYaml as RawFilter).type);
     this.description = (rawYaml as RawFilter).description;
     this.type = (rawYaml as RawFilter).type;
     if (ohp(rawYaml, 'ascensions')) {
-      this.ascensions = {};
+      // this.ascensions = {};
       const ascensions = (rawYaml as RawFilter).ascensions;
-      for (let ascension of ascensions) {
-        this.ascensions[parseInt(ascension)] = ascensions[ascension];
+      for (let ascension in ascensions) {
+        this.ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
       }
     }
   }

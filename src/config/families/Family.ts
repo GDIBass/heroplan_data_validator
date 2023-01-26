@@ -6,7 +6,10 @@ import {
   HasIntegers,
   HasRequiredKeys,
   HasStrings,
-  validate, validateKeysMatch
+  ImageType,
+  validate,
+  validateImageType,
+  validateKeysMatch
 } from "../../validation";
 
 interface RawFamily {
@@ -55,6 +58,7 @@ class Family implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasIma
     for (let bonusItem of (rawYaml as RawFamily).bonus) {
       this.bonus.push(bonusItem);
     }
+    validateImageType(this, 'image', this.image, ImageType.PNG);
   }
 
   getClassName = () => Family.name;
