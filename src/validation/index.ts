@@ -3,6 +3,7 @@ export { default as HasIntegers } from './interfaces/HasIntegers';
 export { default as HasObjects } from './interfaces/HasObjects';
 export { default as HasRequiredKeys } from './interfaces/HasRequiredKeys';
 export { default as HasStrings } from './interfaces/HasStrings';
+export { default as HasFloats } from './interfaces/HasFloats';
 export { default as HasId, hasId } from './interfaces/HasId';
 export { default as HasImages } from './interfaces/HasImages';
 export { default as HasArrays } from './interfaces/HasArrays';

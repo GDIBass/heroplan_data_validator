@@ -9,6 +9,8 @@ import { hasIntegers } from "./interfaces/HasIntegers";
 import verifyKeysAreIntegers from "./validators/verifyKeysAreIntegers";
 import { hasImages } from "./interfaces/HasImages";
 import verifyKeysAreImages from "./validators/verifyKeysAreImages";
+import { hasFloats } from "./interfaces/HasFloats";
+import verifyKeysAreFloats from "./validators/verifyKeysAreFloats";
 
 const validate = (config: Config, rawObject: object) => {
   if (hasRequiredKeys(config)) {
@@ -25,6 +27,9 @@ const validate = (config: Config, rawObject: object) => {
   }
   if (hasImages(config)) {
     verifyKeysAreImages(config, rawObject);
+  }
+  if (hasFloats(config)) {
+    verifyKeysAreFloats(config, rawObject);
   }
 }
 

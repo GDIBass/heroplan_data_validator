@@ -1,4 +1,4 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
+import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
 import Source from "./sources/Source";
 
 interface RawSourceConfig {
@@ -17,6 +17,7 @@ class SourcesConfig implements Config, HasRequiredKeys, HasObjects {
     for (let source in sources) {
       this.sources[source] = new Source(source, sources[source]);
     }
+    validateNoDuplicateIds(this, 'code', Object.values(this.sources));
   }
 
   getClassName = () => SourcesConfig.name;

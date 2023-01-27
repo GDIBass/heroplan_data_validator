@@ -1,13 +1,14 @@
-import { Config, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
+import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
 import Family from "./families/Family";
 
 const requiredKeys = ['families'];
+const objectKeys = ['families'];
 
 interface RawFamiliesConfig {
   families: {[key: string]: object};
 }
 
-class FamiliesConfig implements Config, HasRequiredKeys {
+class FamiliesConfig implements Config, HasRequiredKeys, HasObjects {
 
   private readonly families: {[key: string]: Family} = {};
 
@@ -24,6 +25,7 @@ class FamiliesConfig implements Config, HasRequiredKeys {
 
   getClassName = () => FamiliesConfig.name;
   getRequiredKeys = () => requiredKeys;
+  getObjects = () => objectKeys;
 }
 
 export default FamiliesConfig;
