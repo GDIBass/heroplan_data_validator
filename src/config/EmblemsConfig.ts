@@ -1,4 +1,4 @@
-import { Config, HasRequiredKeys, validate } from "../validation";
+import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
 import Totals from "./emblems/Totals";
 import ClassesConfig from "./ClassesConfig";
 import Mode from "./emblems/Mode";
@@ -9,6 +9,7 @@ import Reset from "./emblems/Reset";
 
 
 const requiredKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
+const objectKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
 
 interface RawEmblemsConfig {
   totals: object,
@@ -19,7 +20,7 @@ interface RawEmblemsConfig {
   reset: {[Key: string]: object},
 }
 
-class EmblemsConfig implements Config, HasRequiredKeys {
+class EmblemsConfig implements Config, HasRequiredKeys, HasObjects {
 
   public readonly totals: Totals;
   public readonly modes: {[key: string]: Mode} = {};
@@ -58,6 +59,7 @@ class EmblemsConfig implements Config, HasRequiredKeys {
 
   getClassName = () => EmblemsConfig.name;
   getRequiredKeys = () => requiredKeys;
+  getObjects = () => objectKeys;
 }
 
 export default EmblemsConfig;

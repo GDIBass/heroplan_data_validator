@@ -1,17 +1,27 @@
-import { Config, HasRequiredKeys, validate } from "../validation";
+import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
+import Source from "./sources/Source";
 
+interface RawSourceConfig {
+  sources: {[Key: string]: object};
+}
 
 const requiredKeys = ['sources'];
+const objectKeys = ['sources'];
 
-class SourcesConfig implements Config, HasRequiredKeys {
+class SourcesConfig implements Config, HasRequiredKeys, HasObjects {
+  private readonly sources: {[key: string]: Source} = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
-    // TODO: Build sources
+    const sources = (rawYaml as RawSourceConfig).sources;
+    for (let source in sources) {
+      this.sources[source] = new Source(source, sources[source]);
+    }
   }
 
   getClassName = () => SourcesConfig.name;
   getRequiredKeys = () => requiredKeys;
+  getObjects = () => objectKeys;
 }
 
 export default SourcesConfig;
