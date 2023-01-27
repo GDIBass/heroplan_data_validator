@@ -30,3 +30,5 @@ class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
   getRequiredKeys = () => requiredKeys;
   getObjects = () => objectKeys;
 }
+
+export default ColorsConfig;

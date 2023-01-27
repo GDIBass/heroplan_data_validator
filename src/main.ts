@@ -17,6 +17,7 @@ import loadTeamsConfig from "./teams";
 import loadTroopsConfig from "./troops";
 import loadUsersConfig from "./users";
 import loadHeroConfigs from "./heroes";
+import loadColorsConfig from "./colors";
 
 
 async function run(): Promise<void> {
@@ -25,6 +26,7 @@ async function run(): Promise<void> {
     const allianceConfig = await loadAllianceConfig();
     const ascensionsConfig = await loadAscensionsConfig();
     const classesConfig = await loadClassesConfig();
+    const colorsConfig = await loadColorsConfig();
     const costumesConfig = await loadCostumesConfig();
     const emblemsConfig = await loadEmblemsConfig(classesConfig);
     const familiesConfig = await loadFamiliesConfig();
@@ -32,7 +34,7 @@ async function run(): Promise<void> {
     const materialsConfig = await loadMaterialsConfig();
     const sourcesConfig = await loadSourcesConfig();
     const speedsConfig = await loadSpeedsConfig();
-    const teamsConfig = await loadTeamsConfig();
+    const teamsConfig = await loadTeamsConfig(classesConfig, colorsConfig);
     const troopsConfig = await loadTroopsConfig();
     const usersConfig = await loadUsersConfig();
     const heroesConfig = await loadHeroConfigs();

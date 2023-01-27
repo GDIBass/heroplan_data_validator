@@ -11,6 +11,8 @@ import { hasImages } from "./interfaces/HasImages";
 import verifyKeysAreImages from "./validators/verifyKeysAreImages";
 import { hasFloats } from "./interfaces/HasFloats";
 import verifyKeysAreFloats from "./validators/verifyKeysAreFloats";
+import { hasBooleans } from "./interfaces/HasBooleans";
+import verifyKeysAreBooleans from "./validators/verifyKeysAreBooleans";
 
 const validate = (config: Config, rawObject: object) => {
   if (hasRequiredKeys(config)) {
@@ -30,6 +32,9 @@ const validate = (config: Config, rawObject: object) => {
   }
   if (hasFloats(config)) {
     verifyKeysAreFloats(config, rawObject);
+  }
+  if (hasBooleans(config)) {
+    verifyKeysAreBooleans(config, rawObject);
   }
 }
 

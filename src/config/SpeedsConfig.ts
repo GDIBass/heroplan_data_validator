@@ -1,4 +1,4 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
+import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
 import Speed from "./speeds/Speed";
 
 interface RawSpeedsConfig {
@@ -17,6 +17,7 @@ class SpeedsConfig implements Config, HasRequiredKeys, HasObjects {
     for (let speed in speeds) {
       this.speeds[speed] = new Speed(speed, speeds[speed]);
     }
+    validateNoDuplicateIds(this, 'speeds', Object.values(this.speeds));
   }
 
   getClassName = () => SpeedsConfig.name;
