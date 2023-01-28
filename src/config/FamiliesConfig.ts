@@ -10,7 +10,7 @@ interface RawFamiliesConfig {
 
 class FamiliesConfig implements Config, HasRequiredKeys, HasObjects {
 
-  private readonly families: {[key: string]: Family} = {};
+  public readonly families: {[key: string]: Family} = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
