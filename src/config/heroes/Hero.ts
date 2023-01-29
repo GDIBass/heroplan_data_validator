@@ -114,14 +114,14 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
       );
     }
     // Validate class is valid
-    if (!ohp(classesConfig.classes, this.class)) {
+    if (!ohp(classesConfig.classes, this.class.toLowerCase())) {
       throw new InvalidConfig(
         this,
         `${this.name} has an invalid class ${this.class}`
       );
     }
     // Validate source is valid
-    if (!ohp(sourcesConfig.sources, this.source)) {
+    if (!ohp(sourcesConfig.sources, this.source.toLowerCase())) {
       throw new InvalidConfig(
         this,
         `${this.name} has an invalid source ${this.source}`
@@ -129,7 +129,7 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     }
 
     // Validate family is valid (if set)
-    if (this.family && !ohp(familiesConfig.families, this.family)) {
+    if (this.family && !ohp(familiesConfig.families, this.family.toLowerCase())) {
       throw new InvalidConfig(
         this,
         `${this.name} has an invalid family ${this.family}`

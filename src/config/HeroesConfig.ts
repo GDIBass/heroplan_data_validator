@@ -27,12 +27,14 @@ class HeroesConfig implements Config {
   }
 
   addHeroes = (color: string, stars: number, rawYaml: object[]) => {
-    const hero = new Hero(stars, color, rawYaml, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.heroImagesDirectory);
-    if (ohp(this.heroes, hero.name)) {
-      throw new InvalidConfig(
-        this,
-        `Hero with name ${hero.name} already exists`
-      );
+    for (const rawHero of rawYaml) {
+      const hero = new Hero(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.heroImagesDirectory);
+      if (ohp(this.heroes, hero.name)) {
+        throw new InvalidConfig(
+          this,
+          `Hero with name ${hero.name} already exists`
+        );
+      }
     }
   }
 

@@ -69,10 +69,13 @@ async function run(): Promise<void> {
     } else if (error instanceof MissingRequiredKey) {
       core.setFailed(error.message);
     } else {
+      console.log(error);
       core.setFailed("Encountered an unknown error");
     }
   }
-
+  // TODO: Ensure classes are lower
+  // TODO: Ensure families are lower
+  // TODO: Ensure sources are lower
 }
 
 run()

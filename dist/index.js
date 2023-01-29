@@ -101,6 +101,108 @@ exports.default = loadAscensionsConfig;
 
 /***/ }),
 
+/***/ 4209:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const ClassesConfig_1 = __importDefault(__nccwpck_require__(6658));
+const loadClassesConfig = (filePath = './data/classes.yml', imagePath = './img/emblems') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Classes Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new ClassesConfig_1.default(config);
+});
+exports.default = loadClassesConfig;
+
+
+/***/ }),
+
+/***/ 5950:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const ColorsConfig_1 = __importDefault(__nccwpck_require__(5835));
+const loadColorsConfig = (filePath = './data/colors.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Classes Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Check image validation?
+    return new ColorsConfig_1.default(config);
+});
+exports.default = loadColorsConfig;
+
+
+/***/ }),
+
 /***/ 4964:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -167,11 +269,494 @@ class AscensionsConfig {
         const ascensions = rawYaml.ascensions;
         (0, validateAllIntegers_1.default)(this, 'ascensions<keys>', Object.keys(ascensions));
         for (let key in ascensions) {
-            this.ascensions[parseInt(key)] = new Ascension_1.default(ascensions[key]);
+            const intKey = parseInt(key);
+            this.ascensions[intKey] = new Ascension_1.default(key, ascensions[key]);
         }
     }
 }
 exports.default = AscensionsConfig;
+
+
+/***/ }),
+
+/***/ 6658:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Class_1 = __importDefault(__nccwpck_require__(8154));
+const requiredKeys = ['classes'];
+const objectKeys = ['classes'];
+class ClassesConfig {
+    constructor(rawYaml) {
+        this.classes = {};
+        this.getClassName = () => ClassesConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        // @ts-ignore
+        const classes = rawYaml.classes;
+        for (let classKey in classes) {
+            this.classes[classKey] = new Class_1.default(classKey, classes[classKey]);
+        }
+    }
+}
+exports.default = ClassesConfig;
+
+
+/***/ }),
+
+/***/ 5835:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Color_1 = __importDefault(__nccwpck_require__(2020));
+const requiredKeys = ['colors', 'open_color'];
+const objectKeys = ['colors', 'open_color'];
+class ColorsConfig {
+    constructor(rawYaml) {
+        this.colors = {};
+        this.open_color = {};
+        this.getClassName = () => ColorsConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        // @ts-ignore
+        const colors = rawYaml.colors;
+        for (let colorKey in colors) {
+            this.colors[colorKey] = new Color_1.default(colorKey, colors[colorKey]);
+        }
+        // @ts-ignore
+        const openColors = rawYaml.openColors;
+        for (let openColorKey in openColors) {
+            this.open_color[openColorKey] = openColors[openColorKey];
+        }
+    }
+}
+exports.default = ColorsConfig;
+
+
+/***/ }),
+
+/***/ 7845:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Images_1 = __importDefault(__nccwpck_require__(6078));
+const Bonus_1 = __importDefault(__nccwpck_require__(7478));
+const requiredKeys = ['images', 'bonuses'];
+const objectKeys = ['images', 'bonuses'];
+class CostumesConfig {
+    constructor(rawYaml) {
+        this.bonuses = {};
+        this.getClassName = () => CostumesConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        // @ts-ignore
+        this.images = new Images_1.default(rawYaml.images);
+        // @ts-ignore
+        const bonuses = rawYaml.bonuses;
+        for (let bonusKey in bonuses) {
+            this.bonuses[bonusKey] = new Bonus_1.default(bonusKey, bonuses[bonusKey]);
+        }
+    }
+}
+exports.default = CostumesConfig;
+
+
+/***/ }),
+
+/***/ 9568:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Totals_1 = __importDefault(__nccwpck_require__(7818));
+const Mode_1 = __importDefault(__nccwpck_require__(3968));
+const Effect_1 = __importDefault(__nccwpck_require__(7645));
+const Tree_1 = __importDefault(__nccwpck_require__(1363));
+const Node_1 = __importDefault(__nccwpck_require__(5396));
+const Reset_1 = __importDefault(__nccwpck_require__(3440));
+const requiredKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
+const objectKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
+class EmblemsConfig {
+    constructor(classesConfig, rawYaml) {
+        this.modes = {};
+        this.effects = {};
+        this.nodes = {};
+        this.trees = {};
+        this.getClassName = () => EmblemsConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.totals = new Totals_1.default(rawYaml.totals);
+        const modes = rawYaml.modes;
+        for (let mode in modes) {
+            this.modes[mode] = new Mode_1.default(mode, modes[mode]);
+        }
+        const effects = rawYaml.effects;
+        for (let effect in effects) {
+            this.effects[effect] = new Effect_1.default(effect, effects[effect], this.modes);
+        }
+        const nodes = rawYaml.nodes;
+        for (let node in nodes) {
+            this.nodes[node] = new Node_1.default(node, nodes[node], this.effects);
+        }
+        // Load trees w/ effects and classes for verification
+        const trees = rawYaml.trees;
+        for (let tree in trees) {
+            this.trees[tree] = new Tree_1.default(tree, trees[tree], this.nodes, classesConfig);
+        }
+        // Load Reset
+        this.reset = new Reset_1.default(rawYaml.reset);
+    }
+}
+exports.default = EmblemsConfig;
+
+
+/***/ }),
+
+/***/ 8106:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Family_1 = __importDefault(__nccwpck_require__(8066));
+const requiredKeys = ['families'];
+const objectKeys = ['families'];
+class FamiliesConfig {
+    constructor(rawYaml) {
+        this.families = {};
+        this.getClassName = () => FamiliesConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        // Populate families object
+        const families = rawYaml.families;
+        for (let family in families) {
+            this.families[family] = new Family_1.default(family, families[family]);
+        }
+        // verify no duplicate codes
+        (0, validation_1.validateNoDuplicateIds)(this, 'families', Object.values(this.families));
+    }
+}
+exports.default = FamiliesConfig;
+
+
+/***/ }),
+
+/***/ 7425:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Filter_1 = __importDefault(__nccwpck_require__(5055));
+const requiredKeys = ['filters'];
+const objectKeys = ['filters'];
+class FiltersConfig {
+    constructor(rawYaml) {
+        this.filters = {};
+        this.getClassName = () => FiltersConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        const filters = rawYaml.filters;
+        for (let filter in filters) {
+            this.filters[filter] = new Filter_1.default(filter, filters[filter]);
+        }
+    }
+}
+exports.default = FiltersConfig;
+
+
+/***/ }),
+
+/***/ 10:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Hero_1 = __importDefault(__nccwpck_require__(64));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+class HeroesConfig {
+    constructor(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, heroImagesDirectory) {
+        this.heroes = {};
+        this.addHeroes = (color, stars, rawYaml) => {
+            for (const rawHero of rawYaml) {
+                const hero = new Hero_1.default(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.heroImagesDirectory);
+                if ((0, ohp_1.default)(this.heroes, hero.name)) {
+                    throw new InvalidConfig_1.default(this, `Hero with name ${hero.name} already exists`);
+                }
+            }
+        };
+        this.getClassName = () => HeroesConfig.name;
+        this.classesConfig = classesConfig;
+        this.familiesConfig = familiesConfig;
+        this.sourcesConfig = sourcesConfig;
+        this.costumesConfig = costumesConfig;
+        this.colorsConfig = colorsConfig;
+        this.heroImagesDirectory = heroImagesDirectory;
+    }
+}
+exports.default = HeroesConfig;
+
+
+/***/ }),
+
+/***/ 9405:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Ascension_1 = __importDefault(__nccwpck_require__(9951));
+const requiredKeys = ['ascension'];
+const objectKeys = ['ascension'];
+class MaterialsConfig {
+    constructor(rawYaml) {
+        this.ascension = {};
+        this.getClassName = () => MaterialsConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        const ascension = rawYaml.ascension;
+        for (let ascensionKey in ascension) {
+            this.ascension[ascensionKey] = new Ascension_1.default(ascensionKey, ascension[ascensionKey]);
+        }
+    }
+}
+exports.default = MaterialsConfig;
+
+
+/***/ }),
+
+/***/ 9830:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Source_1 = __importDefault(__nccwpck_require__(880));
+const requiredKeys = ['sources'];
+const objectKeys = ['sources'];
+class SourcesConfig {
+    constructor(rawYaml) {
+        this.sources = {};
+        this.getClassName = () => SourcesConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        const sources = rawYaml.sources;
+        for (let source in sources) {
+            this.sources[source] = new Source_1.default(source, sources[source]);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'sources', Object.values(this.sources));
+    }
+}
+exports.default = SourcesConfig;
+
+
+/***/ }),
+
+/***/ 8113:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Speed_1 = __importDefault(__nccwpck_require__(9027));
+const requiredKeys = ['speeds'];
+const objectKeys = ['speeds'];
+class SpeedsConfig {
+    constructor(rawYaml) {
+        this.speeds = {};
+        this.getClassName = () => SpeedsConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        const speeds = rawYaml.speeds;
+        for (let speed in speeds) {
+            this.speeds[speed] = new Speed_1.default(speed, speeds[speed]);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'speeds', Object.values(this.speeds));
+    }
+}
+exports.default = SpeedsConfig;
+
+
+/***/ }),
+
+/***/ 674:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const TypeSet_1 = __importDefault(__nccwpck_require__(3448));
+const Category_1 = __importDefault(__nccwpck_require__(4875));
+const Position_1 = __importDefault(__nccwpck_require__(1138));
+const requiredKeys = ['typesets', 'categories', 'positions'];
+const objectKeys = ['typesets', 'categories', 'positions'];
+class TeamsConfig {
+    constructor(rawYaml, classes, colors) {
+        this.typesets = {};
+        this.categories = {};
+        this.positions = {};
+        this.getClassName = () => TeamsConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        // typesets
+        const typesets = rawYaml.typesets;
+        for (let typeset in typesets) {
+            this.typesets[typeset] = new TypeSet_1.default(typeset, typesets[typeset], classes);
+        }
+        // categories
+        const categories = rawYaml.categories;
+        for (let category in categories) {
+            this.categories[category] = new Category_1.default(category, categories[category], this.typesets, colors);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'categories', Object.values(this.categories));
+        // Positions
+        const positions = rawYaml.positions;
+        for (let position in positions) {
+            this.positions[position] = new Position_1.default(position, positions[position]);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'positions', Object.values(this.positions));
+    }
+}
+exports.default = TeamsConfig;
+
+
+/***/ }),
+
+/***/ 4005:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Troop_1 = __importDefault(__nccwpck_require__(6224));
+const requiredKeys = ['troops', 'max_level_by_stars'];
+const objectKeys = ['troops', 'max_level_by_stars'];
+class TroopsConfig {
+    constructor(rawYaml) {
+        this.troops = {};
+        this.maxLevelByStars = {};
+        this.getClassName = () => TroopsConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        // troops
+        const troops = rawYaml.troops;
+        for (let troop in troops) {
+            this.troops[troop] = new Troop_1.default(troop, troops[troop]);
+        }
+        // max_level_by_stars
+        const maxLevelByStars = rawYaml.max_level_by_stars;
+        for (let star in maxLevelByStars) {
+            this.maxLevelByStars[parseInt(star)] = parseInt(maxLevelByStars[star]);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'troops', Object.values(this.troops));
+    }
+}
+exports.default = TroopsConfig;
+
+
+/***/ }),
+
+/***/ 5271:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const SharingMode_1 = __importDefault(__nccwpck_require__(591));
+const SocialNetwork_1 = __importDefault(__nccwpck_require__(1404));
+const requiredKeys = ['sharing_modes', 'social_networks'];
+const objectKeys = ['sharing_modes', 'social_networks'];
+class UsersConfig {
+    constructor(rawYaml) {
+        this.sharingModes = {};
+        this.socialNetworks = {};
+        this.getClassName = () => UsersConfig.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        const sharingModes = rawYaml.sharing_modes;
+        for (let sharingMode in sharingModes) {
+            this.sharingModes[sharingMode] = new SharingMode_1.default(sharingMode, sharingModes[sharingMode]);
+        }
+        const socialNetworks = rawYaml.sharing_modes;
+        for (let socialNetwork in socialNetworks) {
+            this.socialNetworks[socialNetwork] = new SocialNetwork_1.default(socialNetwork, socialNetworks[socialNetwork]);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'sharingModes', Object.values(this.sharingModes));
+    }
+}
+exports.default = UsersConfig;
 
 
 /***/ }),
@@ -245,7 +830,7 @@ const objectKeys = [
     'limit_break',
 ];
 class Ascension {
-    constructor(rawYaml) {
+    constructor(statusKey, rawYaml) {
         this.star_max = {};
         this.limit_break = {};
         this.getClassName = () => Ascension.name;
@@ -254,12 +839,10 @@ class Ascension {
         this.getIntegers = () => integerKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
-        this.key = rawYaml.key;
-        // @ts-ignore
+        (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml.key);
+        this.key = parseInt(rawYaml.key);
         this.description = rawYaml.description;
         if ((0, ohp_1.default)(rawYaml, 'star_max')) {
-            // @ts-ignore
             const starMax = rawYaml.star_max;
             (0, validateAllIntegers_1.default)(this, 'star_max<keys>', Object.keys(starMax));
             (0, validateAllIntegers_1.default)(this, 'star_max<values>', Object.values(starMax));
@@ -268,7 +851,6 @@ class Ascension {
             }
         }
         if ((0, ohp_1.default)(rawYaml, 'limit_break')) {
-            // @ts-ignore
             const limitBreak = rawYaml.limit_break;
             (0, validateAllIntegers_1.default)(this, 'limit_break<keys>', Object.keys(limitBreak));
             (0, validateAllIntegers_1.default)(this, 'limit_break<values>', Object.values(limitBreak));
@@ -279,6 +861,1348 @@ class Ascension {
     }
 }
 exports.default = Ascension;
+
+
+/***/ }),
+
+/***/ 8154:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['code', 'key', 'description', 'image'];
+const integerKeys = ['code'];
+const stringKeys = ['key', 'description'];
+const imageKeys = ['image'];
+class Class {
+    constructor(classKey, rawYaml) {
+        this.getClassName = () => Class.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getIntegers = () => integerKeys;
+        this.getStrings = () => stringKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, classKey, rawYaml.key);
+        this.code = parseInt(rawYaml.code);
+        this.key = rawYaml.key;
+        this.description = rawYaml.description;
+        this.image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+        // TODO: Load image file and verify dimensions
+    }
+}
+exports.default = Class;
+
+
+/***/ }),
+
+/***/ 2020:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const validateImageType_1 = __importStar(__nccwpck_require__(8475));
+const requiredKeys = ['code', 'key', 'description', 'avatarImage', 'badgeImage'];
+const integerKeys = ['code'];
+const stringKeys = ['key', 'description'];
+const imageKeys = ['avatarImage', 'badgeImage'];
+class Color {
+    constructor(colorKey, rawYaml) {
+        this.getClassName = () => Color.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getIntegers = () => integerKeys;
+        this.getStrings = () => stringKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, colorKey, rawYaml.key);
+        this.code = parseInt(rawYaml.code);
+        this.key = rawYaml.key;
+        this.description = rawYaml.description;
+        this.avatarImage = rawYaml.avatarImage;
+        this.badgeImage = rawYaml.badgeImage;
+        (0, validateImageType_1.default)(this, 'avatarImage', this.avatarImage, validateImageType_1.ImageType.PNG);
+        (0, validateImageType_1.default)(this, 'badgeImage', this.badgeImage, validateImageType_1.ImageType.PNG);
+    }
+}
+exports.default = Color;
+
+
+/***/ }),
+
+/***/ 7478:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const StatBonuses_1 = __importDefault(__nccwpck_require__(818));
+const requiredKeys = ['key', 'max', '4', '3', '2'];
+const stringKeys = ['key'];
+const objectKeys = ['max', '4', '3', '2'];
+class Bonus {
+    constructor(bonusKey, rawYaml) {
+        this.getClassName = () => Bonus.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, bonusKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.max = new StatBonuses_1.default(rawYaml.max);
+        this[4] = new StatBonuses_1.default(rawYaml[4]);
+        this[3] = new StatBonuses_1.default(rawYaml[3]);
+        this[2] = new StatBonuses_1.default(rawYaml[2]);
+    }
+}
+exports.default = Bonus;
+
+
+/***/ }),
+
+/***/ 6078:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ["costume", "maxcostume"];
+const imageKeys = ["costume", "maxcostume"];
+class Images {
+    constructor(rawYaml) {
+        this.getClassName = () => Images.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.costume = rawYaml.costume;
+        this.maxcostume = rawYaml.maxcostume;
+        (0, validation_1.validateImageType)(this, "costume", this.costume, validation_1.ImageType.PNG);
+        (0, validation_1.validateImageType)(this, "maxcostume", this.maxcostume, validation_1.ImageType.PNG);
+    }
+}
+exports.default = Images;
+
+
+/***/ }),
+
+/***/ 818:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['attack', 'defense', 'health', 'mana'];
+const integerKeys = ['attack', 'defense', 'health', 'mana'];
+class StatBonuses {
+    constructor(rawYaml) {
+        this.getClassName = () => StatBonuses.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getIntegers = () => integerKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.attack = parseInt(rawYaml.attack);
+        this.defense = parseInt(rawYaml.defense);
+        this.health = parseInt(rawYaml.health);
+        this.mana = parseInt(rawYaml.mana);
+    }
+}
+exports.default = StatBonuses;
+
+
+/***/ }),
+
+/***/ 7645:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const requiredKeys = ['key', 'description', 'effect', 'mode', 'image'];
+const stringKeys = ['key', 'description', 'effect', 'mode'];
+const imageKeys = ['image'];
+class Effect {
+    constructor(effectKey, rawYaml, modes) {
+        this.getClassName = () => Effect.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, effectKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.description = rawYaml.description;
+        this.effect = rawYaml.effect;
+        this.mode = rawYaml.mode;
+        this.image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+        if (!(0, ohp_1.default)(modes, this.mode)) {
+            throw new InvalidConfig_1.default(this, `modes does not exist for key ${this.key} and mode ${this.mode}`);
+        }
+    }
+}
+exports.default = Effect;
+
+
+/***/ }),
+
+/***/ 3968:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'display'];
+const stringKeys = ['key', 'display'];
+class Mode {
+    constructor(modeKey, rawYaml) {
+        this.getClassName = () => Mode.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, modeKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.display = rawYaml.display;
+    }
+}
+exports.default = Mode;
+
+
+/***/ }),
+
+/***/ 5396:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const requiredKeys = [
+    'key',
+    'type',
+    'amount',
+];
+const stringKeys = [
+    'key',
+    'type',
+];
+const integerKeys = [
+    'amount'
+];
+class Node {
+    constructor(effectKey, rawYaml, effects) {
+        this.getClassName = () => Node.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getIntegers = () => integerKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, effectKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.type = rawYaml.type;
+        this.amount = parseInt(rawYaml.amount);
+        if (!(0, ohp_1.default)(effects, this.type)) {
+            throw new InvalidConfig_1.default(this, `types does not exist for key ${this.key} and effect ${this.type}`);
+        }
+    }
+}
+exports.default = Node;
+
+
+/***/ }),
+
+/***/ 3440:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['image'];
+const imageKeys = ['image'];
+class Reset {
+    constructor(rawYaml) {
+        this.getClassName = () => Reset.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+    }
+}
+exports.default = Reset;
+
+
+/***/ }),
+
+/***/ 1565:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const validateNode_1 = __importDefault(__nccwpck_require__(9507));
+const requiredKeys = ['l', 'r'];
+const stringKeys = ['l', 'r'];
+class SplitNode {
+    constructor(rawYaml, nodes) {
+        this.getClassName = () => SplitNode.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.l = (0, validateNode_1.default)(this, 'l', rawYaml.l, nodes);
+        this.r = (0, validateNode_1.default)(this, 'r', rawYaml.r, nodes);
+    }
+}
+exports.default = SplitNode;
+
+
+/***/ }),
+
+/***/ 5466:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20'
+];
+const integerKeys = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20'
+];
+class Total {
+    constructor(rawYaml) {
+        this.getClassName = () => Total.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getIntegers = () => integerKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this[1] = rawYaml['1'];
+        this[2] = rawYaml['2'];
+        this[3] = rawYaml['3'];
+        this[4] = rawYaml['4'];
+        this[5] = rawYaml['5'];
+        this[6] = rawYaml['6'];
+        this[7] = rawYaml['7'];
+        this[8] = rawYaml['8'];
+        this[9] = rawYaml['9'];
+        this[10] = rawYaml['10'];
+        this[11] = rawYaml['11'];
+        this[12] = rawYaml['12'];
+        this[13] = rawYaml['13'];
+        this[14] = rawYaml['14'];
+        this[15] = rawYaml['15'];
+        this[16] = rawYaml['16'];
+        this[17] = rawYaml['17'];
+        this[18] = rawYaml['18'];
+        this[19] = rawYaml['19'];
+        this[20] = rawYaml['20'];
+    }
+}
+exports.default = Total;
+
+
+/***/ }),
+
+/***/ 7818:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Total_1 = __importDefault(__nccwpck_require__(5466));
+const requiredKeys = ['1', '2', '3', '4', '5'];
+const objectKeys = ['1', '2', '3', '4', '5'];
+class Totals {
+    constructor(rawYaml) {
+        this.getClassName = () => Totals.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this[1] = new Total_1.default(rawYaml['1']);
+        this[2] = new Total_1.default(rawYaml['2']);
+        this[3] = new Total_1.default(rawYaml['3']);
+        this[4] = new Total_1.default(rawYaml['4']);
+        this[5] = new Total_1.default(rawYaml['5']);
+    }
+}
+exports.default = Totals;
+
+
+/***/ }),
+
+/***/ 1363:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const validateNode_1 = __importDefault(__nccwpck_require__(9507));
+const SplitNode_1 = __importDefault(__nccwpck_require__(1565));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const requiredKeys = [
+    'key',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+];
+const stringKeys = [
+    'key',
+    '1',
+    '4',
+    '7',
+    '10',
+    '12',
+    '15',
+    '18',
+    '20',
+];
+const objectKeys = [
+    '2',
+    '3',
+    '5',
+    '6',
+    '8',
+    '9',
+    '11',
+    '13',
+    '14',
+    '16',
+    '17',
+    '19',
+];
+class Tree {
+    constructor(effectKey, rawYaml, nodes, classesConfig) {
+        this.getClassName = () => Tree.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, effectKey, rawYaml.key);
+        this['key'] = rawYaml['key'];
+        if (!(0, ohp_1.default)(classesConfig.classes, this['key'])) {
+            throw new InvalidConfig_1.default(this, `${this['key']} is not a valid class, did you enter a valid class?`);
+        }
+        this[1] = (0, validateNode_1.default)(this, '1', rawYaml[1], nodes);
+        this[2] = new SplitNode_1.default(rawYaml[2], nodes);
+        this[3] = new SplitNode_1.default(rawYaml[3], nodes);
+        this[4] = (0, validateNode_1.default)(this, '4', rawYaml[4], nodes);
+        this[5] = new SplitNode_1.default(rawYaml[5], nodes);
+        this[6] = new SplitNode_1.default(rawYaml[6], nodes);
+        this[7] = (0, validateNode_1.default)(this, '7', rawYaml[7], nodes);
+        this[8] = new SplitNode_1.default(rawYaml[8], nodes);
+        this[9] = new SplitNode_1.default(rawYaml[9], nodes);
+        this[10] = (0, validateNode_1.default)(this, '10', rawYaml[10], nodes);
+        this[11] = new SplitNode_1.default(rawYaml[11], nodes);
+        this[12] = (0, validateNode_1.default)(this, '12', rawYaml[12], nodes);
+        this[13] = new SplitNode_1.default(rawYaml[13], nodes);
+        this[14] = new SplitNode_1.default(rawYaml[14], nodes);
+        this[15] = (0, validateNode_1.default)(this, '15', rawYaml[15], nodes);
+        this[16] = new SplitNode_1.default(rawYaml[16], nodes);
+        this[17] = new SplitNode_1.default(rawYaml[17], nodes);
+        this[18] = (0, validateNode_1.default)(this, '18', rawYaml[18], nodes);
+        this[19] = new SplitNode_1.default(rawYaml[19], nodes);
+        this[20] = (0, validateNode_1.default)(this, '20', rawYaml[20], nodes);
+    }
+}
+exports.default = Tree;
+
+
+/***/ }),
+
+/***/ 9507:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const validateNode = (config, key, node, nodes) => {
+    if (!(0, ohp_1.default)(nodes, node)) {
+        throw new InvalidConfig_1.default(config, `node does not exist for key ${key} and node ${node}`);
+    }
+    return node;
+};
+exports.default = validateNode;
+
+
+/***/ }),
+
+/***/ 8066:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = [
+    'key',
+    'code',
+    'description',
+    'image',
+    'bonus',
+];
+const stringKeys = [
+    'key',
+    'description',
+];
+const integerKeys = [
+    'code',
+];
+const imageKeys = ['image'];
+const arrayKeys = ['bonus'];
+class Family {
+    constructor(familyKey, rawYaml) {
+        this.bonus = [];
+        this.getClassName = () => Family.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getArrays = () => arrayKeys;
+        this.getIntegers = () => integerKeys;
+        this.getImages = () => imageKeys;
+        this.getStrings = () => stringKeys;
+        this.getId = () => this.code;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, familyKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.code = parseInt(rawYaml.code);
+        this.description = rawYaml.description;
+        this.image = rawYaml.image;
+        for (let bonusItem of rawYaml.bonus) {
+            this.bonus.push(bonusItem);
+        }
+        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+    }
+}
+exports.default = Family;
+
+
+/***/ }),
+
+/***/ 5055:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const requiredKeys = ['description', 'type'];
+const stringKeys = ['description', 'type'];
+const objectKeys = ['ascensions'];
+class Filter {
+    constructor(filter, rawYaml) {
+        this.ascensions = {};
+        this.getClassName = () => Filter.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        this.getStrings = () => stringKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, filter, rawYaml.key);
+        this.description = rawYaml.description;
+        this.type = rawYaml.type;
+        if ((0, ohp_1.default)(rawYaml, 'ascensions')) {
+            // this.ascensions = {};
+            const ascensions = rawYaml.ascensions;
+            for (let ascension in ascensions) {
+                this.ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
+            }
+        }
+    }
+}
+exports.default = Filter;
+
+
+/***/ }),
+
+/***/ 4335:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const validateHeroImage_1 = __importDefault(__nccwpck_require__(8803));
+const requiredKeys = ['class', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
+const stringKeys = ['class', 'skill', 'family', 'image', 'bonuses'];
+const integerKeys = ['power', 'attack', 'defense', 'health'];
+const arrayKeys = ['effets', 'types'];
+class Costume {
+    constructor(stars, color, name, rawYaml, classesConfig, costumesConfig, costumeVariant, heroImagesDirectory) {
+        this.effects = [];
+        this.types = [];
+        this.getClassName = () => Costume.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getIntegers = () => integerKeys;
+        this.getStrings = () => stringKeys;
+        this.getArrays = () => arrayKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.class = rawYaml.class;
+        this.power = rawYaml.power;
+        this.attack = rawYaml.attack;
+        this.defense = rawYaml.defense;
+        this.health = rawYaml.health;
+        this.skill = rawYaml.skill;
+        this.image = rawYaml.image;
+        this.bonuses = rawYaml.bonuses;
+        const effects = rawYaml.effects;
+        for (let effect of effects) {
+            this.effects.push(effect);
+        }
+        const types = rawYaml.types;
+        for (let type of types) {
+            this.types.push(type);
+        }
+        (0, validateHeroImage_1.default)(this, name, this.image, color, stars, heroImagesDirectory, costumeVariant);
+        // validate class is valid
+        if (!(0, ohp_1.default)(classesConfig.classes, this.class.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${name}'s costume (${costumeVariant}) has an invalid class ${this.class}`);
+        }
+        // validate bonuses are valid
+        if (this.bonuses && !(0, ohp_1.default)(costumesConfig.bonuses, this.bonuses)) {
+            throw new InvalidConfig_1.default(this, `${name}'s costume (${costumeVariant}) has an invalid bonus ${this.bonuses}`);
+        }
+        // TODO: Populate default variant if bonuses isn't set
+    }
+}
+exports.default = Costume;
+
+
+/***/ }),
+
+/***/ 64:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const Costume_1 = __importDefault(__nccwpck_require__(4335));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const validateHeroImage_1 = __importDefault(__nccwpck_require__(8803));
+const requiredKeys = ['name', 'class', 'source', 'speed', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
+const integerKeys = ['power', 'attack', 'defense', 'health'];
+const stringKeys = ['name', 'class', 'source', 'speed', 'skill', 'family'];
+const objectKeys = ['costume', 'costume2'];
+const arrayKeys = ['effects', 'types', 'passives'];
+class Hero {
+    constructor(stars, color, rawYaml, classesConfig, familiesConfig, sourcesConfig, costumesConfig, heroImagesDirectory) {
+        this.family = null;
+        this.effects = [];
+        this.types = [];
+        this.costume = null;
+        this.costume2 = null;
+        this.getClassName = () => Hero.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getIntegers = () => integerKeys;
+        this.getObjects = () => objectKeys;
+        this.getStrings = () => stringKeys;
+        this.getArrays = () => arrayKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.stars = stars;
+        this.color = color;
+        this.name = rawYaml.name;
+        this.source = rawYaml.source;
+        this.class = rawYaml.class;
+        this.speed = rawYaml.speed;
+        this.power = rawYaml.power;
+        this.attack = rawYaml.attack;
+        this.defense = rawYaml.defense;
+        this.health = rawYaml.health;
+        this.skill = rawYaml.skill;
+        this.image = rawYaml.image;
+        this.effects = rawYaml.effects;
+        this.types = rawYaml.types;
+        this.passives = rawYaml.passives;
+        const costume = rawYaml.costume;
+        if (costume) {
+            this.costume = new Costume_1.default(stars, color, this.name, costume, classesConfig, costumesConfig, 1, heroImagesDirectory);
+        }
+        const costume2 = rawYaml.costume2;
+        if (costume2) {
+            this.costume = new Costume_1.default(stars, color, this.name, costume2, classesConfig, costumesConfig, 2, heroImagesDirectory);
+        }
+        (0, validateHeroImage_1.default)(this, this.name, this.image, this.color, this.stars, heroImagesDirectory, 0);
+        // Validate effects & types have values
+        if (this.types.length === 0) {
+            throw new InvalidConfig_1.default(this, `${this.name} has no types`);
+        }
+        if (this.effects.length === 0) {
+            throw new InvalidConfig_1.default(this, `${this.name} has no effects`);
+        }
+        // Validate class is valid
+        if (!(0, ohp_1.default)(classesConfig.classes, this.class.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${this.name} has an invalid class ${this.class}`);
+        }
+        // Validate source is valid
+        if (!(0, ohp_1.default)(sourcesConfig.sources, this.source.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${this.name} has an invalid source ${this.source}`);
+        }
+        // Validate family is valid (if set)
+        if (this.family && !(0, ohp_1.default)(familiesConfig.families, this.family.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${this.name} has an invalid family ${this.family}`);
+        }
+    }
+}
+exports.default = Hero;
+
+
+/***/ }),
+
+/***/ 9951:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'image'];
+const stringKeys = ['key'];
+const imageKeys = ['image'];
+class Ascension {
+    constructor(ascensionKey, rawYaml) {
+        this.getClassName = () => Ascension.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, ascensionKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+    }
+}
+exports.default = Ascension;
+
+
+/***/ }),
+
+/***/ 880:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'code', 'description'];
+const stringKeys = ['key', 'description'];
+const integerKey = ['code'];
+class Source {
+    constructor(sourceKey, rawYaml) {
+        this.getClassName = () => Source.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getIntegers = () => integerKey;
+        this.getId = () => this.code;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, sourceKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.code = parseInt(rawYaml.code);
+        this.description = rawYaml.description;
+    }
+}
+exports.default = Source;
+
+
+/***/ }),
+
+/***/ 9027:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = [
+    'key',
+    'code',
+    'shortName',
+    'description',
+    'tiles',
+    'breakPoints',
+];
+const stringKeys = ['key', 'shortName', 'description', 'breakPoints'];
+const intKeys = ['code'];
+const arrayKeys = ['tiles'];
+const objectKeys = ['breakPoints'];
+class Speed {
+    constructor(speedKey, rawYaml) {
+        this.tiles = [];
+        this.breakPoints = {};
+        this.getClassName = () => Speed.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        this.getIntegers = () => intKeys;
+        this.getStrings = () => stringKeys;
+        this.getArrays = () => arrayKeys;
+        this.getId = () => this.code;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, speedKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.code = parseInt(rawYaml.code);
+        this.shortName = rawYaml.shortName;
+        this.description = rawYaml.description;
+        for (let tile of rawYaml.tiles) {
+            this.tiles.push(parseFloat(tile));
+        }
+        const breakpoints = rawYaml.breakPoints;
+        for (let breakpointRaw in breakpoints) {
+            const breakpoint = parseInt(breakpointRaw);
+            this.breakPoints[breakpoint] = [];
+            for (let breakpointItem of breakpoints[breakpoint]) {
+                this.breakPoints[breakpoint].push(parseFloat(breakpointItem));
+            }
+        }
+    }
+}
+exports.default = Speed;
+
+
+/***/ }),
+
+/***/ 4875:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const requiredKeys = ['category', 'description', 'typeset'];
+const stringKeys = ['description', 'typeset'];
+const booleanKeys = ['distinct'];
+const integerKeys = ['category'];
+const arrayKeys = ['stars', 'colors'];
+class Category {
+    constructor(categoryKey, rawYaml, typesets, colorsConfig) {
+        this.distinct = false;
+        this.colors = new Set();
+        this.stars = new Set();
+        this.getClassName = () => Category.name;
+        this.getId = () => this.category;
+        this.getIntegers = () => integerKeys;
+        this.getBooleans = () => booleanKeys;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getArrays = () => arrayKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.description = rawYaml.description;
+        this.category = parseInt(rawYaml.category);
+        const typeset = rawYaml.typeset;
+        if (!(0, ohp_1.default)(typesets, typeset)) {
+            throw new InvalidConfig_1.default(this, `invalid typeset set for ${categoryKey}, category: ${typeset}`);
+        }
+        this.typeset = typeset;
+        const colors = rawYaml.colors || [];
+        for (let color of colors) {
+            if (!(0, ohp_1.default)(colorsConfig.colors, color)) {
+                throw new InvalidConfig_1.default(this, `Color for team category ${this.category} is invalid: ${color}`);
+            }
+            this.colors.add(color);
+        }
+        const stars = rawYaml.stars || [];
+        for (let star of stars) {
+            let starVal = parseInt(star);
+            if (isNaN(starVal) || starVal < 1 || starVal > 5) {
+                throw new InvalidConfig_1.default(this, `Invalid stars for team category ${this.category} is invalid: ${star}`);
+            }
+            this.stars.add(starVal);
+        }
+    }
+}
+exports.default = Category;
+
+
+/***/ }),
+
+/***/ 1138:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'id', 'description'];
+const stringKeys = ['key', 'description'];
+const integerKeys = ['id'];
+class Position {
+    constructor(positionKey, rawYaml) {
+        this.getClassName = () => Position.name;
+        this.getId = () => this.id;
+        this.getIntegers = () => integerKeys;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, positionKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.id = parseInt(rawYaml.id);
+        this.description = rawYaml.description;
+    }
+}
+exports.default = Position;
+
+
+/***/ }),
+
+/***/ 421:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const requiredKeys = ['key', 'type', 'description'];
+const stringKeys = ['key', 'description'];
+const integerKeys = ['type'];
+const arrayKeys = ['classes'];
+class Type {
+    constructor(typeKey, rawYaml, classesConfig) {
+        this.classes = new Set();
+        this.getClassName = () => Type.name;
+        this.getId = () => this.type;
+        this.getIntegers = () => integerKeys;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getArrays = () => arrayKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, typeKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.type = parseInt(rawYaml.type);
+        this.description = rawYaml.description;
+        const classes = rawYaml.classes || [];
+        for (let className of classes) {
+            if (!(0, ohp_1.default)(classesConfig.classes, className)) {
+                throw new InvalidConfig_1.default(this, `Class for team type ${this.description} is invalid: ${className}`);
+            }
+            this.classes.add(className);
+        }
+    }
+}
+exports.default = Type;
+
+
+/***/ }),
+
+/***/ 3448:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Type_1 = __importDefault(__nccwpck_require__(421));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'types'];
+const objectKeys = ['types'];
+class TypeSet {
+    // Validate no duplicate types.type
+    constructor(typesetKey, rawYaml, classesConfig) {
+        this.types = {};
+        this.getClassName = () => TypeSet.name;
+        this.getObjects = () => objectKeys;
+        this.getRequiredKeys = () => requiredKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        const key = rawYaml.key;
+        (0, validation_1.validateKeysMatch)(this, typesetKey, key);
+        this.key = rawYaml.key;
+        const types = rawYaml.types;
+        for (let type in types) {
+            this.types[type] = new Type_1.default(type, types[type], classesConfig);
+        }
+        (0, validation_1.validateNoDuplicateIds)(this, 'types', Object.values(this.types));
+    }
+}
+exports.default = TypeSet;
+
+
+/***/ }),
+
+/***/ 9794:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['purple', 'yellow', 'blue', 'green', 'red'];
+const imageKeys = ['purple', 'yellow', 'blue', 'green', 'red'];
+class ImageSet {
+    constructor(rawYaml) {
+        this.getClassName = () => ImageSet.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getImages = () => imageKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.purple = rawYaml.purple;
+        this.yellow = rawYaml.yellow;
+        this.blue = rawYaml.blue;
+        this.green = rawYaml.green;
+        this.red = rawYaml.red;
+        (0, validation_1.validateImageType)(this, 'purple', this.purple, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'yellow', this.yellow, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'blue', this.blue, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'green', this.green, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'red', this.red, validation_1.ImageType.JPG);
+    }
+}
+exports.default = ImageSet;
+
+
+/***/ }),
+
+/***/ 6116:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const ImageSet_1 = __importDefault(__nccwpck_require__(9794));
+const requiredKeys = ['full', 'half'];
+const objectKeys = ['full', 'half'];
+class Images {
+    constructor(rawYaml) {
+        this.getClassName = () => Images.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getObjects = () => objectKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        this.full = new ImageSet_1.default(rawYaml.full);
+        this.half = new ImageSet_1.default(rawYaml.half);
+    }
+}
+exports.default = Images;
+
+
+/***/ }),
+
+/***/ 6224:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Images_1 = __importDefault(__nccwpck_require__(6116));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'id', 'stars', 'name', 'description', 'images'];
+const stringKeys = ['key', 'name', 'description'];
+const objectKeys = ['images', 'manaBonus'];
+const integerKeys = ['id', 'stars'];
+class Troop {
+    constructor(troopKey, rawYaml) {
+        this.manaBonus = {};
+        this.getClassName = () => Troop.name;
+        this.getIntegers = () => integerKeys;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getObjects = () => objectKeys;
+        this.getId = () => this.id;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, troopKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.id = parseInt(rawYaml.id);
+        this.stars = parseInt(rawYaml.stars);
+        this.name = rawYaml.name;
+        this.description = rawYaml.description;
+        this.images = new Images_1.default(rawYaml.images);
+        const manaBonus = rawYaml.mana_bonus || {};
+        for (let breakpoint in manaBonus) {
+            this.manaBonus[parseInt(breakpoint)] = parseInt(manaBonus[breakpoint]);
+        }
+    }
+}
+exports.default = Troop;
+
+
+/***/ }),
+
+/***/ 591:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'id', 'description'];
+const stringKeys = ['key', 'description'];
+const integerKeys = ['id'];
+class SharingMode {
+    constructor(sharingModeKey, rawYaml) {
+        this.getClassName = () => SharingMode.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        this.getIntegers = () => integerKeys;
+        this.getId = () => this.id;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, sharingModeKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.id = parseInt(rawYaml.id);
+        this.description = rawYaml.description;
+    }
+}
+exports.default = SharingMode;
+
+
+/***/ }),
+
+/***/ 1404:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const validation_1 = __nccwpck_require__(7110);
+const requiredKeys = ['key', 'description'];
+const stringKeys = ['key', 'description'];
+class SocialNetwork {
+    constructor(socialNetworkKey, rawYaml) {
+        this.getClassName = () => SocialNetwork.name;
+        this.getRequiredKeys = () => requiredKeys;
+        this.getStrings = () => stringKeys;
+        (0, validation_1.validate)(this, rawYaml);
+        (0, validation_1.validateKeysMatch)(this, socialNetworkKey, rawYaml.key);
+        this.key = rawYaml.key;
+        this.description = rawYaml.description;
+    }
+}
+exports.default = SocialNetwork;
+
+
+/***/ }),
+
+/***/ 6446:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const CostumesConfig_1 = __importDefault(__nccwpck_require__(7845));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const loadCostumesConfig = (filePath = './data/costumes.yml', imagePath = './img/') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Costumes Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new CostumesConfig_1.default(config);
+});
+exports.default = loadCostumesConfig;
+
+
+/***/ }),
+
+/***/ 1278:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const EmblemsConfig_1 = __importDefault(__nccwpck_require__(9568));
+const loadEmblemsConfig = (classesConfig, filePath = './data/emblems.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Emblems Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new EmblemsConfig_1.default(classesConfig, config);
+});
+exports.default = loadEmblemsConfig;
 
 
 /***/ }),
@@ -326,10 +2250,11 @@ exports.default = InvalidConfig;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 class MissingRequiredKey extends Error {
-    constructor(config, data) {
-        super(`Config is missing key: ${config.getClassName()}:${data}`);
+    constructor(config, data, source) {
+        super(`Config is missing key | ${config.getClassName()}:${data} | keysPassed=${Object.keys(source)}`);
         this.configName = config.getClassName();
         this.data = data;
+        this.source = source;
     }
 }
 exports.default = MissingRequiredKey;
@@ -351,6 +2276,165 @@ class YamlParseFailed extends Error {
     }
 }
 exports.default = YamlParseFailed;
+
+
+/***/ }),
+
+/***/ 8033:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const FamiliesConfig_1 = __importDefault(__nccwpck_require__(8106));
+const loadFamiliesConfig = (filePath = './data/families.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Families Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new FamiliesConfig_1.default(config);
+});
+exports.default = loadFamiliesConfig;
+
+
+/***/ }),
+
+/***/ 5939:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const FiltersConfig_1 = __importDefault(__nccwpck_require__(7425));
+const loadFiltersConfig = (filePath = './data/filters.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Filters Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new FiltersConfig_1.default(config);
+});
+exports.default = loadFiltersConfig;
+
+
+/***/ }),
+
+/***/ 7958:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const HeroesConfig_1 = __importDefault(__nccwpck_require__(10));
+const yaml_1 = __nccwpck_require__(9912);
+const loadHeroConfigs = (classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, heroesDirectory = './data/heroes/', heroImagesDirectory = './img/heroes/') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Heroes Config');
+    const heroesConfig = new HeroesConfig_1.default(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, heroImagesDirectory);
+    for (let color in colorsConfig.colors) {
+        for (let star of [1, 2, 3, 4, 5]) {
+            core.info(`Loading ${star} star ${color} Heroes`);
+            const file = `${heroesDirectory}${color}/${star}star.yml`;
+            heroesConfig.addHeroes(color, star, yield (0, yaml_1.loadYamlFileArray)(file));
+        }
+    }
+    return heroesConfig;
+});
+exports.default = loadHeroConfigs;
 
 
 /***/ }),
@@ -399,13 +2483,42 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const YamlParseFailed_1 = __importDefault(__nccwpck_require__(637));
 const MissingRequiredKey_1 = __importDefault(__nccwpck_require__(2230));
 const ascensions_1 = __importDefault(__nccwpck_require__(2760));
+const classes_1 = __importDefault(__nccwpck_require__(4209));
+const costumes_1 = __importDefault(__nccwpck_require__(6446));
+const emblems_1 = __importDefault(__nccwpck_require__(1278));
+const families_1 = __importDefault(__nccwpck_require__(8033));
+const filters_1 = __importDefault(__nccwpck_require__(5939));
+const materials_1 = __importDefault(__nccwpck_require__(5431));
+const sources_1 = __importDefault(__nccwpck_require__(122));
+const speeds_1 = __importDefault(__nccwpck_require__(561));
+const teams_1 = __importDefault(__nccwpck_require__(267));
+const troops_1 = __importDefault(__nccwpck_require__(5539));
+const users_1 = __importDefault(__nccwpck_require__(7242));
+const heroes_1 = __importDefault(__nccwpck_require__(7958));
+const colors_1 = __importDefault(__nccwpck_require__(5950));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         core.info('Running config validation');
         try {
-            const allianceConfig = yield (0, alliance_1.default)();
-            const ascensionsConfig = yield (0, ascensions_1.default)();
-            console.log(ascensionsConfig);
+            const [classesConfig, colorsConfig, costumesConfig, familiesConfig, sourcesConfig,] = yield Promise.all([
+                (0, classes_1.default)(),
+                (0, colors_1.default)(),
+                (0, costumes_1.default)(),
+                (0, families_1.default)(),
+                (0, sources_1.default)(),
+            ]);
+            const [allianceConfig, ascensionsConfig, filtersConfig, materialsConfig, speedsConfig, troopsConfig, usersConfig, emblemsConfig, teamsConfig, heroesConfig,] = yield Promise.all([
+                (0, alliance_1.default)(),
+                (0, ascensions_1.default)(),
+                (0, filters_1.default)(),
+                (0, materials_1.default)(),
+                (0, speeds_1.default)(),
+                (0, troops_1.default)(),
+                (0, users_1.default)(),
+                (0, emblems_1.default)(classesConfig),
+                (0, teams_1.default)(classesConfig, colorsConfig),
+                (0, heroes_1.default)(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig),
+            ]);
         }
         catch (error) {
             if (error instanceof FileLoadFailed_1.default) {
@@ -421,13 +2534,322 @@ function run() {
                 core.setFailed(error.message);
             }
             else {
-                core.setFailed("Encountered an unknown error");
                 console.log(error);
+                core.setFailed("Encountered an unknown error");
             }
         }
+        // TODO: Ensure classes are lower
+        // TODO: Ensure families are lower
+        // TODO: Ensure sources are lower
     });
 }
 run();
+
+
+/***/ }),
+
+/***/ 5431:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const MaterialsConfig_1 = __importDefault(__nccwpck_require__(9405));
+const loadMaterialsConfig = (filePath = './data/materials.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Materials Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new MaterialsConfig_1.default(config);
+});
+exports.default = loadMaterialsConfig;
+
+
+/***/ }),
+
+/***/ 122:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const SourcesConfig_1 = __importDefault(__nccwpck_require__(9830));
+const loadSourcesConfig = (filePath = './data/sources.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Sources Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new SourcesConfig_1.default(config);
+});
+exports.default = loadSourcesConfig;
+
+
+/***/ }),
+
+/***/ 561:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const SpeedsConfig_1 = __importDefault(__nccwpck_require__(8113));
+const loadSpeedsConfig = (filePath = './data/speeds.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Speeds Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new SpeedsConfig_1.default(config);
+});
+exports.default = loadSpeedsConfig;
+
+
+/***/ }),
+
+/***/ 267:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const TeamsConfig_1 = __importDefault(__nccwpck_require__(674));
+const loadTeamsConfig = (classes, colors, filePath = './data/teams.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Teams Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new TeamsConfig_1.default(config, classes, colors);
+});
+exports.default = loadTeamsConfig;
+
+
+/***/ }),
+
+/***/ 5539:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const TroopsConfig_1 = __importDefault(__nccwpck_require__(4005));
+const loadTroopsConfig = (filePath = './data/troops.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Troops Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new TroopsConfig_1.default(config);
+});
+exports.default = loadTroopsConfig;
+
+
+/***/ }),
+
+/***/ 7242:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const yaml_1 = __nccwpck_require__(9912);
+const UsersConfig_1 = __importDefault(__nccwpck_require__(5271));
+const loadUsersConfig = (filePath = './data/users.yml') => __awaiter(void 0, void 0, void 0, function* () {
+    core.info('Loading Users Config');
+    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    // TODO: Validate image was uploaded and is correct dimensions
+    return new UsersConfig_1.default(config);
+});
+exports.default = loadUsersConfig;
 
 
 /***/ }),
@@ -453,7 +2875,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.validateNoDuplicateIds = exports.validateKeysMatch = exports.validate = exports.hasId = void 0;
+exports.ImageType = exports.validateImageType = exports.validateNoDuplicateIds = exports.validateKeysMatch = exports.validate = exports.hasId = void 0;
 var HasId_1 = __nccwpck_require__(1177);
 Object.defineProperty(exports, "hasId", ({ enumerable: true, get: function () { return HasId_1.hasId; } }));
 var validate_1 = __nccwpck_require__(9760);
@@ -462,6 +2884,35 @@ var validateKeysMatch_1 = __nccwpck_require__(8471);
 Object.defineProperty(exports, "validateKeysMatch", ({ enumerable: true, get: function () { return __importDefault(validateKeysMatch_1).default; } }));
 var validateNoDuplicateIds_1 = __nccwpck_require__(5861);
 Object.defineProperty(exports, "validateNoDuplicateIds", ({ enumerable: true, get: function () { return __importDefault(validateNoDuplicateIds_1).default; } }));
+var validateImageType_1 = __nccwpck_require__(8475);
+Object.defineProperty(exports, "validateImageType", ({ enumerable: true, get: function () { return __importDefault(validateImageType_1).default; } }));
+Object.defineProperty(exports, "ImageType", ({ enumerable: true, get: function () { return validateImageType_1.ImageType; } }));
+
+
+/***/ }),
+
+/***/ 647:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hasBooleans = void 0;
+const hasBooleans = (arg) => typeof (arg === null || arg === void 0 ? void 0 : arg.getBooleans) === 'function';
+exports.hasBooleans = hasBooleans;
+
+
+/***/ }),
+
+/***/ 6642:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hasFloats = void 0;
+const hasFloats = (arg) => typeof (arg === null || arg === void 0 ? void 0 : arg.getFloats) === 'function';
+exports.hasFloats = hasFloats;
 
 
 /***/ }),
@@ -475,6 +2926,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.hasId = void 0;
 const hasId = (arg) => typeof (arg === null || arg === void 0 ? void 0 : arg.getId) === 'function';
 exports.hasId = hasId;
+
+
+/***/ }),
+
+/***/ 7909:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hasImages = void 0;
+const hasImages = (arg) => typeof (arg === null || arg === void 0 ? void 0 : arg.getImages) === 'function';
+exports.hasImages = hasImages;
 
 
 /***/ }),
@@ -548,6 +3012,12 @@ const HasStrings_1 = __nccwpck_require__(4674);
 const verifyKeysAreStrings_1 = __importDefault(__nccwpck_require__(1780));
 const HasIntegers_1 = __nccwpck_require__(5154);
 const verifyKeysAreIntegers_1 = __importDefault(__nccwpck_require__(9323));
+const HasImages_1 = __nccwpck_require__(7909);
+const verifyKeysAreImages_1 = __importDefault(__nccwpck_require__(9165));
+const HasFloats_1 = __nccwpck_require__(6642);
+const verifyKeysAreFloats_1 = __importDefault(__nccwpck_require__(4806));
+const HasBooleans_1 = __nccwpck_require__(647);
+const verifyKeysAreBooleans_1 = __importDefault(__nccwpck_require__(3691));
 const validate = (config, rawObject) => {
     if ((0, HasRequiredKeys_1.hasRequiredKeys)(config)) {
         (0, verifyRequiredKeys_1.default)(config, rawObject);
@@ -560,6 +3030,15 @@ const validate = (config, rawObject) => {
     }
     if ((0, HasIntegers_1.hasIntegers)(config)) {
         (0, verifyKeysAreIntegers_1.default)(config, rawObject);
+    }
+    if ((0, HasImages_1.hasImages)(config)) {
+        (0, verifyKeysAreImages_1.default)(config, rawObject);
+    }
+    if ((0, HasFloats_1.hasFloats)(config)) {
+        (0, verifyKeysAreFloats_1.default)(config, rawObject);
+    }
+    if ((0, HasBooleans_1.hasBooleans)(config)) {
+        (0, verifyKeysAreBooleans_1.default)(config, rawObject);
     }
 };
 exports.default = validate;
@@ -589,6 +3068,58 @@ exports.default = validateAllIntegers;
 
 /***/ }),
 
+/***/ 8803:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const index_1 = __nccwpck_require__(7110);
+const validateImageType_1 = __nccwpck_require__(8475);
+const validateHeroImage = (config, heroName, imageLink, color, stars, heroImagesDirectory, costumeVariant = 0) => {
+    // Checks imgur image type
+    (0, validateImageType_1.checkImageType)(config, `${heroName} w/ costume variant ${costumeVariant} does not have image type ${index_1.ImageType.JPG}`, imageLink, index_1.ImageType.JPG);
+    // Check local image is present
+    // Check local image has right color
+    // Check local image has the right stars
+    // Load imgur image
+    // Check imgur image matches local image
+};
+exports.default = validateHeroImage;
+
+
+/***/ }),
+
+/***/ 8475:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.checkImageType = exports.ImageType = void 0;
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+var ImageType;
+(function (ImageType) {
+    ImageType["PNG"] = "png";
+    ImageType["JPG"] = "jpg";
+})(ImageType = exports.ImageType || (exports.ImageType = {}));
+const checkImageType = (config, errorString, value, type) => {
+    if (!value.endsWith(`.${type}`)) {
+        throw new InvalidConfig_1.default(config, errorString);
+    }
+};
+exports.checkImageType = checkImageType;
+const validateImageType = (config, key, value, type) => {
+    (0, exports.checkImageType)(config, `${key} must be a ${type}: ${value}`, value, type);
+};
+exports.default = validateImageType;
+
+
+/***/ }),
+
 /***/ 8471:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -600,7 +3131,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateKeysMatch = (config, inputKey, setKey) => {
-    if (inputKey !== setKey) {
+    if (inputKey.toString() !== setKey.toString()) {
         throw new InvalidConfig_1.default(config, `keys do not match: ${inputKey}:${setKey}`);
     }
 };
@@ -624,12 +3155,106 @@ const validateNoDuplicateIds = (config, child, elements) => {
     for (let element of elements) {
         const id = element.getId();
         if (ids.has(id)) {
-            throw new InvalidConfig_1.default(config, `Duplicate ID found in child: ${child}`);
+            throw new InvalidConfig_1.default(config, `Duplicate ID found | child=${child} | id=${id}`);
         }
         ids.add(id);
     }
 };
 exports.default = validateNoDuplicateIds;
+
+
+/***/ }),
+
+/***/ 3691:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const verifyKeysAreBooleans = (config, source) => {
+    const keys = config.getBooleans();
+    for (let key of keys) {
+        // @ts-ignore
+        const item = (source[key] || '').toString().toLowerCase();
+        if (!(0, ohp_1.default)(source, key)) {
+            continue;
+        }
+        switch (item) {
+            case 'true':
+            case 'false':
+                break;
+            default:
+                throw new InvalidConfig_1.default(config, `key is not a integer: ${key}`);
+        }
+    }
+};
+exports.default = verifyKeysAreBooleans;
+
+
+/***/ }),
+
+/***/ 4806:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const verifyKeysAreFloats = (config, source) => {
+    const keys = config.getFloats();
+    for (let key of keys) {
+        // @ts-ignore
+        if (!source[key] instanceof String || isNaN(parseFloat(source[key]))) {
+            if (!(0, ohp_1.default)(source, key)) {
+                continue;
+            }
+            throw new InvalidConfig_1.default(config, `key is not a float: ${key}`);
+        }
+    }
+};
+exports.default = verifyKeysAreFloats;
+
+
+/***/ }),
+
+/***/ 9165:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const verifyKeysAreImages = (config, source) => {
+    const keys = config.getImages();
+    for (let key of keys) {
+        if (!(0, ohp_1.default)(source, key)) {
+            continue;
+        }
+        // @ts-ignore
+        const value = source[key];
+        // @ts-ignore
+        if (!value instanceof String) {
+            throw new InvalidConfig_1.default(config, `key is not an imgur link: ${key}:${value}`);
+        }
+        if (!value.startsWith("https://i.imgur.com/") && !value.startsWith("https://i.imgur.io/")) {
+            throw new InvalidConfig_1.default(config, `key is not an imgur link: ${key}:${value}`);
+        }
+    }
+};
+exports.default = verifyKeysAreImages;
 
 
 /***/ }),
@@ -729,7 +3354,7 @@ const verifyRequiredKeys = (config, source) => {
     const requiredKeys = config.getRequiredKeys();
     for (let key of requiredKeys) {
         if (!(0, ohp_1.default)(source, key)) {
-            throw new MissingRequiredKey_1.default(config, key);
+            throw new MissingRequiredKey_1.default(config, key, source);
         }
     }
 };
@@ -775,14 +3400,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.loadYamlFile = void 0;
+exports.loadYamlFileArray = exports.loadYamlFile = exports.loadFile = void 0;
 const fs_1 = __importDefault(__nccwpck_require__(5747));
 const FileLoadFailed_1 = __importDefault(__nccwpck_require__(3042));
 const util_1 = __importDefault(__nccwpck_require__(1669));
 const YamlParseFailed_1 = __importDefault(__nccwpck_require__(637));
 const yaml = __importStar(__nccwpck_require__(1917));
 const core = __importStar(__nccwpck_require__(2186));
-const loadYamlFile = (filename) => __awaiter(void 0, void 0, void 0, function* () {
+const loadFile = (filename) => __awaiter(void 0, void 0, void 0, function* () {
     let fileContents;
     const readFile = util_1.default.promisify(fs_1.default.readFile);
     try {
@@ -800,7 +3425,11 @@ const loadYamlFile = (filename) => __awaiter(void 0, void 0, void 0, function* (
         throw new YamlParseFailed_1.default(filename, 'Could not parse yaml file');
     }
 });
+exports.loadFile = loadFile;
+const loadYamlFile = (filename) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, exports.loadFile)(filename); });
 exports.loadYamlFile = loadYamlFile;
+const loadYamlFileArray = (filename) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, exports.loadFile)(filename); });
+exports.loadYamlFileArray = loadYamlFileArray;
 
 
 /***/ }),

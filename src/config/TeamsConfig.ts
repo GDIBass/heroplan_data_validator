@@ -11,8 +11,8 @@ interface RawTeamsConfig {
   positions: {[key: string]: object},
 }
 
-const requiredKeys = ['types', 'categories', 'positions'];
-const objectKeys = ['types', 'categories', 'positions'];
+const requiredKeys = ['typesets', 'categories', 'positions'];
+const objectKeys = ['typesets', 'categories', 'positions'];
 
 class TeamsConfig implements Config, HasRequiredKeys, HasObjects {
   public readonly typesets: {[key: string]: TypeSet} = {};

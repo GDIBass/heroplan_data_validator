@@ -16,7 +16,7 @@ const requiredKeys = [
   'shortName',
   'description',
   'tiles',
-  'breakpoints',
+  'breakPoints',
 ];
 
 interface RawSpeed {
@@ -25,13 +25,13 @@ interface RawSpeed {
   shortName: string,
   description: string,
   tiles: Array<string>,
-  breakpoints: {[key: string]: Array<string>},
+  breakPoints: {[key: string]: Array<string>},
 }
 
-const stringKeys = ['key', 'shortName', 'description'];
+const stringKeys = ['key', 'shortName', 'description', 'breakPoints'];
 const intKeys = ['code'];
 const arrayKeys = ['tiles'];
-const objectKeys = ['breakpoints'];
+const objectKeys = ['breakPoints'];
 
 class Speed implements Config, HasRequiredKeys, HasId, HasStrings, HasIntegers, HasArrays, HasObjects {
   public readonly key: string;
@@ -39,7 +39,7 @@ class Speed implements Config, HasRequiredKeys, HasId, HasStrings, HasIntegers, 
   public readonly shortName: string;
   public readonly description: string;
   public readonly tiles: Array<number> = [];
-  public readonly breakpoints: {[key: number]: Array<number>} = {}
+  public readonly breakPoints: {[key: number]: Array<number>} = {}
 
   constructor(speedKey: string, rawYaml: object) {
     validate(this, rawYaml);
@@ -51,12 +51,12 @@ class Speed implements Config, HasRequiredKeys, HasId, HasStrings, HasIntegers, 
     for (let tile of (rawYaml as RawSpeed).tiles) {
       this.tiles.push(parseFloat(tile));
     }
-    const breakpoints = (rawYaml as RawSpeed).breakpoints;
+    const breakpoints = (rawYaml as RawSpeed).breakPoints;
     for (let breakpointRaw in breakpoints) {
       const breakpoint = parseInt(breakpointRaw);
-      this.breakpoints[breakpoint] = [];
+      this.breakPoints[breakpoint] = [];
       for (let breakpointItem of breakpoints[breakpoint]) {
-        this.breakpoints[breakpoint].push(parseFloat(breakpointItem));
+        this.breakPoints[breakpoint].push(parseFloat(breakpointItem));
       }
     }
   }

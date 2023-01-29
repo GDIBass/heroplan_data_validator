@@ -2,7 +2,7 @@ import { Config, HasObjects, HasRequiredKeys, validate } from "../../validation"
 import Total from "./Total";
 
 
-const requiredKeys = ['1', '2', '3', '4,' ,'5'];
+const requiredKeys = ['1', '2', '3', '4' ,'5'];
 const objectKeys = ['1', '2', '3', '4', '5'];
 
 interface RawTotals {

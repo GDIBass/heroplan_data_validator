@@ -64,7 +64,7 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
     validateHeroImage(this, name, this.image, color, stars, heroImagesDirectory, costumeVariant);
 
     // validate class is valid
-    if (!ohp(classesConfig.classes, this.class)) {
+    if (!ohp(classesConfig.classes, this.class.toLowerCase())) {
       throw new InvalidConfig(
         this,
         `${name}'s costume (${costumeVariant}) has an invalid class ${this.class}`

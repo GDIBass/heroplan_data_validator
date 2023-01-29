@@ -1,5 +1,5 @@
 import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
-import Ascension from "./ascensions/Ascension";
+import Ascension from "./materials/Ascension";
 
 
 

@@ -36,3 +36,5 @@ class Ascension implements Config, HasRequiredKeys, HasStrings, HasImages {
   getStrings = () => stringKeys;
   getImages = () => imageKeys;
 }
+
+export default Ascension;

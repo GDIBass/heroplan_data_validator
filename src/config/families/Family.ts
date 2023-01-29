@@ -50,7 +50,7 @@ class Family implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasIma
 
   constructor(familyKey: string, rawYaml: object) {
     validate(this, rawYaml);
-    validateKeysMatch(this, familyKey, (rawYaml as RawFamily).key);
+    validateKeysMatch(this, familyKey as string, (rawYaml as RawFamily).key as string);
     this.key = (rawYaml as RawFamily).key;
     this.code = parseInt((rawYaml as RawFamily).code);
     this.description = (rawYaml as RawFamily).description;

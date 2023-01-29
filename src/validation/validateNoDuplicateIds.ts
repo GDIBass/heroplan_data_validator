@@ -9,7 +9,7 @@ const validateNoDuplicateIds = (config: Config, child: string, elements: Array<H
     if (ids.has(id)) {
       throw new InvalidConfig(
         config,
-        `Duplicate ID found in child: ${child}`
+        `Duplicate ID found | child=${child} | id=${id}`
       );
     }
     ids.add(id);

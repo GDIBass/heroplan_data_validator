@@ -6,7 +6,7 @@ const verifyKeysAreBooleans = (config: HasBooleans, source: Object) => {
   const keys: Array<string> = config.getBooleans();
   for (let key of keys) {
     // @ts-ignore
-    const item = source[key].toLowerCase();
+    const item = (source[key] || '').toString().toLowerCase();
     if (!ohp(source, key)) {
       continue;
     }

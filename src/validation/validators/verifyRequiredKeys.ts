@@ -9,7 +9,8 @@ const verifyRequiredKeys = (config: HasRequiredKeys, source: object): void => {
     if (!ohp(source, key)) {
       throw new MissingRequiredKey(
         config,
-        key
+        key,
+        source
       );
     }
   }

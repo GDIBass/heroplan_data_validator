@@ -38,7 +38,7 @@ class Category implements Config, HasId, HasRequiredKeys, HasStrings, HasBoolean
   constructor (categoryKey: string, rawYaml: object, typesets: {[key: string]: TypeSet}, colorsConfig: ColorsConfig) {
     validate(this, rawYaml);
     this.description = (rawYaml as RawCategory).description;
-    this.category = parseInt((rawYaml as RawCategory).typeset);
+    this.category = parseInt((rawYaml as RawCategory).category);
     const typeset = (rawYaml as RawCategory).typeset;
     if (!ohp(typesets, typeset)) {
       throw new InvalidConfig(

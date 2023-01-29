@@ -4,11 +4,12 @@ import ohp from "../../util/ohp";
 
 interface RawFilter {
   description: string,
+  key: string,
   type: string,
   ascensions: {[key: string]: string},
 }
 
-const requiredKeys = ['description', 'type', 'ascensions'];
+const requiredKeys = ['description', 'type'];
 const stringKeys = ['description', 'type'];
 const objectKeys = ['ascensions'];
 
@@ -19,7 +20,7 @@ class Filter implements Config, HasRequiredKeys, HasStrings, HasObjects {
 
   constructor (filter: string, rawYaml: object) {
     validate(this, rawYaml);
-    validateKeysMatch(this, filter, (rawYaml as RawFilter).type);
+    validateKeysMatch(this, filter, (rawYaml as RawFilter).key);
     this.description = (rawYaml as RawFilter).description;
     this.type = (rawYaml as RawFilter).type;
     if (ohp(rawYaml, 'ascensions')) {
