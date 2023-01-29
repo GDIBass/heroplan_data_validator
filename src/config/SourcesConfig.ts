@@ -9,7 +9,7 @@ const requiredKeys = ['sources'];
 const objectKeys = ['sources'];
 
 class SourcesConfig implements Config, HasRequiredKeys, HasObjects {
-  private readonly sources: {[key: string]: Source} = {};
+  public readonly sources: {[key: string]: Source} = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);

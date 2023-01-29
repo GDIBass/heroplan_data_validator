@@ -5,7 +5,7 @@ import YamlParseFailed from './error/YamlParseFailed';
 import * as yaml from 'js-yaml';
 import * as core from '@actions/core';
 
-export const loadYamlFile = async (filename: string): Promise<Object> => {
+export const loadFile = async (filename: string): Promise<unknown> => {
   let fileContents;
   const readFile = util.promisify(fs.readFile);
   try {
@@ -18,9 +18,15 @@ export const loadYamlFile = async (filename: string): Promise<Object> => {
   try {
     return yaml.load(
       Buffer.from(fileContents).toString()
-    ) as Object;
+    );
   } catch (error) {
     core.setFailed(`Could not parse yaml file at ${filename}`);
     throw new YamlParseFailed(filename, 'Could not parse yaml file');
   }
 }
+
+export const loadYamlFile = async (filename: string): Promise<Object> =>
+  await loadFile(filename) as Object;
+
+export const loadYamlFileArray = async (filename: string): Promise<object[]> =>
+  await loadFile(filename) as object[];

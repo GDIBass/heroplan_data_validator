@@ -23,21 +23,42 @@ import loadColorsConfig from "./colors";
 async function run(): Promise<void> {
   core.info('Running config validation');
   try {
-    const allianceConfig = await loadAllianceConfig();
-    const ascensionsConfig = await loadAscensionsConfig();
-    const classesConfig = await loadClassesConfig();
-    const colorsConfig = await loadColorsConfig();
-    const costumesConfig = await loadCostumesConfig();
-    const emblemsConfig = await loadEmblemsConfig(classesConfig);
-    const familiesConfig = await loadFamiliesConfig();
-    const filtersConfig = await loadFiltersConfig();
-    const materialsConfig = await loadMaterialsConfig();
-    const sourcesConfig = await loadSourcesConfig();
-    const speedsConfig = await loadSpeedsConfig();
-    const teamsConfig = await loadTeamsConfig(classesConfig, colorsConfig);
-    const troopsConfig = await loadTroopsConfig();
-    const usersConfig = await loadUsersConfig();
-    const heroesConfig = await loadHeroConfigs();
+    const [
+      classesConfig,
+      colorsConfig,
+      costumesConfig,
+      familiesConfig,
+      sourcesConfig,
+    ] = await Promise.all([
+      loadClassesConfig(),
+      loadColorsConfig(),
+      loadCostumesConfig(),
+      loadFamiliesConfig(),
+      loadSourcesConfig(),
+    ]);
+    const [
+      allianceConfig,
+      ascensionsConfig,
+      filtersConfig,
+      materialsConfig,
+      speedsConfig,
+      troopsConfig,
+      usersConfig,
+      emblemsConfig,
+      teamsConfig,
+      heroesConfig,
+    ] = await Promise.all([
+      loadAllianceConfig(),
+      loadAscensionsConfig(),
+      loadFiltersConfig(),
+      loadMaterialsConfig(),
+      loadSpeedsConfig(),
+      loadTroopsConfig(),
+      loadUsersConfig(),
+      loadEmblemsConfig(classesConfig),
+      loadTeamsConfig(classesConfig, colorsConfig),
+      loadHeroConfigs(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig),
+    ]);
   } catch (error) {
     if (error instanceof FileLoadFailed) {
       core.setFailed(error.message);
