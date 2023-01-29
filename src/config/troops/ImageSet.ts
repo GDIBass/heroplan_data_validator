@@ -36,3 +36,5 @@ class ImageSet implements Config, HasRequiredKeys, HasImages {
   getRequiredKeys = () => requiredKeys;
   getImages = () => imageKeys;
 }
+
+export default ImageSet;

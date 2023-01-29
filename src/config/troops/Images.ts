@@ -1,4 +1,5 @@
 import { Config, HasObjects, HasRequiredKeys, validate } from "../../validation";
+import ImageSet from "./ImageSet";
 
 const requiredKeys = ['full', 'half'];
 const objectKeys = ['full', 'half'];
