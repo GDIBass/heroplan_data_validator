@@ -15,17 +15,19 @@ class HeroesConfig implements Config {
   private readonly sourcesConfig: SourcesConfig;
   private readonly costumesConfig: CostumesConfig;
   private readonly colorsConfig: ColorsConfig;
+  private readonly heroImagesDirectory: string;
 
-  constructor(classesConfig: ClassesConfig, familiesConfig: FamiliesConfig, sourcesConfig: SourcesConfig, costumesConfig: CostumesConfig, colorsConfig: ColorsConfig) {
+  constructor(classesConfig: ClassesConfig, familiesConfig: FamiliesConfig, sourcesConfig: SourcesConfig, costumesConfig: CostumesConfig, colorsConfig: ColorsConfig, heroImagesDirectory: string) {
     this.classesConfig = classesConfig;
     this.familiesConfig = familiesConfig;
     this.sourcesConfig = sourcesConfig;
     this.costumesConfig = costumesConfig;
     this.colorsConfig = colorsConfig;
+    this.heroImagesDirectory = heroImagesDirectory;
   }
 
   addHeroes = (color: string, stars: number, rawYaml: object[]) => {
-    const hero = new Hero(stars, color, rawYaml, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig);
+    const hero = new Hero(stars, color, rawYaml, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.heroImagesDirectory);
     if (ohp(this.heroes, hero.name)) {
       throw new InvalidConfig(
         this,

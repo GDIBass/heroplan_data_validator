@@ -6,13 +6,22 @@ export enum ImageType {
   JPG = 'jpg',
 }
 
-const validateImageType = (config: Config, key: string, value: string, type: ImageType) => {
+export const checkImageType = (config: Config, errorString: string, value: string, type: ImageType) => {
   if (!value.endsWith(`.${type}`)) {
     throw new InvalidConfig(
       config,
-      `${key} must be a ${type}: ${value}`
+      errorString
     );
   }
+}
+
+const validateImageType = (config: Config, key: string, value: string, type: ImageType) => {
+  checkImageType(
+    config,
+    `${key} must be a ${type}: ${value}`,
+    value,
+    type
+  );
 }
 
 export default validateImageType;

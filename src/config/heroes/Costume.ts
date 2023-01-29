@@ -9,6 +9,7 @@ import ClassesConfig from "../ClassesConfig";
 import CostumesConfig from "../CostumesConfig";
 import ohp from "../../util/ohp";
 import InvalidConfig from "../../error/InvalidConfig";
+import validateHeroImage from "../../validation/validateHeroImage";
 
 const requiredKeys = ['class', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
 const stringKeys = ['class', 'skill', 'family', 'image', 'bonuses'];
@@ -40,7 +41,7 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
   public readonly image: string;
   public readonly bonuses: string;
 
-  constructor(stars: number, color: string, name: string, rawYaml: object, classesConfig: ClassesConfig, costumesConfig: CostumesConfig, costumeVariant: number) {
+  constructor(stars: number, color: string, name: string, rawYaml: object, classesConfig: ClassesConfig, costumesConfig: CostumesConfig, costumeVariant: number, heroImagesDirectory: string) {
     validate(this, rawYaml);
 
     this.class = (rawYaml as RawCostume).class;
@@ -60,7 +61,7 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
       this.types.push(type);
     }
 
-    validateHeroImage(name, this.image, color, stars, costumeVariant);
+    validateHeroImage(this, name, this.image, color, stars, heroImagesDirectory, costumeVariant);
 
     // validate class is valid
     if (!ohp(classesConfig.classes, this.class)) {

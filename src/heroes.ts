@@ -13,12 +13,13 @@ const loadHeroConfigs = async (
   sourcesConfig: SourcesConfig,
   costumesConfig: CostumesConfig,
   colorsConfig: ColorsConfig,
-  heroesDirectory = './data/heroes/'
+  heroesDirectory = './data/heroes/',
+  heroImagesDirectory = './img/heroes/'
 ): Promise<HeroesConfig> => {
   core.info('Loading Heroes Config');
-  const heroesConfig: HeroesConfig = new HeroesConfig(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig);
+  const heroesConfig: HeroesConfig = new HeroesConfig(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, heroImagesDirectory);
   for (let color in colorsConfig.colors) {
-    for (let star of [1,2,3,4,5]) {
+    for (let star of [1, 2, 3, 4, 5]) {
       core.info(`Loading ${star} star ${color} Heroes`);
       const file = `${heroesDirectory}${color}/${star}star.yml`;
       heroesConfig.addHeroes(color, star, await loadYamlFileArray(file));

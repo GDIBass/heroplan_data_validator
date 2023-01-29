@@ -14,7 +14,7 @@ import SourcesConfig from "../SourcesConfig";
 import CostumesConfig from "../CostumesConfig";
 import ohp from "../../util/ohp";
 import InvalidConfig from "../../error/InvalidConfig";
-
+import validateHeroImage from "../../validation/validateHeroImage";
 
 const requiredKeys = ['name', 'class', 'source', 'speed', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
@@ -61,7 +61,16 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
   public readonly costume: Costume|null = null;
   public readonly costume2: Costume|null = null;
 
-  constructor(stars: number, color: string, rawYaml: object, classesConfig: ClassesConfig, familiesConfig: FamiliesConfig, sourcesConfig: SourcesConfig, costumesConfig: CostumesConfig) {
+  constructor(
+    stars: number,
+    color: string,
+    rawYaml: object,
+    classesConfig: ClassesConfig,
+    familiesConfig: FamiliesConfig,
+    sourcesConfig: SourcesConfig,
+    costumesConfig: CostumesConfig,
+    heroImagesDirectory: string
+  ) {
     validate(this, rawYaml);
 
     this.stars = stars;
@@ -82,14 +91,14 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     const costume = (rawYaml as RawHero).costume;
 
     if (costume) {
-      this.costume = new Costume(stars, color, this.name, costume, classesConfig, costumesConfig, 1);
+      this.costume = new Costume(stars, color, this.name, costume, classesConfig, costumesConfig, 1, heroImagesDirectory);
     }
     const costume2 = (rawYaml as RawHero).costume2;
     if (costume2) {
-      this.costume = new Costume(stars, color, this.name, costume2, classesConfig, costumesConfig, 2);
+      this.costume = new Costume(stars, color, this.name, costume2, classesConfig, costumesConfig, 2, heroImagesDirectory);
     }
 
-    validateHeroImage(this.name, this.image, this.color, this.stars);
+    validateHeroImage(this, this.name, this.image, this.color, this.stars, heroImagesDirectory, 0);
 
     // Validate effects & types have values
     if (this.types.length === 0) {
