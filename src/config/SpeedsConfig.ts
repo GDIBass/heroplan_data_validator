@@ -26,7 +26,7 @@ class SpeedsConfig implements Config, HasRequiredKeys, HasObjects {
     validateNoDuplicateIds(this, 'speeds', Object.values(this._speeds));
   }
 
-  isValidSpeed = (speed: string) => this._validSpeeds.has(speed);
+  isValidSpeed = (speed: string): boolean => this._validSpeeds.has(speed);
 
   getClassName = (): string => SpeedsConfig.name;
   getRequiredKeys = (): string[] => requiredKeys;
