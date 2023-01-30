@@ -9,19 +9,27 @@ interface RawMode {
 }
 
 class Mode implements Config, HasRequiredKeys, HasStrings {
-  public readonly key: string;
-  public readonly display: string;
+  private readonly _key: string;
+  private readonly _display: string;
 
   constructor(modeKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, modeKey, (rawYaml as RawMode).key);
-    this.key = (rawYaml as RawMode).key;
-    this.display = (rawYaml as RawMode).display;
+    this._key = (rawYaml as RawMode).key;
+    this._display = (rawYaml as RawMode).display;
   }
 
-  getClassName = () => Mode.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
+  getClassName = (): string => Mode.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get display(): string {
+    return this._display;
+  }
 }
 
 export default Mode;

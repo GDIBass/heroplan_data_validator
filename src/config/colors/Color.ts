@@ -19,29 +19,49 @@ interface RawColor {
 
 class Color implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages {
 
-  public readonly code: number;
-  public readonly key: string;
-  public readonly description: string;
-  public readonly avatarImage: string;
-  public readonly badgeImage: string;
+  private readonly _code: number;
+  private readonly _key: string;
+  private readonly _description: string;
+  private readonly _avatarImage: string;
+  private readonly _badgeImage: string;
 
   constructor(colorKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, colorKey, (rawYaml as RawColor).key);
-    this.code = parseInt((rawYaml as RawColor).code);
-    this.key = (rawYaml as RawColor).key;
-    this.description = (rawYaml as RawColor).description;
-    this.avatarImage = (rawYaml as RawColor).avatarImage;
-    this.badgeImage = (rawYaml as RawColor).badgeImage;
-    validateImageType(this, 'avatarImage', this.avatarImage, ImageType.PNG);
-    validateImageType(this, 'badgeImage', this.badgeImage, ImageType.PNG);
+    this._code = parseInt((rawYaml as RawColor).code);
+    this._key = (rawYaml as RawColor).key;
+    this._description = (rawYaml as RawColor).description;
+    this._avatarImage = (rawYaml as RawColor).avatarImage;
+    this._badgeImage = (rawYaml as RawColor).badgeImage;
+    validateImageType(this, 'avatarImage', this._avatarImage, ImageType.PNG);
+    validateImageType(this, 'badgeImage', this._badgeImage, ImageType.PNG);
   }
 
-  getClassName = () => Color.name;
-  getRequiredKeys = () => requiredKeys;
-  getIntegers = () => integerKeys;
-  getStrings = () => stringKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => Color.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getIntegers = (): string[] => integerKeys;
+  getStrings = (): string[] => stringKeys;
+  getImages = (): string[] => imageKeys;
+
+  get code(): number {
+    return this._code;
+  }
+
+  get key(): string {
+    return this._key;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  get avatarImage(): string {
+    return this._avatarImage;
+  }
+
+  get badgeImage(): string {
+    return this._badgeImage;
+  }
 }
 
 export default Color;

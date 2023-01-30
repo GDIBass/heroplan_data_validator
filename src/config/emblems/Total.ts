@@ -69,54 +69,135 @@ interface RawTotal {
 }
 
 class Total implements Config, HasRequiredKeys, HasIntegers {
-  public readonly 1: number;
-  public readonly 2: number;
-  public readonly 3: number;
-  public readonly 4: number;
-  public readonly 5: number;
-  public readonly 6: number;
-  public readonly 7: number;
-  public readonly 8: number;
-  public readonly 9: number;
-  public readonly 10: number;
-  public readonly 11: number;
-  public readonly 12: number;
-  public readonly 13: number;
-  public readonly 14: number;
-  public readonly 15: number;
-  public readonly 16: number;
-  public readonly 17: number;
-  public readonly 18: number;
-  public readonly 19: number;
-  public readonly 20: number;
+  private readonly "_1": number;
+  private readonly "_2": number;
+  private readonly "_3": number;
+  private readonly "_4": number;
+  private readonly "_5": number;
+  private readonly "_6": number;
+  private readonly "_7": number;
+  private readonly "_8": number;
+  private readonly "_9": number;
+  private readonly "_10": number;
+  private readonly "_11": number;
+  private readonly "_12": number;
+  private readonly "_13": number;
+  private readonly "_14": number;
+  private readonly "_15": number;
+  private readonly "_16": number;
+  private readonly "_17": number;
+  private readonly "_18": number;
+  private readonly "_19": number;
+  private readonly "_20": number;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
-    this[1] = (rawYaml as RawTotal)['1'];
-    this[2] = (rawYaml as RawTotal)['2'];
-    this[3] = (rawYaml as RawTotal)['3'];
-    this[4] = (rawYaml as RawTotal)['4'];
-    this[5] = (rawYaml as RawTotal)['5'];
-    this[6] = (rawYaml as RawTotal)['6'];
-    this[7] = (rawYaml as RawTotal)['7'];
-    this[8] = (rawYaml as RawTotal)['8'];
-    this[9] = (rawYaml as RawTotal)['9'];
-    this[10] = (rawYaml as RawTotal)['10'];
-    this[11] = (rawYaml as RawTotal)['11'];
-    this[12] = (rawYaml as RawTotal)['12'];
-    this[13] = (rawYaml as RawTotal)['13'];
-    this[14] = (rawYaml as RawTotal)['14'];
-    this[15] = (rawYaml as RawTotal)['15'];
-    this[16] = (rawYaml as RawTotal)['16'];
-    this[17] = (rawYaml as RawTotal)['17'];
-    this[18] = (rawYaml as RawTotal)['18'];
-    this[19] = (rawYaml as RawTotal)['19'];
-    this[20] = (rawYaml as RawTotal)['20'];
+    this._1 = (rawYaml as RawTotal)['1'];
+    this._2 = (rawYaml as RawTotal)['2'];
+    this._3 = (rawYaml as RawTotal)['3'];
+    this._4 = (rawYaml as RawTotal)['4'];
+    this._5 = (rawYaml as RawTotal)['5'];
+    this._6 = (rawYaml as RawTotal)['6'];
+    this._7 = (rawYaml as RawTotal)['7'];
+    this._8 = (rawYaml as RawTotal)['8'];
+    this._9 = (rawYaml as RawTotal)['9'];
+    this._10 = (rawYaml as RawTotal)['10'];
+    this._11 = (rawYaml as RawTotal)['11'];
+    this._12 = (rawYaml as RawTotal)['12'];
+    this._13 = (rawYaml as RawTotal)['13'];
+    this._14 = (rawYaml as RawTotal)['14'];
+    this._15 = (rawYaml as RawTotal)['15'];
+    this._16 = (rawYaml as RawTotal)['16'];
+    this._17 = (rawYaml as RawTotal)['17'];
+    this._18 = (rawYaml as RawTotal)['18'];
+    this._19 = (rawYaml as RawTotal)['19'];
+    this._20 = (rawYaml as RawTotal)['20'];
   }
 
-  getClassName = () => Total.name;
-  getRequiredKeys = () => requiredKeys;
-  getIntegers = () => integerKeys;
+  getClassName = (): string => Total.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getIntegers = (): string[] => integerKeys;
+
+
+  get 1(): number {
+    return this._1;
+  }
+
+  get 2(): number {
+    return this._2;
+  }
+
+  get 3(): number {
+    return this._3;
+  }
+
+  get 4(): number {
+    return this._4;
+  }
+
+  get 5(): number {
+    return this._5;
+  }
+
+  get 6(): number {
+    return this._6;
+  }
+
+  get 7(): number {
+    return this._7;
+  }
+
+  get 8(): number {
+    return this._8;
+  }
+
+  get 9(): number {
+    return this._9;
+  }
+
+  get 10(): number {
+    return this._10;
+  }
+
+  get 11(): number {
+    return this._11;
+  }
+
+  get 12(): number {
+    return this._12;
+  }
+
+  get 13(): number {
+    return this._13;
+  }
+
+  get 14(): number {
+    return this._14;
+  }
+
+  get 15(): number {
+    return this._15;
+  }
+
+  get 16(): number {
+    return this._16;
+  }
+
+  get 17(): number {
+    return this._17;
+  }
+
+  get 18(): number {
+    return this._18;
+  }
+
+  get 19(): number {
+    return this._19;
+  }
+
+  get 20(): number {
+    return this._20;
+  }
 }
 
 export default Total;

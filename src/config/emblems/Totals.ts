@@ -14,25 +14,46 @@ interface RawTotals {
 }
 
 class Totals implements Config, HasRequiredKeys, HasObjects {
-  public readonly 1: Total;
-  public readonly 2: Total;
-  public readonly 3: Total;
-  public readonly 4: Total;
-  public readonly 5: Total;
+  private readonly "_1": Total;
+  private readonly "_2": Total;
+  private readonly "_3": Total;
+  private readonly "_4": Total;
+  private readonly "_5": Total;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    this[1] = new Total((rawYaml as RawTotals)['1']);
-    this[2] = new Total((rawYaml as RawTotals)['2']);
-    this[3] = new Total((rawYaml as RawTotals)['3']);
-    this[4] = new Total((rawYaml as RawTotals)['4']);
-    this[5] = new Total((rawYaml as RawTotals)['5']);
+    this._1 = new Total((rawYaml as RawTotals)['1']);
+    this._2 = new Total((rawYaml as RawTotals)['2']);
+    this._3 = new Total((rawYaml as RawTotals)['3']);
+    this._4 = new Total((rawYaml as RawTotals)['4']);
+    this._5 = new Total((rawYaml as RawTotals)['5']);
   }
 
-  getClassName = () => Totals.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => Totals.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+
+  get 1(): Total {
+    return this._1;
+  }
+
+  get 2(): Total {
+    return this._2;
+  }
+
+  get 3(): Total {
+    return this._3;
+  }
+
+  get 4(): Total {
+    return this._4;
+  }
+
+  get 5(): Total {
+    return this._5;
+  }
 }
 
 export default Totals;

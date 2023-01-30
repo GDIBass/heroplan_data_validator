@@ -12,29 +12,49 @@ interface RawImageSet {
 }
 
 class ImageSet implements Config, HasRequiredKeys, HasImages {
-  public readonly purple:string;
-  public readonly yellow:string;
-  public readonly blue:string;
-  public readonly green:string;
-  public readonly red:string;
+  private readonly _purple:string;
+  private readonly _yellow:string;
+  private readonly _blue:string;
+  private readonly _green:string;
+  private readonly _red:string;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
-    this.purple = (rawYaml as RawImageSet).purple;
-    this.yellow = (rawYaml as RawImageSet).yellow;
-    this.blue = (rawYaml as RawImageSet).blue;
-    this.green = (rawYaml as RawImageSet).green;
-    this.red = (rawYaml as RawImageSet).red;
-    validateImageType(this, 'purple', this.purple, ImageType.JPG);
-    validateImageType(this, 'yellow', this.yellow, ImageType.JPG);
-    validateImageType(this, 'blue', this.blue, ImageType.JPG);
-    validateImageType(this, 'green', this.green, ImageType.JPG);
-    validateImageType(this, 'red', this.red, ImageType.JPG);
+    this._purple = (rawYaml as RawImageSet).purple;
+    this._yellow = (rawYaml as RawImageSet).yellow;
+    this._blue = (rawYaml as RawImageSet).blue;
+    this._green = (rawYaml as RawImageSet).green;
+    this._red = (rawYaml as RawImageSet).red;
+    validateImageType(this, 'purple', this._purple, ImageType.JPG);
+    validateImageType(this, 'yellow', this._yellow, ImageType.JPG);
+    validateImageType(this, 'blue', this._blue, ImageType.JPG);
+    validateImageType(this, 'green', this._green, ImageType.JPG);
+    validateImageType(this, 'red', this._red, ImageType.JPG);
   }
 
-  getClassName = () => ImageSet.name;
-  getRequiredKeys = () => requiredKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => ImageSet.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getImages = (): string[] => imageKeys;
+
+  get purple(): string {
+    return this._purple;
+  }
+
+  get yellow(): string {
+    return this._yellow;
+  }
+
+  get blue(): string {
+    return this._blue;
+  }
+
+  get green(): string {
+    return this._green;
+  }
+
+  get red(): string {
+    return this._red;
+  }
 }
 
 export default ImageSet;

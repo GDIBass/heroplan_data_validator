@@ -25,35 +25,51 @@ interface RawType {
 }
 
 class Type implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
-  public readonly key: string;
-  public readonly type: number;
-  public readonly description: string;
-  public readonly classes: Set<string> = new Set<string>();
+  private readonly _key: string;
+  private readonly _type: number;
+  private readonly _description: string;
+  private readonly _classes: Set<string> = new Set<string>();
 
   constructor(typeKey: string, rawYaml: object, classesConfig: ClassesConfig) {
     validate(this, rawYaml);
     validateKeysMatch(this, typeKey, (rawYaml as RawType).key);
-    this.key = (rawYaml as RawType).key;
-    this.type = parseInt((rawYaml as RawType).type);
-    this.description = (rawYaml as RawType).description;
+    this._key = (rawYaml as RawType).key;
+    this._type = parseInt((rawYaml as RawType).type);
+    this._description = (rawYaml as RawType).description;
     const classes = (rawYaml as RawType).classes || [];
     for (let className of classes) {
       if (!ohp(classesConfig.classes, className)) {
         throw new InvalidConfig(
           this,
-          `Class for team type ${this.description} is invalid: ${className}`
+          `Class for team type ${this._description} is invalid: ${className}`
         );
       }
-      this.classes.add(className);
+      this._classes.add(className);
     }
   }
 
-  getClassName = () => Type.name;
-  getId = () => this.type;
-  getIntegers = () => integerKeys;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getArrays = () => arrayKeys;
+  getClassName = (): string => Type.name;
+  getId = (): number => this._type;
+  getIntegers = (): string[] => integerKeys;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getArrays = (): string[] => arrayKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get type(): number {
+    return this._type;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  get classes(): Set<string> {
+    return this._classes;
+  }
 }
 
 export default Type;

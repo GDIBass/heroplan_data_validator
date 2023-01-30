@@ -11,25 +11,35 @@ interface RawCostumesConfig {
   bonuses: {[key: string]: object},
 }
 
+type Bonuses = { [key: string]: Bonus };
+
 class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public readonly images: Images;
-  public readonly bonuses: {[key: string]: Bonus} = {};
+  private readonly _images: Images;
+  private readonly _bonuses: Bonuses = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    this.images = new Images((rawYaml as RawCostumesConfig).images);
+    this._images = new Images((rawYaml as RawCostumesConfig).images);
 
     const bonuses: {[key: string]: object} = (rawYaml as RawCostumesConfig).bonuses;
     for (let bonusKey in bonuses) {
-      this.bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
+      this._bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
     }
   }
 
-  getClassName = () => CostumesConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => CostumesConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get images(): Images {
+    return this._images;
+  }
+
+  get bonuses(): Bonuses {
+    return this._bonuses;
+  }
 }
 
 export default CostumesConfig;

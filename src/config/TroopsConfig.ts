@@ -10,9 +10,13 @@ interface RawTroopsConfig {
   max_level_by_stars: {[key: string]: string},
 }
 
+type Troops = { [key: string]: Troop };
+
+type Numbers = { [key: number]: number };
+
 class TroopsConfig implements Config, HasRequiredKeys, HasObjects {
-  public readonly troops: {[key: string]: Troop} = {};
-  public readonly maxLevelByStars: {[key: number]: number} = {};
+  private readonly _troops: Troops = {};
+  private readonly _maxLevelByStars: Numbers = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
@@ -20,19 +24,28 @@ class TroopsConfig implements Config, HasRequiredKeys, HasObjects {
     // troops
     const troops = (rawYaml as RawTroopsConfig).troops;
     for (let troop in troops) {
-      this.troops[troop] = new Troop(troop, troops[troop]);
+      this._troops[troop] = new Troop(troop, troops[troop]);
     }
     // max_level_by_stars
     const maxLevelByStars = (rawYaml as RawTroopsConfig).max_level_by_stars;
     for (let star in maxLevelByStars) {
-      this.maxLevelByStars[parseInt(star)] = parseInt(maxLevelByStars[star]);
+      this._maxLevelByStars[parseInt(star)] = parseInt(maxLevelByStars[star]);
     }
-    validateNoDuplicateIds(this, 'troops', Object.values(this.troops));
+    validateNoDuplicateIds(this, 'troops', Object.values(this._troops));
   }
 
-  getClassName = () => TroopsConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => TroopsConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+
+  get troops(): Troops {
+    return this._troops;
+  }
+
+  get maxLevelByStars(): Numbers {
+    return this._maxLevelByStars;
+  }
 }
 
 export default TroopsConfig;

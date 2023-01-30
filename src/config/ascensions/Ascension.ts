@@ -36,16 +36,16 @@ interface RawAscension {
 }
 
 class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjects {
-  public readonly key: number;
-  public readonly description: string;
-  public readonly star_max: {[key: number]: number} = {};
-  public readonly limit_break: {[key: number]: number} = {};
+  private readonly _key: number;
+  private readonly _description: string;
+  private readonly _star_max: {[key: number]: number} = {};
+  private readonly _limit_break: {[key: number]: number} = {};
 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, statusKey, (rawYaml as RawAscension).key);
-    this.key = parseInt((rawYaml as RawAscension).key);
-    this.description = (rawYaml as RawAscension).description;
+    this._key = parseInt((rawYaml as RawAscension).key);
+    this._description = (rawYaml as RawAscension).description;
 
     if (ohp(rawYaml, 'star_max')) {
       const starMax: { [key: string]: string } = (rawYaml as RawAscension).star_max;
@@ -53,7 +53,7 @@ class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, Has
       validateAllIntegers(this, 'star_max<values>', Object.values(starMax));
 
       for (let key in starMax) {
-        this.star_max[parseInt(key)] = parseInt(starMax[key]);
+        this._star_max[parseInt(key)] = parseInt(starMax[key]);
       }
     }
 
@@ -63,16 +63,33 @@ class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, Has
       validateAllIntegers(this, 'limit_break<values>', Object.values(limitBreak));
 
       for (let key in limitBreak) {
-        this.limit_break[parseInt(key)] = parseInt(limitBreak[key]);
+        this._limit_break[parseInt(key)] = parseInt(limitBreak[key]);
       }
     }
   }
 
-  getClassName = () => Ascension.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getIntegers = () => integerKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => Ascension.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getIntegers = (): string[] => integerKeys;
+  getObjects = (): string[] => objectKeys;
+
+
+  get key(): number {
+    return this._key;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  get star_max(): { [p: number]: number } {
+    return this._star_max;
+  }
+
+  get limit_break(): { [p: number]: number } {
+    return this._limit_break;
+  }
 }
 
 export default Ascension;
