@@ -23,7 +23,7 @@ test('duplicate id for member_status fails', async () => {
   } catch (error) {
     expect(error).toBeInstanceOf(InvalidConfig);
     if (error instanceof InvalidConfig) {
-      expect(error.message).toContain('Duplicate ID found in child: member_status');
+      expect(error.message).toContain('Duplicate ID found | child=member_status');
     }
   }
 });
@@ -56,7 +56,7 @@ test('missing member status fails', async () => {
   } catch (error) {
     expect(error).toBeInstanceOf(MissingRequiredKey);
     if (error instanceof MissingRequiredKey) {
-      expect(error.message).toContain('Config is missing key: AllianceConfig:member_status');
+      expect(error.message).toContain('Config is missing key | AllianceConfig:member_status');
     }
   }
 });

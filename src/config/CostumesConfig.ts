@@ -6,27 +6,40 @@ import Bonus from "./costumes/Bonus";
 const requiredKeys = ['images', 'bonuses'];
 const objectKeys = ['images', 'bonuses'];
 
+interface RawCostumesConfig {
+  images: object,
+  bonuses: {[key: string]: object},
+}
+
+type Bonuses = { [key: string]: Bonus };
+
 class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public readonly images: Images;
-  public readonly bonuses: {[key: string]: Bonus} = {};
+  private readonly _images: Images;
+  private readonly _bonuses: Bonuses = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    // @ts-ignore
-    this.images = new Images(rawYaml.images);
+    this._images = new Images((rawYaml as RawCostumesConfig).images);
 
-    // @ts-ignore
-    const bonuses: {[key: string]: object} = rawYaml.bonuses;
-    for (let bonusKey in bonuses) {
-      this.bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
+    const bonuses: {[key: string]: object} = (rawYaml as RawCostumesConfig).bonuses;
+    for (const bonusKey in bonuses) {
+      this._bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
     }
   }
 
-  getClassName = () => CostumesConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => CostumesConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get images(): Images {
+    return this._images;
+  }
+
+  get bonuses(): Bonuses {
+    return this._bonuses;
+  }
 }
 
 export default CostumesConfig;

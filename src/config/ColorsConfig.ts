@@ -5,30 +5,45 @@ import Color from "./colors/Color";
 const requiredKeys = ['colors', 'open_color'];
 const objectKeys = ['colors', 'open_color'];
 
+type StringKeyAndValueObject = { [key: string]: string };
+
+interface RawColorsConfig {
+  colors: {[key: string]: object},
+  open_color: StringKeyAndValueObject,
+}
+
+type Colors = { [key: string]: Color };
+
 class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public readonly colors: {[key: string]: Color} = {};
-  public readonly open_color: {[key: string]: string} = {};
+  private readonly _colors: Colors = {};
+  private readonly _open_color: StringKeyAndValueObject = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    // @ts-ignore
-    const colors: {[key: string]: object} = rawYaml.colors;
-    for (let colorKey in colors) {
-      this.colors[colorKey] = new Color(colorKey, colors[colorKey]);
+    const colors: {[key: string]: object} = (rawYaml as RawColorsConfig).colors;
+    for (const colorKey in colors) {
+      this._colors[colorKey] = new Color(colorKey, colors[colorKey]);
     }
 
-    // @ts-ignore
-    const openColors: {[key: string]: string} = rawYaml.openColors;
-    for (let openColorKey in openColors) {
-      this.open_color[openColorKey] = openColors[openColorKey];
+    const openColors: StringKeyAndValueObject = (rawYaml as RawColorsConfig).open_color;
+    for (const openColorKey in openColors) {
+      this._open_color[openColorKey] = openColors[openColorKey];
     }
   }
 
-  getClassName = () => ColorsConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => ColorsConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get colors(): Colors {
+    return this._colors;
+  }
+
+  get open_color(): StringKeyAndValueObject {
+    return this._open_color;
+  }
 }
 
 export default ColorsConfig;

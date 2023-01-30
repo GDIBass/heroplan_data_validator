@@ -14,28 +14,40 @@ const stringKeys = ['description', 'type'];
 const objectKeys = ['ascensions'];
 
 class Filter implements Config, HasRequiredKeys, HasStrings, HasObjects {
-  private readonly description: string;
-  private readonly type: string;
-  private readonly ascensions: {[key: number]: number} = {};
+  private readonly _description: string;
+  private readonly _type: string;
+  private readonly _ascensions: {[key: number]: number} = {};
 
   constructor (filter: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, filter, (rawYaml as RawFilter).key);
-    this.description = (rawYaml as RawFilter).description;
-    this.type = (rawYaml as RawFilter).type;
+    this._description = (rawYaml as RawFilter).description;
+    this._type = (rawYaml as RawFilter).type;
     if (ohp(rawYaml, 'ascensions')) {
       // this.ascensions = {};
       const ascensions = (rawYaml as RawFilter).ascensions;
       for (let ascension in ascensions) {
-        this.ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
+        this._ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
       }
     }
   }
 
-  getClassName = () => Filter.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
-  getStrings = () => stringKeys;
+  getClassName = (): string => Filter.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+  getStrings = (): string[] => stringKeys;
+
+  get description(): string {
+    return this._description;
+  }
+
+  get type(): string {
+    return this._type;
+  }
+
+  get ascensions(): { [p: number]: number } {
+    return this._ascensions;
+  }
 }
 
 export default Filter;

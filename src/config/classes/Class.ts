@@ -23,29 +23,46 @@ interface RawClass {
 }
 
 class Class implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages {
-  public readonly code: number;
-  public readonly key: string;
-  public readonly description: string;
-  public readonly image: string;
+  private readonly _code: number;
+  private readonly _key: string;
+  private readonly _description: string;
+  private readonly _image: string;
 
   constructor(classKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, classKey, (rawYaml as RawClass).key);
-    this.code = parseInt((rawYaml as RawClass).code);
-    this.key = (rawYaml as RawClass).key;
-    this.description = (rawYaml as RawClass).description;
-    this.image = (rawYaml as RawClass).image;
+    this._code = parseInt((rawYaml as RawClass).code);
+    this._key = (rawYaml as RawClass).key;
+    this._description = (rawYaml as RawClass).description;
+    this._image = (rawYaml as RawClass).image;
 
-    validateImageType(this, 'image', this.image, ImageType.PNG);
+    validateImageType(this, 'image', this._image, ImageType.PNG);
 
     // TODO: Load image file and verify dimensions
   }
 
-  getClassName = () => Class.name;
-  getRequiredKeys = () => requiredKeys;
-  getIntegers = () => integerKeys;
-  getStrings = () => stringKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => Class.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getIntegers = (): string[] => integerKeys;
+  getStrings = (): string[] => stringKeys;
+  getImages = (): string[] => imageKeys;
+
+
+  get code(): number {
+    return this._code;
+  }
+
+  get key(): string {
+    return this._key;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  get image(): string {
+    return this._image;
+  }
 }
 
 export default Class;

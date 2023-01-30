@@ -10,21 +10,27 @@ interface RawMaterialsConfig {
   ascension: {[key: string]: object},
 }
 
+type Ascensions = { [key: string]: Ascension };
+
 class MaterialsConfig implements Config, HasRequiredKeys, HasObjects {
 
-  private readonly ascension: {[key: string]: Ascension} = {};
+  private readonly _ascension: Ascensions = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const ascension = (rawYaml as RawMaterialsConfig).ascension;
-    for (let ascensionKey in ascension) {
-      this.ascension[ascensionKey] = new Ascension(ascensionKey, ascension[ascensionKey]);
+    for (const ascensionKey in ascension) {
+      this._ascension[ascensionKey] = new Ascension(ascensionKey, ascension[ascensionKey]);
     }
   }
 
-  getClassName = () => MaterialsConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => MaterialsConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get ascension(): Ascensions {
+    return this._ascension;
+  }
 }
 
 export default MaterialsConfig;

@@ -9,8 +9,10 @@ import ohp from "../util/ohp";
 import InvalidConfig from "../error/InvalidConfig";
 import SpeedsConfig from "./SpeedsConfig";
 
+type Heroes = { [key: string]: Hero };
+
 class HeroesConfig implements Config {
-  public readonly heroes: {[key: string]: Hero} = {};
+  private readonly _heroes: Heroes = {};
   private readonly classesConfig: ClassesConfig;
   private readonly familiesConfig: FamiliesConfig;
   private readonly sourcesConfig: SourcesConfig;
@@ -29,10 +31,10 @@ class HeroesConfig implements Config {
     this.heroImagesDirectory = heroImagesDirectory;
   }
 
-  addHeroes = async (color: string, stars: number, rawYaml: object[]) => {
+  addHeroes = async (color: string, stars: number, rawYaml: object[]): Promise<void> => {
     for (const rawHero of rawYaml) {
       const hero = await Hero.build(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.speedsConfig, this.heroImagesDirectory);
-      if (ohp(this.heroes, hero.name)) {
+      if (ohp(this._heroes, hero.name)) {
         throw new InvalidConfig(
           this,
           `Hero with name ${hero.name} already exists`
@@ -41,7 +43,11 @@ class HeroesConfig implements Config {
     }
   }
 
-  getClassName = () => HeroesConfig.name;
+  getClassName = (): string => HeroesConfig.name;
+
+  get heroes(): Heroes {
+    return this._heroes;
+  }
 }
 
 export default HeroesConfig;

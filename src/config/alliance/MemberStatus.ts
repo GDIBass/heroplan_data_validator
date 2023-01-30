@@ -15,28 +15,46 @@ const requiredIntegers = [
   'id',
 ];
 
+interface RawMemberStatus {
+  key: string,
+  id: string,
+  description: string,
+}
+
 class MemberStatus implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
-  public readonly id: number;
-  public readonly key: string;
-  public readonly description: string;
+  private readonly _id: number;
+  private readonly _key: string;
+  private readonly _description: string;
 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);
     // @ts-ignore
-    validateKeysMatch(this, statusKey, rawYaml.key);
+    validateKeysMatch(this, statusKey, (rawYaml as RawMemberStatus).key);
     // @ts-ignore
-    this.id = parseInt(rawYaml.id);
+    this._id = parseInt((rawYaml as RawMemberStatus).id);
     // @ts-ignore
-    this.key = rawYaml.key;
+    this._key = (rawYaml as RawMemberStatus).key;
     // @ts-ignore
-    this.description = rawYaml.description;
+    this._description = (rawYaml as RawMemberStatus).description;
   }
 
-  getRequiredKeys = () => requiredKeys;
-  getClassName = () => MemberStatus.name;
-  getStrings = () => requiredStrings;
-  getIntegers = () => requiredIntegers;
-  getId = () => this.id;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getClassName = (): string => MemberStatus.name;
+  getStrings = (): string[] => requiredStrings;
+  getIntegers = (): string[] => requiredIntegers;
+  getId = (): number => this._id;
+
+  get id(): number {
+    return this._id;
+  }
+
+  get key(): string {
+    return this._key;
+  }
+
+  get description(): string {
+    return this._description;
+  }
 }
 
 export default MemberStatus;

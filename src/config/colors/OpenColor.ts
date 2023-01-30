@@ -1,5 +1,5 @@
 import { Config, HasImages, HasRequiredKeys, validate } from "../../validation";
-import validateImageType, { ImageType } from "../../validation/validateImageType";
+import validateImageType, { ImageTypes as ImageType } from "../../validation/validateImageType";
 
 
 const requiredKeys = ['avatarImage', 'troopImage'];
@@ -12,20 +12,28 @@ interface RawOpenColor {
 
 class OpenColor implements Config, HasRequiredKeys, HasImages {
 
-  public readonly avatarImage: string;
-  public readonly troopImage: string;
+  private readonly _avatarImage: string;
+  private readonly _troopImage: string;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
-    this.avatarImage = (rawYaml as RawOpenColor).avatarImage;
-    this.troopImage = (rawYaml as RawOpenColor).troopImage;
-    validateImageType(this, 'avatarImage', this.avatarImage, ImageType.JPG);
-    validateImageType(this, 'troopImage', this.troopImage, ImageType.JPG);
+    this._avatarImage = (rawYaml as RawOpenColor).avatarImage;
+    this._troopImage = (rawYaml as RawOpenColor).troopImage;
+    validateImageType(this, 'avatarImage', this._avatarImage, ImageType.JPG);
+    validateImageType(this, 'troopImage', this._troopImage, ImageType.JPG);
   }
 
-  getClassName = () => OpenColor.name;
-  getRequiredKeys = () => requiredKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => OpenColor.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getImages = (): string[] => imageKeys;
+
+  get avatarImage(): string {
+    return this._avatarImage;
+  }
+
+  get troopImage(): string {
+    return this._troopImage;
+  }
 }
 
 export default OpenColor;

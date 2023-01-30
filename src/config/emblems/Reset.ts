@@ -9,17 +9,21 @@ interface RawReset {
 
 class Reset implements HasRequiredKeys, HasImages {
 
-  public readonly image: string;
+  private readonly _image: string;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
-    this.image = (rawYaml as RawReset).image;
-    validateImageType(this, 'image', this.image, ImageType.PNG);
+    this._image = (rawYaml as RawReset).image;
+    validateImageType(this, 'image', this._image, ImageType.PNG);
   }
 
-  getClassName = () => Reset.name;
-  getRequiredKeys = () => requiredKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => Reset.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getImages = (): string[] => imageKeys;
+
+  get image(): string {
+    return this._image;
+  }
 }
 
 export default Reset;

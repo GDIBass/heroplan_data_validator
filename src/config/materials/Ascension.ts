@@ -20,21 +20,29 @@ const stringKeys = ['key'];
 const imageKeys = ['image'];
 
 class Ascension implements Config, HasRequiredKeys, HasStrings, HasImages {
-  public readonly key: string;
-  public readonly image: string;
+  private readonly _key: string;
+  private readonly _image: string;
 
   constructor(ascensionKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, ascensionKey, (rawYaml as RawAscension).key);
-    this.key = (rawYaml as RawAscension).key;
-    this.image = (rawYaml as RawAscension).image;
-    validateImageType(this, 'image', this.image, ImageType.PNG);
+    this._key = (rawYaml as RawAscension).key;
+    this._image = (rawYaml as RawAscension).image;
+    validateImageType(this, 'image', this._image, ImageType.PNG);
   }
 
-  getClassName = () => Ascension.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => Ascension.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getImages = (): string[] => imageKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get image(): string {
+    return this._image;
+  }
 }
 
 export default Ascension;

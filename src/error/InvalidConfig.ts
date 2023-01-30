@@ -1,12 +1,21 @@
 import Config from "../validation/interfaces/Config";
 
 class InvalidConfig extends Error {
-  public configName: string;
-  public data: string;
+  private _configName: string;
+  private _data: string;
   constructor(config: Config, data: string) {
     super(`Config is not valid: ${config.getClassName()}:${data}`);
-    this.configName = config.getClassName();
-    this.data = data;
+    this._configName = config.getClassName();
+    this._data = data;
+  }
+
+
+  get configName(): string {
+    return this._configName;
+  }
+
+  get data(): string {
+    return this._data;
   }
 }
 

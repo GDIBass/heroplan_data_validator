@@ -10,7 +10,9 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: setup node-gyp
+        run: npm install -g node-gyp@latest
       - run: |
           npm install
       - run: |
@@ -20,5 +22,3 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./
-        with:
-          milliseconds: 1000

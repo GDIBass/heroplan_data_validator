@@ -8,20 +8,26 @@ interface RawFiltersConfig {
 const requiredKeys = ['filters'];
 const objectKeys = ['filters'];
 
+type Filters = { [key: string]: Filter };
+
 class FiltersConfig implements Config, HasRequiredKeys, HasObjects {
-  public readonly filters: {[key: string]: Filter} = {};
+  private readonly _filters: Filters = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const filters = (rawYaml as RawFiltersConfig).filters;
-    for (let filter in filters) {
-      this.filters[filter] = new Filter(filter, filters[filter]);
+    for (const filter in filters) {
+      this._filters[filter] = new Filter(filter, filters[filter]);
     }
   }
 
-  getClassName = () => FiltersConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => FiltersConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get filters(): Filters {
+    return this._filters;
+  }
 }
 
 export default FiltersConfig;

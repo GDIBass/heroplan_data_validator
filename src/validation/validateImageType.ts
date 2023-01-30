@@ -1,12 +1,12 @@
 import Config from "./interfaces/Config";
 import InvalidConfig from "../error/InvalidConfig";
 
-export enum ImageType {
+export enum ImageTypes {
   PNG = 'png',
   JPG = 'jpg',
 }
 
-export const checkImageType = (config: Config, errorString: string, value: string, type: ImageType) => {
+export const checkImageType = (config: Config, errorString: string, value: string, type: ImageTypes): void => {
   if (!value.endsWith(`.${type}`)) {
     throw new InvalidConfig(
       config,
@@ -15,7 +15,7 @@ export const checkImageType = (config: Config, errorString: string, value: strin
   }
 }
 
-const validateImageType = (config: Config, key: string, value: string, type: ImageType) => {
+const validateImageType = (config: Config, key: string, value: string, type: ImageTypes): void => {
   checkImageType(
     config,
     `${key} must be a ${type}: ${value}`,

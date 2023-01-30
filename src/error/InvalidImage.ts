@@ -1,11 +1,20 @@
 class InvalidImage extends Error {
-  public readonly heroName: string;
-  public readonly additionalDetails: string;
+  private readonly _heroName: string;
+  private readonly _additionalDetails: string;
 
   constructor(heroName: string, additionalDetails: string) {
     super(`Hero image is invalid | hero=${heroName} | ${additionalDetails}`);
-    this.heroName = heroName;
-    this.additionalDetails = additionalDetails;
+    this._heroName = heroName;
+    this._additionalDetails = additionalDetails;
+  }
+
+
+  get heroName(): string {
+    return this._heroName;
+  }
+
+  get additionalDetails(): string {
+    return this._additionalDetails;
   }
 }
 

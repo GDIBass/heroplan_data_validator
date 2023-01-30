@@ -12,23 +12,35 @@ const integerKey = ['code'];
 
 
 class Source implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
-  public readonly key: string;
-  public readonly code: number;
-  public readonly description: string;
+  private readonly _key: string;
+  private readonly _code: number;
+  private readonly _description: string;
 
   constructor(sourceKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, sourceKey, (rawYaml as RawSource).key);
-    this.key = (rawYaml as RawSource).key;
-    this.code = parseInt((rawYaml as RawSource).code);
-    this.description = (rawYaml as RawSource).description;
+    this._key = (rawYaml as RawSource).key;
+    this._code = parseInt((rawYaml as RawSource).code);
+    this._description = (rawYaml as RawSource).description;
   }
 
-  getClassName = () => Source.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getIntegers = () => integerKey;
-  getId = () => this.code;
+  getClassName = (): string => Source.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getIntegers = (): string[] => integerKey;
+  getId = (): number => this._code;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get code(): number {
+    return this._code;
+  }
+
+  get description(): string {
+    return this._description;
+  }
 }
 
 export default Source;

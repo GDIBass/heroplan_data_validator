@@ -83,64 +83,148 @@ const objectKeys = [
 
 class Tree implements Config, HasRequiredKeys, HasStrings, HasObjects {
 
-  public readonly key: string;
-  public readonly 1: string;
-  public readonly 2: object;
-  public readonly 3: object;
-  public readonly 4: string;
-  public readonly 5: object;
-  public readonly 6: object;
-  public readonly 7: string;
-  public readonly 8: object;
-  public readonly 9: object;
-  public readonly 10: string;
-  public readonly 11: object;
-  public readonly 12: string;
-  public readonly 13: object;
-  public readonly 14: object;
-  public readonly 15: string;
-  public readonly 16: object;
-  public readonly 17: object;
-  public readonly 18: string;
-  public readonly 19: object;
-  public readonly 20: string;
+  private readonly _key: string;
+  private readonly "_1": string;
+  private readonly "_2": object;
+  private readonly "_3": object;
+  private readonly "_4": string;
+  private readonly "_5": object;
+  private readonly "_6": object;
+  private readonly "_7": string;
+  private readonly "_8": object;
+  private readonly "_9": object;
+  private readonly "_10": string;
+  private readonly "_11": object;
+  private readonly "_12": string;
+  private readonly "_13": object;
+  private readonly "_14": object;
+  private readonly "_15": string;
+  private readonly "_16": object;
+  private readonly "_17": object;
+  private readonly "_18": string;
+  private readonly "_19": object;
+  private readonly "_20": string;
 
   constructor(effectKey: string, rawYaml: object, nodes: {[key: string]: Node}, classesConfig: ClassesConfig) {
     validate(this, rawYaml);
     validateKeysMatch(this, effectKey, (rawYaml as RawTree).key);
-    this['key'] = (rawYaml as RawTree)['key'];
-    if (!ohp(classesConfig.classes, this['key'])) {
+    this['_key'] = (rawYaml as RawTree)['key'];
+    if (!ohp(classesConfig.classes, this['_key'])) {
       throw new InvalidConfig(
         this,
-        `${this['key']} is not a valid class, did you enter a valid class?`
+        `${this['_key']} is not a valid class, did you enter a valid class?`
       );
     }
-    this[1] = validateNode(this, '1', (rawYaml as RawTree)[1], nodes);
-    this[2] = new SplitNode((rawYaml as RawTree)[2], nodes);
-    this[3] = new SplitNode((rawYaml as RawTree)[3], nodes);
-    this[4] = validateNode(this, '4', (rawYaml as RawTree)[4], nodes);
-    this[5] = new SplitNode((rawYaml as RawTree)[5], nodes);
-    this[6] = new SplitNode((rawYaml as RawTree)[6], nodes);
-    this[7] = validateNode(this, '7', (rawYaml as RawTree)[7], nodes);
-    this[8] = new SplitNode((rawYaml as RawTree)[8], nodes);
-    this[9] = new SplitNode((rawYaml as RawTree)[9], nodes);
-    this[10] = validateNode(this, '10', (rawYaml as RawTree)[10], nodes);
-    this[11] = new SplitNode( (rawYaml as RawTree)[11], nodes);
-    this[12] = validateNode(this, '12', (rawYaml as RawTree)[12], nodes);
-    this[13] = new SplitNode( (rawYaml as RawTree)[13], nodes);
-    this[14] = new SplitNode( (rawYaml as RawTree)[14], nodes);
-    this[15] = validateNode(this, '15', (rawYaml as RawTree)[15], nodes);
-    this[16] = new SplitNode( (rawYaml as RawTree)[16], nodes);
-    this[17] = new SplitNode( (rawYaml as RawTree)[17], nodes);
-    this[18] = validateNode(this, '18', (rawYaml as RawTree)[18], nodes);
-    this[19] = new SplitNode( (rawYaml as RawTree)[19], nodes);
-    this[20] = validateNode(this, '20', (rawYaml as RawTree)[20], nodes);
+    this._1 = validateNode(this, '1', (rawYaml as RawTree)[1], nodes);
+    this._2 = new SplitNode((rawYaml as RawTree)[2], nodes);
+    this._3 = new SplitNode((rawYaml as RawTree)[3], nodes);
+    this._4 = validateNode(this, '4', (rawYaml as RawTree)[4], nodes);
+    this._5 = new SplitNode((rawYaml as RawTree)[5], nodes);
+    this._6 = new SplitNode((rawYaml as RawTree)[6], nodes);
+    this._7 = validateNode(this, '7', (rawYaml as RawTree)[7], nodes);
+    this._8 = new SplitNode((rawYaml as RawTree)[8], nodes);
+    this._9 = new SplitNode((rawYaml as RawTree)[9], nodes);
+    this._10 = validateNode(this, '10', (rawYaml as RawTree)[10], nodes);
+    this._11 = new SplitNode( (rawYaml as RawTree)[11], nodes);
+    this._12 = validateNode(this, '12', (rawYaml as RawTree)[12], nodes);
+    this._13 = new SplitNode( (rawYaml as RawTree)[13], nodes);
+    this._14 = new SplitNode( (rawYaml as RawTree)[14], nodes);
+    this._15 = validateNode(this, '15', (rawYaml as RawTree)[15], nodes);
+    this._16 = new SplitNode( (rawYaml as RawTree)[16], nodes);
+    this._17 = new SplitNode( (rawYaml as RawTree)[17], nodes);
+    this._18 = validateNode(this, '18', (rawYaml as RawTree)[18], nodes);
+    this._19 = new SplitNode( (rawYaml as RawTree)[19], nodes);
+    this._20 = validateNode(this, '20', (rawYaml as RawTree)[20], nodes);
   }
 
-  getClassName = () => Tree.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => Tree.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get 1(): string {
+    return this._1;
+  }
+
+  get 2(): object {
+    return this._2;
+  }
+
+  get 3(): object {
+    return this._3;
+  }
+
+  get 4(): string {
+    return this._4;
+  }
+
+  get 5(): object {
+    return this._5;
+  }
+
+  get 6(): object {
+    return this._6;
+  }
+
+  get 7(): string {
+    return this._7;
+  }
+
+  get 8(): object {
+    return this._8;
+  }
+
+  get 9(): object {
+    return this._9;
+  }
+
+  get 10(): string {
+    return this._10;
+  }
+
+  get 11(): object {
+    return this._11;
+  }
+
+  get 12(): string {
+    return this._12;
+  }
+
+  get 13(): object {
+    return this._13;
+  }
+
+  get 14(): object {
+    return this._14;
+  }
+
+  get 15(): string {
+    return this._15;
+  }
+
+  get 16(): object {
+    return this._16;
+  }
+
+  get 17(): object {
+    return this._17;
+  }
+
+  get 18(): string {
+    return this._18;
+  }
+
+  get 19(): object {
+    return this._19;
+  }
+
+  get 20(): string {
+    return this._20;
+  }
 }
 
 export default Tree;

@@ -11,23 +11,35 @@ interface RawSharingMode {
 }
 
 class SharingMode implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
-  public readonly key: string;
-  public readonly id: number;
-  public readonly description: string;
+  private readonly _key: string;
+  private readonly _id: number;
+  private readonly _description: string;
 
   constructor(sharingModeKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, sharingModeKey, (rawYaml as RawSharingMode).key);
-    this.key = (rawYaml as RawSharingMode).key;
-    this.id = parseInt((rawYaml as RawSharingMode).id);
-    this.description = (rawYaml as RawSharingMode).description;
+    this._key = (rawYaml as RawSharingMode).key;
+    this._id = parseInt((rawYaml as RawSharingMode).id);
+    this._description = (rawYaml as RawSharingMode).description;
   }
 
-  getClassName = () => SharingMode.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getIntegers = () => integerKeys;
-  getId = () => this.id;
+  getClassName = (): string => SharingMode.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getIntegers = (): string[] => integerKeys;
+  getId = (): number => this._id;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get id(): number {
+    return this._id;
+  }
+
+  get description(): string {
+    return this._description;
+  }
 }
 
 export default SharingMode;

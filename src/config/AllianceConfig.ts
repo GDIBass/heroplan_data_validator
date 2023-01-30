@@ -4,25 +4,35 @@ import { HasObjects, HasRequiredKeys, Config, validate, validateNoDuplicateIds }
 const requiredKeys = ['member_status'];
 const requiredObjects = ['member_status'];
 
+interface RawAllianceConfig {
+  member_status: {[key: string]: object},
+}
+
+type MemberStatuses = {[key: string]: MemberStatus};
+
 class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public readonly member_status: {[key: string]: MemberStatus} = {};
+  private readonly _member_status: MemberStatuses = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    // @ts-ignore
-    const memberStatus: {[key: string]: object} = rawYaml.member_status;
-    for (let statusKey in memberStatus) {
-      this.member_status[statusKey] = new MemberStatus(statusKey, memberStatus[statusKey]);
+    const memberStatus: {[key: string]: object} = (rawYaml as RawAllianceConfig).member_status;
+    for (const statusKey in memberStatus) {
+      this._member_status[statusKey] = new MemberStatus(statusKey, memberStatus[statusKey]);
     }
 
-    validateNoDuplicateIds(this, 'member_status', Object.values(this.member_status));
+    validateNoDuplicateIds(this, 'member_status', Object.values(this._member_status));
   }
 
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => requiredObjects;
-  getClassName = () => AllianceConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => requiredObjects;
+  getClassName = (): string => AllianceConfig.name;
+
+
+  get member_status(): MemberStatuses {
+    return this._member_status;
+  }
 }
 
 export default AllianceConfig;

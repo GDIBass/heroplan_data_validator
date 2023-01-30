@@ -18,25 +18,33 @@ interface RawTypeSet {
 }
 
 class TypeSet implements Config, HasRequiredKeys, HasObjects {
-  public readonly key: string;
-  public readonly types: {[key: string]: Type} = {};
+  private readonly _key: string;
+  private readonly _types: {[key: string]: Type} = {};
 
   // Validate no duplicate types.type
   constructor(typesetKey: string, rawYaml: object, classesConfig: ClassesConfig) {
     validate(this, rawYaml);
     const key = (rawYaml as RawTypeSet).key;
     validateKeysMatch(this, typesetKey, key);
-    this.key = (rawYaml as RawTypeSet).key;
+    this._key = (rawYaml as RawTypeSet).key;
     const types = (rawYaml as RawTypeSet).types;
     for (let type in types) {
-      this.types[type] = new Type(type, types[type], classesConfig);
+      this._types[type] = new Type(type, types[type], classesConfig);
     }
-    validateNoDuplicateIds(this, 'types', Object.values(this.types));
+    validateNoDuplicateIds(this, 'types', Object.values(this._types));
   }
 
-  getClassName = () => TypeSet.name;
-  getObjects = () => objectKeys;
-  getRequiredKeys = () => requiredKeys;
+  getClassName = (): string => TypeSet.name;
+  getObjects = (): string[] => objectKeys;
+  getRequiredKeys = (): string[] => requiredKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get types(): { [p: string]: Type } {
+    return this._types;
+  }
 }
 
 export default TypeSet;

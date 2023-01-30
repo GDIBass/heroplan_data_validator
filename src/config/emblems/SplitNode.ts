@@ -12,19 +12,28 @@ interface RawSplitNode {
 
 class SplitNode implements Config, HasRequiredKeys, HasStrings {
 
-  public readonly l: string;
-  public readonly r: string;
+  private readonly _l: string;
+  private readonly _r: string;
 
   constructor(rawYaml: object, nodes: {[key: string]: Node}) {
     validate(this, rawYaml);
 
-    this.l = validateNode(this, 'l', (rawYaml as RawSplitNode).l, nodes);
-    this.r = validateNode(this, 'r', (rawYaml as RawSplitNode).r, nodes);
+    this._l = validateNode(this, 'l', (rawYaml as RawSplitNode).l, nodes);
+    this._r = validateNode(this, 'r', (rawYaml as RawSplitNode).r, nodes);
   }
 
-  getClassName = () => SplitNode.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
+  getClassName = (): string => SplitNode.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+
+
+  get l(): string {
+    return this._l;
+  }
+
+  get r(): string {
+    return this._r;
+  }
 }
 
 export default SplitNode;

@@ -42,32 +42,53 @@ const imageKeys = ['image'];
 const arrayKeys = ['bonus'];
 
 class Family implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasImages, HasArrays, HasId {
-  public readonly key:string;
-  public readonly code:number;
-  public readonly description:string;
-  public readonly image:string;
-  public readonly bonus:Array<string> = [];
+  private readonly _key:string;
+  private readonly _code:number;
+  private readonly _description:string;
+  private readonly _image:string;
+  private readonly _bonus:Array<string> = [];
 
   constructor(familyKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, familyKey as string, (rawYaml as RawFamily).key as string);
-    this.key = (rawYaml as RawFamily).key;
-    this.code = parseInt((rawYaml as RawFamily).code);
-    this.description = (rawYaml as RawFamily).description;
-    this.image = (rawYaml as RawFamily).image;
+    this._key = (rawYaml as RawFamily).key;
+    this._code = parseInt((rawYaml as RawFamily).code);
+    this._description = (rawYaml as RawFamily).description;
+    this._image = (rawYaml as RawFamily).image;
     for (let bonusItem of (rawYaml as RawFamily).bonus) {
-      this.bonus.push(bonusItem);
+      this._bonus.push(bonusItem);
     }
-    validateImageType(this, 'image', this.image, ImageType.PNG);
+    validateImageType(this, 'image', this._image, ImageType.PNG);
   }
 
-  getClassName = () => Family.name;
-  getRequiredKeys = () => requiredKeys;
-  getArrays = () => arrayKeys;
-  getIntegers = () => integerKeys;
-  getImages = () => imageKeys;
-  getStrings = () => stringKeys;
-  getId = () => this.code;
+  getClassName = (): string => Family.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getArrays = (): string[] => arrayKeys;
+  getIntegers = (): string[] => integerKeys;
+  getImages = (): string[] => imageKeys;
+  getStrings = (): string[] => stringKeys;
+  getId = (): number => this._code;
+
+
+  get key(): string {
+    return this._key;
+  }
+
+  get code(): number {
+    return this._code;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  get image(): string {
+    return this._image;
+  }
+
+  get bonus(): Array<string> {
+    return this._bonus;
+  }
 }
 
 export default Family;

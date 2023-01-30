@@ -8,24 +8,30 @@ interface RawFamiliesConfig {
   families: {[key: string]: object};
 }
 
+type Families = { [key: string]: Family };
+
 class FamiliesConfig implements Config, HasRequiredKeys, HasObjects {
 
-  public readonly families: {[key: string]: Family} = {};
+  private readonly _families: Families = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     // Populate families object
     const families = (rawYaml as RawFamiliesConfig).families;
-    for (let family in families) {
-      this.families[family] = new Family(family, families[family]);
+    for (const family in families) {
+      this._families[family] = new Family(family, families[family]);
     }
     // verify no duplicate codes
-    validateNoDuplicateIds(this, 'families', Object.values(this.families));
+    validateNoDuplicateIds(this, 'families', Object.values(this._families));
   }
 
-  getClassName = () => FamiliesConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => FamiliesConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get families(): Families {
+    return this._families;
+  }
 }
 
 export default FamiliesConfig;

@@ -43,24 +43,24 @@ interface RawHero {
 }
 
 class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjects, HasArrays {
-  public readonly stars: number;
-  public readonly color: string;
-  public readonly name: string;
-  public readonly source: string;
-  public readonly class: string;
-  public readonly speed: string;
-  public readonly power: string;
-  public readonly attack: string;
-  public readonly defense: string;
-  public readonly health: string;
-  public readonly skill: string;
-  public readonly family: string|null = null;
-  public readonly image: string;
-  public readonly effects: Array<string> = [];
-  public readonly types: Array<string> = [];
-  public readonly passives: Array<string>|null;
-  public readonly costume: Costume|null = null;
-  public readonly costume2: Costume|null = null;
+  private readonly _stars: number;
+  private readonly _color: string;
+  private readonly _name: string;
+  private readonly _source: string;
+  private readonly _class: string;
+  private readonly _speed: string;
+  private readonly _power: string;
+  private readonly _attack: string;
+  private readonly _defense: string;
+  private readonly _health: string;
+  private readonly _skill: string;
+  private readonly _family: string|null = null;
+  private readonly _image: string;
+  private readonly _effects: Array<string> = [];
+  private readonly _types: Array<string> = [];
+  private readonly _passives: Array<string>|null;
+  private readonly _costume: Costume|null = null;
+  private readonly _costume2: Costume|null = null;
 
   private constructor(
     stars: number,
@@ -75,64 +75,64 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
   ) {
     validate(this, rawYaml);
 
-    this.stars = stars;
-    this.color = color;
-    this.name = (rawYaml as RawHero).name;
-    this.source = (rawYaml as RawHero).source;
-    this.class = (rawYaml as RawHero).class;
-    this.speed = (rawYaml as RawHero).speed;
-    this.power = (rawYaml as RawHero).power;
-    this.attack = (rawYaml as RawHero).attack;
-    this.defense = (rawYaml as RawHero).defense;
-    this.health = (rawYaml as RawHero).health;
-    this.skill = (rawYaml as RawHero).skill;
-    this.image = (rawYaml as RawHero).image;
-    this.effects = (rawYaml as RawHero).effects;
-    this.types = (rawYaml as RawHero).types;
-    this.passives = (rawYaml as RawHero).passives;
-    this.costume = costume;
-    this.costume2 = costume2;
+    this._stars = stars;
+    this._color = color;
+    this._name = (rawYaml as RawHero).name;
+    this._source = (rawYaml as RawHero).source;
+    this._class = (rawYaml as RawHero).class;
+    this._speed = (rawYaml as RawHero).speed;
+    this._power = (rawYaml as RawHero).power;
+    this._attack = (rawYaml as RawHero).attack;
+    this._defense = (rawYaml as RawHero).defense;
+    this._health = (rawYaml as RawHero).health;
+    this._skill = (rawYaml as RawHero).skill;
+    this._image = (rawYaml as RawHero).image;
+    this._effects = (rawYaml as RawHero).effects;
+    this._types = (rawYaml as RawHero).types;
+    this._passives = (rawYaml as RawHero).passives;
+    this._costume = costume;
+    this._costume2 = costume2;
 
     // Validate effects & types have values
-    if (this.types.length === 0) {
+    if (this._types.length === 0) {
       throw new InvalidConfig(
         this,
-        `${this.name} has no types`
+        `${this._name} has no types`
       );
     }
-    if (this.effects.length === 0) {
+    if (this._effects.length === 0) {
       throw new InvalidConfig(
         this,
-        `${this.name} has no effects`
+        `${this._name} has no effects`
       );
     }
     // Validate class is valid
-    if (!ohp(classesConfig.classes, this.class.toLowerCase())) {
+    if (!ohp(classesConfig.classes, this._class.toLowerCase())) {
       throw new InvalidConfig(
         this,
-        `${this.name} has an invalid class ${this.class}`
+        `${this._name} has an invalid class ${this._class}`
       );
     }
     // Validate speeds is valid
-    if (!speedsConfig.isValidSpeed(this.speed)) {
+    if (!speedsConfig.isValidSpeed(this._speed)) {
       throw new InvalidConfig(
         this,
-        `${this.name} has an invalid speed ${this.speed}`
+        `${this._name} has an invalid speed ${this._speed}`
       );
     }
     // Validate source is valid
-    if (!ohp(sourcesConfig.sources, this.source.toLowerCase())) {
+    if (!ohp(sourcesConfig.sources, this._source.toLowerCase())) {
       throw new InvalidConfig(
         this,
-        `${this.name} has an invalid source ${this.source}`
+        `${this._name} has an invalid source ${this._source}`
       );
     }
 
     // Validate family is valid (if set)
-    if (this.family && !ohp(familiesConfig.families, this.family.toLowerCase())) {
+    if (this._family && !ohp(familiesConfig.families, this._family.toLowerCase())) {
       throw new InvalidConfig(
         this,
-        `${this.name} has an invalid family ${this.family}`
+        `${this._name} has an invalid family ${this._family}`
       );
     }
   }
@@ -169,18 +169,90 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
       sourcesConfig,
       speedsConfig
     );
-    const image = hero.image;
+    const image = hero._image;
     await validateHeroImage(hero, name, image, color, stars, heroImagesDirectory, 0);
 
     return hero;
   }
 
-  getClassName = () => Hero.name;
-  getRequiredKeys = () => requiredKeys;
-  getIntegers = () => integerKeys;
-  getObjects = () => objectKeys;
-  getStrings = () => stringKeys;
-  getArrays = () => arrayKeys;
+  getClassName = (): string => Hero.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getIntegers = (): string[] => integerKeys;
+  getObjects = (): string[] => objectKeys;
+  getStrings = (): string[] => stringKeys;
+  getArrays = (): string[] => arrayKeys;
+
+  get stars(): number {
+    return this._stars;
+  }
+
+  get color(): string {
+    return this._color;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get source(): string {
+    return this._source;
+  }
+
+  get class(): string {
+    return this._class;
+  }
+
+  get speed(): string {
+    return this._speed;
+  }
+
+  get power(): string {
+    return this._power;
+  }
+
+  get attack(): string {
+    return this._attack;
+  }
+
+  get defense(): string {
+    return this._defense;
+  }
+
+  get health(): string {
+    return this._health;
+  }
+
+  get skill(): string {
+    return this._skill;
+  }
+
+  get family(): string | null {
+    return this._family;
+  }
+
+  get image(): string {
+    return this._image;
+  }
+
+  get effects(): Array<string> {
+    return this._effects;
+  }
+
+  get types(): Array<string> {
+    return this._types;
+  }
+
+  get passives(): Array<string> | null {
+    return this._passives;
+  }
+
+  get costume(): Costume | null {
+    return this._costume;
+  }
+
+  get costume2(): Costume | null {
+    return this._costume2;
+  }
 }
 
 export default Hero;

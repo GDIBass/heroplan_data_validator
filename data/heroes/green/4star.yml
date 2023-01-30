@@ -1,0 +1,16 @@
+- name: Little John
+  class: Barbarian
+  source: Season1
+  speed: Slow
+  power: 641
+  attack: 741
+  defense: 569
+  health: 988
+  skill: Massive Chop
+  effects:
+    - Deals 185% damage to all enemies
+    - All enemies get -64% mana generation for 3 turns
+  types:
+    - Hit All
+    - Mana Generation Debuff
+  image: https://i.imgur.com/nRRdXVw.jpg

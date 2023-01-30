@@ -8,25 +8,37 @@ interface RawSpeedsConfig {
 const requiredKeys = ['speeds'];
 const objectKeys = ['speeds'];
 
+type Speeds = { [key: string]: Speed };
+
+type ValidSpeeds = Set<string>;
+
 class SpeedsConfig implements Config, HasRequiredKeys, HasObjects {
-  public readonly speeds: {[key: string]: Speed} = {};
-  public readonly validSpeeds: Set<string> = new Set();
+  private readonly _speeds: Speeds = {};
+  private readonly _validSpeeds: ValidSpeeds = new Set();
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const speeds = (rawYaml as RawSpeedsConfig).speeds;
-    for (let speed in speeds) {
-      this.speeds[speed] = new Speed(speed, speeds[speed]);
-      this.validSpeeds.add(this.speeds[speed].description);
+    for (const speed in speeds) {
+      this._speeds[speed] = new Speed(speed, speeds[speed]);
+      this._validSpeeds.add(this._speeds[speed].description);
     }
-    validateNoDuplicateIds(this, 'speeds', Object.values(this.speeds));
+    validateNoDuplicateIds(this, 'speeds', Object.values(this._speeds));
   }
 
-  isValidSpeed = (speed: string) => this.validSpeeds.has(speed);
+  isValidSpeed = (speed: string): boolean => this._validSpeeds.has(speed);
 
-  getClassName = () => SpeedsConfig.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => SpeedsConfig.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get speeds(): Speeds {
+    return this._speeds;
+  }
+
+  get validSpeeds(): ValidSpeeds {
+    return this._validSpeeds;
+  }
 }
 
 export default SpeedsConfig;

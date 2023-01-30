@@ -9,19 +9,27 @@ interface RawSocialNetwork {
 }
 
 class SocialNetwork implements Config, HasRequiredKeys, HasStrings {
-  public readonly key: string;
-  public readonly description: string;
+  private readonly _key: string;
+  private readonly _description: string;
 
   constructor(socialNetworkKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, socialNetworkKey, (rawYaml as RawSocialNetwork).key);
-    this.key = (rawYaml as RawSocialNetwork).key;
-    this.description = (rawYaml as RawSocialNetwork).description;
+    this._key = (rawYaml as RawSocialNetwork).key;
+    this._description = (rawYaml as RawSocialNetwork).description;
   }
 
-  getClassName = () => SocialNetwork.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
+  getClassName = (): string => SocialNetwork.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get description(): string {
+    return this._description;
+  }
 }
 
 export default SocialNetwork;

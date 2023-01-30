@@ -26,33 +26,54 @@ interface RawEffect {
 }
 
 class Effect implements Config, HasRequiredKeys, HasStrings, HasImages {
-  public readonly key: string;
-  public readonly description: string;
-  public readonly effect: string;
-  public readonly mode: string;
-  public readonly image: string;
+  private readonly _key: string;
+  private readonly _description: string;
+  private readonly _effect: string;
+  private readonly _mode: string;
+  private readonly _image: string;
 
   constructor(effectKey: string, rawYaml: object, modes: {[key: string]: Mode}) {
     validate(this, rawYaml);
     validateKeysMatch(this, effectKey, (rawYaml as RawEffect).key);
-    this.key = (rawYaml as RawEffect).key;
-    this.description = (rawYaml as RawEffect).description;
-    this.effect = (rawYaml as RawEffect).effect;
-    this.mode = (rawYaml as RawEffect).mode;
-    this.image = (rawYaml as RawEffect).image;
-    validateImageType(this, 'image', this.image, ImageType.PNG);
-    if (!ohp(modes, this.mode)) {
+    this._key = (rawYaml as RawEffect).key;
+    this._description = (rawYaml as RawEffect).description;
+    this._effect = (rawYaml as RawEffect).effect;
+    this._mode = (rawYaml as RawEffect).mode;
+    this._image = (rawYaml as RawEffect).image;
+    validateImageType(this, 'image', this._image, ImageType.PNG);
+    if (!ohp(modes, this._mode)) {
       throw new InvalidConfig(
         this,
-        `modes does not exist for key ${this.key} and mode ${this.mode}`
+        `modes does not exist for key ${this._key} and mode ${this._mode}`
       );
     }
   }
 
-  getClassName = () => Effect.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getImages = () => imageKeys;
+  getClassName = (): string => Effect.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getImages = (): string[] => imageKeys;
+
+
+  get key(): string {
+    return this._key;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  get effect(): string {
+    return this._effect;
+  }
+
+  get mode(): string {
+    return this._mode;
+  }
+
+  get image(): string {
+    return this._image;
+  }
 }
 
 export default Effect;

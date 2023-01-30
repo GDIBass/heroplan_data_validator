@@ -30,20 +30,18 @@ interface RawCostume {
 }
 
 class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
-  public readonly class: string;
-  public readonly power: string;
-  public readonly attack: string;
-  public readonly defense: string;
-  public readonly health: string;
-  public readonly skill: string;
-  public readonly effects: Array<string> = [];
-  public readonly types: Array<string> = [];
-  public readonly image: string;
-  public readonly bonuses: string;
+  private readonly _class: string;
+  private readonly _power: string;
+  private readonly _attack: string;
+  private readonly _defense: string;
+  private readonly _health: string;
+  private readonly _skill: string;
+  private readonly _effects: Array<string> = [];
+  private readonly _types: Array<string> = [];
+  private readonly _image: string;
+  private readonly _bonuses: string;
 
   private constructor(
-    stars: number,
-    color: string,
     name: string,
     rawYaml: object,
     classesConfig: ClassesConfig,
@@ -52,35 +50,35 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
   ) {
     validate(this, rawYaml);
 
-    this.class = (rawYaml as RawCostume).class;
-    this.power = (rawYaml as RawCostume).power;
-    this.attack = (rawYaml as RawCostume).attack;
-    this.defense = (rawYaml as RawCostume).defense;
-    this.health = (rawYaml as RawCostume).health;
-    this.skill = (rawYaml as RawCostume).skill;
-    this.image = (rawYaml as RawCostume).image;
-    this.bonuses = (rawYaml as RawCostume).bonuses;
+    this._class = (rawYaml as RawCostume).class;
+    this._power = (rawYaml as RawCostume).power;
+    this._attack = (rawYaml as RawCostume).attack;
+    this._defense = (rawYaml as RawCostume).defense;
+    this._health = (rawYaml as RawCostume).health;
+    this._skill = (rawYaml as RawCostume).skill;
+    this._image = (rawYaml as RawCostume).image;
+    this._bonuses = (rawYaml as RawCostume).bonuses;
     const effects = (rawYaml as RawCostume).effects;
     for (let effect of effects) {
-      this.effects.push(effect);
+      this._effects.push(effect);
     }
     const types = (rawYaml as RawCostume).types;
     for (let type of types) {
-      this.types.push(type);
+      this._types.push(type);
     }
 
     // validate class is valid
-    if (!ohp(classesConfig.classes, this.class.toLowerCase())) {
+    if (!ohp(classesConfig.classes, this._class.toLowerCase())) {
       throw new InvalidConfig(
         this,
-        `${name}'s costume (${costumeVariant}) has an invalid class ${this.class}`
+        `${name}'s costume (${costumeVariant}) has an invalid class ${this._class}`
       );
     }
     // validate bonuses are valid
-    if (this.bonuses && !ohp(costumesConfig.bonuses, this.bonuses)) {
+    if (this._bonuses && !ohp(costumesConfig.bonuses, this._bonuses)) {
       throw new InvalidConfig(
         this,
-        `${name}'s costume (${costumeVariant}) has an invalid bonus ${this.bonuses}`
+        `${name}'s costume (${costumeVariant}) has an invalid bonus ${this._bonuses}`
       );
     }
     // TODO: Populate default variant if bonuses isn't set
@@ -97,23 +95,62 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
     heroImagesDirectory: string
   ) => {
     const costume = new Costume(
-      stars,
-      color,
       name,
       rawYaml,
       classesConfig,
       costumesConfig,
       costumeVariant
     );
-    await validateHeroImage(costume, name, costume.image, color, stars, heroImagesDirectory, costumeVariant);
+    await validateHeroImage(costume, name, costume._image, color, stars, heroImagesDirectory, costumeVariant);
     return costume;
   }
 
-  getClassName = () => Costume.name;
-  getRequiredKeys = () => requiredKeys;
-  getIntegers = () => integerKeys;
-  getStrings = () => stringKeys;
-  getArrays = () => arrayKeys;
+  getClassName = (): string => Costume.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getIntegers = (): string[] => integerKeys;
+  getStrings = (): string[] => stringKeys;
+  getArrays = (): string[] => arrayKeys;
+
+
+  get class(): string {
+    return this._class;
+  }
+
+  get power(): string {
+    return this._power;
+  }
+
+  get attack(): string {
+    return this._attack;
+  }
+
+  get defense(): string {
+    return this._defense;
+  }
+
+  get health(): string {
+    return this._health;
+  }
+
+  get skill(): string {
+    return this._skill;
+  }
+
+  get effects(): Array<string> {
+    return this._effects;
+  }
+
+  get types(): Array<string> {
+    return this._types;
+  }
+
+  get image(): string {
+    return this._image;
+  }
+
+  get bonuses(): string {
+    return this._bonuses;
+  }
 }
 
 export default Costume;

@@ -20,26 +20,46 @@ interface RawBonus {
 
 class Bonus implements Config, HasRequiredKeys, HasStrings, HasObjects {
 
-  public readonly key: string;
-  public readonly max: StatBonuses;
-  public readonly 4: StatBonuses;
-  public readonly 3: StatBonuses;
-  public readonly 2: StatBonuses;
+  private readonly _key: string;
+  private readonly _max: StatBonuses;
+  private readonly "_4": StatBonuses;
+  private readonly "_3": StatBonuses;
+  private readonly "_2": StatBonuses;
 
   constructor(bonusKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, bonusKey, (rawYaml as RawBonus).key);
-    this.key = (rawYaml as RawBonus).key;
-    this.max = new StatBonuses((rawYaml as RawBonus).max);
-    this[4] = new StatBonuses((rawYaml as RawBonus)[4]);
-    this[3] = new StatBonuses((rawYaml as RawBonus)[3]);
-    this[2] = new StatBonuses((rawYaml as RawBonus)[2]);
+    this._key = (rawYaml as RawBonus).key;
+    this._max = new StatBonuses((rawYaml as RawBonus).max);
+    this._4 = new StatBonuses((rawYaml as RawBonus)[4]);
+    this._3 = new StatBonuses((rawYaml as RawBonus)[3]);
+    this._2 = new StatBonuses((rawYaml as RawBonus)[2]);
   }
 
-  getClassName = () => Bonus.name;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => Bonus.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get max(): StatBonuses {
+    return this._max;
+  }
+
+  get 4(): StatBonuses {
+    return this._4;
+  }
+
+  get 3(): StatBonuses {
+    return this._3;
+  }
+
+  get 2(): StatBonuses {
+    return this._2;
+  }
 }
 
 export default Bonus;

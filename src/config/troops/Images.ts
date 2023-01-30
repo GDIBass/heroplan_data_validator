@@ -10,18 +10,26 @@ interface RawImages {
 }
 
 class Images implements Config, HasRequiredKeys, HasObjects {
-  public readonly full: ImageSet;
-  public readonly half: ImageSet;
+  private readonly _full: ImageSet;
+  private readonly _half: ImageSet;
 
   constructor (rawYaml: object) {
     validate(this, rawYaml);
-    this.full = new ImageSet((rawYaml as RawImages).full);
-    this.half = new ImageSet((rawYaml as RawImages).half);
+    this._full = new ImageSet((rawYaml as RawImages).full);
+    this._half = new ImageSet((rawYaml as RawImages).half);
   }
 
-  getClassName = () => Images.name;
-  getRequiredKeys = () => requiredKeys;
-  getObjects = () => objectKeys;
+  getClassName = (): string => Images.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getObjects = (): string[] => objectKeys;
+
+  get full(): ImageSet {
+    return this._full;
+  }
+
+  get half(): ImageSet {
+    return this._half;
+  }
 }
 
 export default Images;

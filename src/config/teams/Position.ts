@@ -11,23 +11,35 @@ const stringKeys = ['key', 'description'];
 const integerKeys = ['id'];
 
 class Position implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers {
-  public readonly key: string;
-  public readonly id: number;
-  public readonly description: string;
+  private readonly _key: string;
+  private readonly _id: number;
+  private readonly _description: string;
 
   constructor(positionKey: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, positionKey, (rawYaml as RawPosition).key);
-    this.key = (rawYaml as RawPosition).key;
-    this.id = parseInt((rawYaml as RawPosition).id);
-    this.description = (rawYaml as RawPosition).description;
+    this._key = (rawYaml as RawPosition).key;
+    this._id = parseInt((rawYaml as RawPosition).id);
+    this._description = (rawYaml as RawPosition).description;
   }
 
-  getClassName = () => Position.name;
-  getId = () => this.id;
-  getIntegers = () => integerKeys;
-  getRequiredKeys = () => requiredKeys;
-  getStrings = () => stringKeys;
+  getClassName = (): string => Position.name;
+  getId = (): number => this._id;
+  getIntegers = (): string[] => integerKeys;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getStrings = (): string[] => stringKeys;
+
+  get key(): string {
+    return this._key;
+  }
+
+  get id(): number {
+    return this._id;
+  }
+
+  get description(): string {
+    return this._description;
+  }
 }
 
 export default Position;

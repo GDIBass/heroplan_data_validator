@@ -1,11 +1,20 @@
 class ImageMissing extends Error {
-  public readonly heroName: string;
-  public readonly fileName: string;
+  private readonly _heroName: string;
+  private readonly _fileName: string;
 
   constructor(heroName: string, fileName: string) {
     super(`Hero is missing image | hero=${heroName} | fileName=${fileName}`);
-    this.heroName = heroName;
-    this.fileName = fileName;
+    this._heroName = heroName;
+    this._fileName = fileName;
+  }
+
+
+  get heroName(): string {
+    return this._heroName;
+  }
+
+  get fileName(): string {
+    return this._fileName;
   }
 }
 

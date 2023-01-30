@@ -12,22 +12,39 @@ interface RawStatsBonuses {
 }
 
 class StatBonuses implements Config, HasRequiredKeys, HasIntegers {
-  public readonly attack:number;
-  public readonly defense:number;
-  public readonly health:number;
-  public readonly mana:number;
+  private readonly _attack:number;
+  private readonly _defense:number;
+  private readonly _health:number;
+  private readonly _mana:number;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
-    this.attack = parseInt((rawYaml as RawStatsBonuses).attack);
-    this.defense = parseInt((rawYaml as RawStatsBonuses).defense);
-    this.health = parseInt((rawYaml as RawStatsBonuses).health);
-    this.mana = parseInt((rawYaml as RawStatsBonuses).mana);
+    this._attack = parseInt((rawYaml as RawStatsBonuses).attack);
+    this._defense = parseInt((rawYaml as RawStatsBonuses).defense);
+    this._health = parseInt((rawYaml as RawStatsBonuses).health);
+    this._mana = parseInt((rawYaml as RawStatsBonuses).mana);
   }
 
-  getClassName = () => StatBonuses.name;
-  getRequiredKeys = () => requiredKeys;
-  getIntegers = () => integerKeys;
+  getClassName = (): string => StatBonuses.name;
+  getRequiredKeys = (): string[] => requiredKeys;
+  getIntegers = (): string[] => integerKeys;
+
+
+  get attack(): number {
+    return this._attack;
+  }
+
+  get defense(): number {
+    return this._defense;
+  }
+
+  get health(): number {
+    return this._health;
+  }
+
+  get mana(): number {
+    return this._mana;
+  }
 }
 
 export default StatBonuses;
