@@ -8,7 +8,11 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -46,7 +50,7 @@ const loadAllianceConfig = (filePath = './data/alliance.yml') => __awaiter(void 
     const config = yield (0, yaml_1.loadYamlFile)(filePath);
     return new AllianceConfig_1.default(config);
 });
-exports.default = loadAllianceConfig;
+exports["default"] = loadAllianceConfig;
 
 
 /***/ }),
@@ -58,7 +62,11 @@ exports.default = loadAllianceConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -96,7 +104,7 @@ const loadAscensionsConfig = (filePath = './data/ascensions.yml') => __awaiter(v
     const config = yield (0, yaml_1.loadYamlFile)(filePath);
     return new AscensionsConfig_1.default(config);
 });
-exports.default = loadAscensionsConfig;
+exports["default"] = loadAscensionsConfig;
 
 
 /***/ }),
@@ -108,7 +116,11 @@ exports.default = loadAscensionsConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -147,7 +159,7 @@ const loadClassesConfig = (filePath = './data/classes.yml', imagePath = './img/e
     // TODO: Validate image was uploaded and is correct dimensions
     return new ClassesConfig_1.default(config);
 });
-exports.default = loadClassesConfig;
+exports["default"] = loadClassesConfig;
 
 
 /***/ }),
@@ -159,7 +171,11 @@ exports.default = loadClassesConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -198,7 +214,7 @@ const loadColorsConfig = (filePath = './data/colors.yml') => __awaiter(void 0, v
     // TODO: Check image validation?
     return new ColorsConfig_1.default(config);
 });
-exports.default = loadColorsConfig;
+exports["default"] = loadColorsConfig;
 
 
 /***/ }),
@@ -231,7 +247,7 @@ class AllianceConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'member_status', Object.values(this.member_status));
     }
 }
-exports.default = AllianceConfig;
+exports["default"] = AllianceConfig;
 
 
 /***/ }),
@@ -274,7 +290,7 @@ class AscensionsConfig {
         }
     }
 }
-exports.default = AscensionsConfig;
+exports["default"] = AscensionsConfig;
 
 
 /***/ }),
@@ -306,7 +322,7 @@ class ClassesConfig {
         }
     }
 }
-exports.default = ClassesConfig;
+exports["default"] = ClassesConfig;
 
 
 /***/ }),
@@ -344,7 +360,7 @@ class ColorsConfig {
         }
     }
 }
-exports.default = ColorsConfig;
+exports["default"] = ColorsConfig;
 
 
 /***/ }),
@@ -379,7 +395,7 @@ class CostumesConfig {
         }
     }
 }
-exports.default = CostumesConfig;
+exports["default"] = CostumesConfig;
 
 
 /***/ }),
@@ -434,7 +450,7 @@ class EmblemsConfig {
         this.reset = new Reset_1.default(rawYaml.reset);
     }
 }
-exports.default = EmblemsConfig;
+exports["default"] = EmblemsConfig;
 
 
 /***/ }),
@@ -468,7 +484,7 @@ class FamiliesConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'families', Object.values(this.families));
     }
 }
-exports.default = FamiliesConfig;
+exports["default"] = FamiliesConfig;
 
 
 /***/ }),
@@ -499,7 +515,7 @@ class FiltersConfig {
         }
     }
 }
-exports.default = FiltersConfig;
+exports["default"] = FiltersConfig;
 
 
 /***/ }),
@@ -546,7 +562,7 @@ class HeroesConfig {
         this.heroImagesDirectory = heroImagesDirectory;
     }
 }
-exports.default = HeroesConfig;
+exports["default"] = HeroesConfig;
 
 
 /***/ }),
@@ -577,7 +593,7 @@ class MaterialsConfig {
         }
     }
 }
-exports.default = MaterialsConfig;
+exports["default"] = MaterialsConfig;
 
 
 /***/ }),
@@ -609,7 +625,7 @@ class SourcesConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'sources', Object.values(this.sources));
     }
 }
-exports.default = SourcesConfig;
+exports["default"] = SourcesConfig;
 
 
 /***/ }),
@@ -644,7 +660,7 @@ class SpeedsConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'speeds', Object.values(this.speeds));
     }
 }
-exports.default = SpeedsConfig;
+exports["default"] = SpeedsConfig;
 
 
 /***/ }),
@@ -692,7 +708,7 @@ class TeamsConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'positions', Object.values(this.positions));
     }
 }
-exports.default = TeamsConfig;
+exports["default"] = TeamsConfig;
 
 
 /***/ }),
@@ -731,7 +747,7 @@ class TroopsConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'troops', Object.values(this.troops));
     }
 }
-exports.default = TroopsConfig;
+exports["default"] = TroopsConfig;
 
 
 /***/ }),
@@ -769,7 +785,7 @@ class UsersConfig {
         (0, validation_1.validateNoDuplicateIds)(this, 'sharingModes', Object.values(this.sharingModes));
     }
 }
-exports.default = UsersConfig;
+exports["default"] = UsersConfig;
 
 
 /***/ }),
@@ -811,7 +827,7 @@ class MemberStatus {
         this.description = rawYaml.description;
     }
 }
-exports.default = MemberStatus;
+exports["default"] = MemberStatus;
 
 
 /***/ }),
@@ -873,7 +889,7 @@ class Ascension {
         }
     }
 }
-exports.default = Ascension;
+exports["default"] = Ascension;
 
 
 /***/ }),
@@ -906,7 +922,7 @@ class Class {
         // TODO: Load image file and verify dimensions
     }
 }
-exports.default = Class;
+exports["default"] = Class;
 
 
 /***/ }),
@@ -918,7 +934,11 @@ exports.default = Class;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -960,7 +980,7 @@ class Color {
         (0, validateImageType_1.default)(this, 'badgeImage', this.badgeImage, validateImageType_1.ImageType.PNG);
     }
 }
-exports.default = Color;
+exports["default"] = Color;
 
 
 /***/ }),
@@ -994,7 +1014,7 @@ class Bonus {
         this[2] = new StatBonuses_1.default(rawYaml[2]);
     }
 }
-exports.default = Bonus;
+exports["default"] = Bonus;
 
 
 /***/ }),
@@ -1020,7 +1040,7 @@ class Images {
         (0, validation_1.validateImageType)(this, "maxcostume", this.maxcostume, validation_1.ImageType.PNG);
     }
 }
-exports.default = Images;
+exports["default"] = Images;
 
 
 /***/ }),
@@ -1046,7 +1066,7 @@ class StatBonuses {
         this.mana = parseInt(rawYaml.mana);
     }
 }
-exports.default = StatBonuses;
+exports["default"] = StatBonuses;
 
 
 /***/ }),
@@ -1085,7 +1105,7 @@ class Effect {
         }
     }
 }
-exports.default = Effect;
+exports["default"] = Effect;
 
 
 /***/ }),
@@ -1110,7 +1130,7 @@ class Mode {
         this.display = rawYaml.display;
     }
 }
-exports.default = Mode;
+exports["default"] = Mode;
 
 
 /***/ }),
@@ -1155,7 +1175,7 @@ class Node {
         }
     }
 }
-exports.default = Node;
+exports["default"] = Node;
 
 
 /***/ }),
@@ -1179,7 +1199,7 @@ class Reset {
         (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
     }
 }
-exports.default = Reset;
+exports["default"] = Reset;
 
 
 /***/ }),
@@ -1207,7 +1227,7 @@ class SplitNode {
         this.r = (0, validateNode_1.default)(this, 'r', rawYaml.r, nodes);
     }
 }
-exports.default = SplitNode;
+exports["default"] = SplitNode;
 
 
 /***/ }),
@@ -1291,7 +1311,7 @@ class Total {
         this[20] = rawYaml['20'];
     }
 }
-exports.default = Total;
+exports["default"] = Total;
 
 
 /***/ }),
@@ -1322,7 +1342,7 @@ class Totals {
         this[5] = new Total_1.default(rawYaml['5']);
     }
 }
-exports.default = Totals;
+exports["default"] = Totals;
 
 
 /***/ }),
@@ -1423,7 +1443,7 @@ class Tree {
         this[20] = (0, validateNode_1.default)(this, '20', rawYaml[20], nodes);
     }
 }
-exports.default = Tree;
+exports["default"] = Tree;
 
 
 /***/ }),
@@ -1445,7 +1465,7 @@ const validateNode = (config, key, node, nodes) => {
     }
     return node;
 };
-exports.default = validateNode;
+exports["default"] = validateNode;
 
 
 /***/ }),
@@ -1495,7 +1515,7 @@ class Family {
         (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
     }
 }
-exports.default = Family;
+exports["default"] = Family;
 
 
 /***/ }),
@@ -1534,7 +1554,7 @@ class Filter {
         }
     }
 }
-exports.default = Filter;
+exports["default"] = Filter;
 
 
 /***/ }),
@@ -1609,7 +1629,7 @@ Costume.build = (stars, color, name, rawYaml, classesConfig, costumesConfig, cos
     yield (0, validateHeroImage_1.default)(costume, name, costume.image, color, stars, heroImagesDirectory, costumeVariant);
     return costume;
 });
-exports.default = Costume;
+exports["default"] = Costume;
 
 
 /***/ }),
@@ -1715,7 +1735,7 @@ Hero.build = (stars, color, rawYaml, classesConfig, familiesConfig, sourcesConfi
     yield (0, validateHeroImage_1.default)(hero, name, image, color, stars, heroImagesDirectory, 0);
     return hero;
 });
-exports.default = Hero;
+exports["default"] = Hero;
 
 
 /***/ }),
@@ -1743,7 +1763,7 @@ class Ascension {
         (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
     }
 }
-exports.default = Ascension;
+exports["default"] = Ascension;
 
 
 /***/ }),
@@ -1772,7 +1792,7 @@ class Source {
         this.description = rawYaml.description;
     }
 }
-exports.default = Source;
+exports["default"] = Source;
 
 
 /***/ }),
@@ -1826,7 +1846,7 @@ class Speed {
         }
     }
 }
-exports.default = Speed;
+exports["default"] = Speed;
 
 
 /***/ }),
@@ -1885,7 +1905,7 @@ class Category {
         }
     }
 }
-exports.default = Category;
+exports["default"] = Category;
 
 
 /***/ }),
@@ -1914,7 +1934,7 @@ class Position {
         this.description = rawYaml.description;
     }
 }
-exports.default = Position;
+exports["default"] = Position;
 
 
 /***/ }),
@@ -1958,7 +1978,7 @@ class Type {
         }
     }
 }
-exports.default = Type;
+exports["default"] = Type;
 
 
 /***/ }),
@@ -1994,7 +2014,7 @@ class TypeSet {
         (0, validation_1.validateNoDuplicateIds)(this, 'types', Object.values(this.types));
     }
 }
-exports.default = TypeSet;
+exports["default"] = TypeSet;
 
 
 /***/ }),
@@ -2026,7 +2046,7 @@ class ImageSet {
         (0, validation_1.validateImageType)(this, 'red', this.red, validation_1.ImageType.JPG);
     }
 }
-exports.default = ImageSet;
+exports["default"] = ImageSet;
 
 
 /***/ }),
@@ -2054,7 +2074,7 @@ class Images {
         this.half = new ImageSet_1.default(rawYaml.half);
     }
 }
-exports.default = Images;
+exports["default"] = Images;
 
 
 /***/ }),
@@ -2097,7 +2117,7 @@ class Troop {
         }
     }
 }
-exports.default = Troop;
+exports["default"] = Troop;
 
 
 /***/ }),
@@ -2126,7 +2146,7 @@ class SharingMode {
         this.description = rawYaml.description;
     }
 }
-exports.default = SharingMode;
+exports["default"] = SharingMode;
 
 
 /***/ }),
@@ -2151,7 +2171,7 @@ class SocialNetwork {
         this.description = rawYaml.description;
     }
 }
-exports.default = SocialNetwork;
+exports["default"] = SocialNetwork;
 
 
 /***/ }),
@@ -2163,7 +2183,11 @@ exports.default = SocialNetwork;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2202,7 +2226,7 @@ const loadCostumesConfig = (filePath = './data/costumes.yml', imagePath = './img
     // TODO: Validate image was uploaded and is correct dimensions
     return new CostumesConfig_1.default(config);
 });
-exports.default = loadCostumesConfig;
+exports["default"] = loadCostumesConfig;
 
 
 /***/ }),
@@ -2214,7 +2238,11 @@ exports.default = loadCostumesConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2253,7 +2281,7 @@ const loadEmblemsConfig = (classesConfig, filePath = './data/emblems.yml') => __
     // TODO: Validate image was uploaded and is correct dimensions
     return new EmblemsConfig_1.default(classesConfig, config);
 });
-exports.default = loadEmblemsConfig;
+exports["default"] = loadEmblemsConfig;
 
 
 /***/ }),
@@ -2271,7 +2299,7 @@ class FileLoadFailed extends Error {
         this.data = data;
     }
 }
-exports.default = FileLoadFailed;
+exports["default"] = FileLoadFailed;
 
 
 /***/ }),
@@ -2289,7 +2317,7 @@ class ImageMissing extends Error {
         this.fileName = fileName;
     }
 }
-exports.default = ImageMissing;
+exports["default"] = ImageMissing;
 
 
 /***/ }),
@@ -2307,7 +2335,7 @@ class InvalidConfig extends Error {
         this.data = data;
     }
 }
-exports.default = InvalidConfig;
+exports["default"] = InvalidConfig;
 
 
 /***/ }),
@@ -2325,7 +2353,7 @@ class InvalidImage extends Error {
         this.additionalDetails = additionalDetails;
     }
 }
-exports.default = InvalidImage;
+exports["default"] = InvalidImage;
 
 
 /***/ }),
@@ -2344,7 +2372,7 @@ class MissingRequiredKey extends Error {
         this.source = source;
     }
 }
-exports.default = MissingRequiredKey;
+exports["default"] = MissingRequiredKey;
 
 
 /***/ }),
@@ -2362,7 +2390,7 @@ class YamlParseFailed extends Error {
         this.data = data;
     }
 }
-exports.default = YamlParseFailed;
+exports["default"] = YamlParseFailed;
 
 
 /***/ }),
@@ -2374,7 +2402,11 @@ exports.default = YamlParseFailed;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2413,7 +2445,7 @@ const loadFamiliesConfig = (filePath = './data/families.yml') => __awaiter(void 
     // TODO: Validate image was uploaded and is correct dimensions
     return new FamiliesConfig_1.default(config);
 });
-exports.default = loadFamiliesConfig;
+exports["default"] = loadFamiliesConfig;
 
 
 /***/ }),
@@ -2425,7 +2457,11 @@ exports.default = loadFamiliesConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2464,7 +2500,7 @@ const loadFiltersConfig = (filePath = './data/filters.yml') => __awaiter(void 0,
     // TODO: Validate image was uploaded and is correct dimensions
     return new FiltersConfig_1.default(config);
 });
-exports.default = loadFiltersConfig;
+exports["default"] = loadFiltersConfig;
 
 
 /***/ }),
@@ -2476,7 +2512,11 @@ exports.default = loadFiltersConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2521,7 +2561,7 @@ const loadHeroConfigs = (classesConfig, familiesConfig, sourcesConfig, costumesC
     }
     return heroesConfig;
 });
-exports.default = loadHeroConfigs;
+exports["default"] = loadHeroConfigs;
 
 
 /***/ }),
@@ -2533,7 +2573,11 @@ exports.default = loadHeroConfigs;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2651,7 +2695,11 @@ run();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2690,7 +2738,7 @@ const loadMaterialsConfig = (filePath = './data/materials.yml') => __awaiter(voi
     // TODO: Validate image was uploaded and is correct dimensions
     return new MaterialsConfig_1.default(config);
 });
-exports.default = loadMaterialsConfig;
+exports["default"] = loadMaterialsConfig;
 
 
 /***/ }),
@@ -2702,7 +2750,11 @@ exports.default = loadMaterialsConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2741,7 +2793,7 @@ const loadSourcesConfig = (filePath = './data/sources.yml') => __awaiter(void 0,
     // TODO: Validate image was uploaded and is correct dimensions
     return new SourcesConfig_1.default(config);
 });
-exports.default = loadSourcesConfig;
+exports["default"] = loadSourcesConfig;
 
 
 /***/ }),
@@ -2753,7 +2805,11 @@ exports.default = loadSourcesConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2792,7 +2848,7 @@ const loadSpeedsConfig = (filePath = './data/speeds.yml') => __awaiter(void 0, v
     // TODO: Validate image was uploaded and is correct dimensions
     return new SpeedsConfig_1.default(config);
 });
-exports.default = loadSpeedsConfig;
+exports["default"] = loadSpeedsConfig;
 
 
 /***/ }),
@@ -2804,7 +2860,11 @@ exports.default = loadSpeedsConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2843,7 +2903,7 @@ const loadTeamsConfig = (classes, colors, filePath = './data/teams.yml') => __aw
     // TODO: Validate image was uploaded and is correct dimensions
     return new TeamsConfig_1.default(config, classes, colors);
 });
-exports.default = loadTeamsConfig;
+exports["default"] = loadTeamsConfig;
 
 
 /***/ }),
@@ -2855,7 +2915,11 @@ exports.default = loadTeamsConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2894,7 +2958,7 @@ const loadTroopsConfig = (filePath = './data/troops.yml') => __awaiter(void 0, v
     // TODO: Validate image was uploaded and is correct dimensions
     return new TroopsConfig_1.default(config);
 });
-exports.default = loadTroopsConfig;
+exports["default"] = loadTroopsConfig;
 
 
 /***/ }),
@@ -2906,7 +2970,11 @@ exports.default = loadTroopsConfig;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2945,7 +3013,7 @@ const loadUsersConfig = (filePath = './data/users.yml') => __awaiter(void 0, voi
     // TODO: Validate image was uploaded and is correct dimensions
     return new UsersConfig_1.default(config);
 });
-exports.default = loadUsersConfig;
+exports["default"] = loadUsersConfig;
 
 
 /***/ }),
@@ -2957,7 +3025,7 @@ exports.default = loadUsersConfig;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const ohp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
-exports.default = ohp;
+exports["default"] = ohp;
 
 
 /***/ }),
@@ -3137,7 +3205,7 @@ const validate = (config, rawObject) => {
         (0, verifyKeysAreBooleans_1.default)(config, rawObject);
     }
 };
-exports.default = validate;
+exports["default"] = validate;
 
 
 /***/ }),
@@ -3159,7 +3227,7 @@ const validateAllIntegers = (config, key, elements) => {
         }
     }
 };
-exports.default = validateAllIntegers;
+exports["default"] = validateAllIntegers;
 
 
 /***/ }),
@@ -3185,8 +3253,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const index_1 = __nccwpck_require__(7110);
 const validateImageType_1 = __nccwpck_require__(8475);
 const ImageMissing_1 = __importDefault(__nccwpck_require__(5833));
-const fs_1 = __importDefault(__nccwpck_require__(5747));
-const util_1 = __importDefault(__nccwpck_require__(1669));
+const fs_1 = __importDefault(__nccwpck_require__(7147));
+const util_1 = __importDefault(__nccwpck_require__(3837));
 const canvas_1 = __nccwpck_require__(771);
 const InvalidImage_1 = __importDefault(__nccwpck_require__(4382));
 const imageFromBuffer = (base64Contents) => {
@@ -3231,7 +3299,7 @@ const validateHeroImage = (config, heroName, imageLink, color, stars, heroImages
     // TODO: Load imgur image
     // TODO: Check imgur image matches local image
 });
-exports.default = validateHeroImage;
+exports["default"] = validateHeroImage;
 
 
 /***/ }),
@@ -3261,7 +3329,7 @@ exports.checkImageType = checkImageType;
 const validateImageType = (config, key, value, type) => {
     (0, exports.checkImageType)(config, `${key} must be a ${type}: ${value}`, value, type);
 };
-exports.default = validateImageType;
+exports["default"] = validateImageType;
 
 
 /***/ }),
@@ -3281,7 +3349,7 @@ const validateKeysMatch = (config, inputKey, setKey) => {
         throw new InvalidConfig_1.default(config, `keys do not match: ${inputKey}:${setKey}`);
     }
 };
-exports.default = validateKeysMatch;
+exports["default"] = validateKeysMatch;
 
 
 /***/ }),
@@ -3306,7 +3374,7 @@ const validateNoDuplicateIds = (config, child, elements) => {
         ids.add(id);
     }
 };
-exports.default = validateNoDuplicateIds;
+exports["default"] = validateNoDuplicateIds;
 
 
 /***/ }),
@@ -3339,7 +3407,7 @@ const verifyKeysAreBooleans = (config, source) => {
         }
     }
 };
-exports.default = verifyKeysAreBooleans;
+exports["default"] = verifyKeysAreBooleans;
 
 
 /***/ }),
@@ -3367,7 +3435,7 @@ const verifyKeysAreFloats = (config, source) => {
         }
     }
 };
-exports.default = verifyKeysAreFloats;
+exports["default"] = verifyKeysAreFloats;
 
 
 /***/ }),
@@ -3400,7 +3468,7 @@ const verifyKeysAreImages = (config, source) => {
         }
     }
 };
-exports.default = verifyKeysAreImages;
+exports["default"] = verifyKeysAreImages;
 
 
 /***/ }),
@@ -3428,7 +3496,7 @@ const verifyKeysAreIntegers = (config, source) => {
         }
     }
 };
-exports.default = verifyKeysAreIntegers;
+exports["default"] = verifyKeysAreIntegers;
 
 
 /***/ }),
@@ -3452,7 +3520,7 @@ const verifyKeysAreObjects = (config, source) => {
         }
     }
 };
-exports.default = verifyKeysAreObjects;
+exports["default"] = verifyKeysAreObjects;
 
 
 /***/ }),
@@ -3480,7 +3548,7 @@ const verifyKeysAreStrings = (config, source) => {
         }
     }
 };
-exports.default = verifyKeysAreStrings;
+exports["default"] = verifyKeysAreStrings;
 
 
 /***/ }),
@@ -3504,7 +3572,7 @@ const verifyRequiredKeys = (config, source) => {
         }
     }
 };
-exports.default = verifyRequiredKeys;
+exports["default"] = verifyRequiredKeys;
 
 
 /***/ }),
@@ -3516,7 +3584,11 @@ exports.default = verifyRequiredKeys;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -3547,9 +3619,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.loadYamlFileArray = exports.loadYamlFile = exports.loadFile = void 0;
-const fs_1 = __importDefault(__nccwpck_require__(5747));
+const fs_1 = __importDefault(__nccwpck_require__(7147));
 const FileLoadFailed_1 = __importDefault(__nccwpck_require__(3042));
-const util_1 = __importDefault(__nccwpck_require__(1669));
+const util_1 = __importDefault(__nccwpck_require__(3837));
 const YamlParseFailed_1 = __importDefault(__nccwpck_require__(637));
 const yaml = __importStar(__nccwpck_require__(1917));
 const core = __importStar(__nccwpck_require__(2186));
@@ -3606,7 +3678,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issue = exports.issueCommand = void 0;
-const os = __importStar(__nccwpck_require__(2087));
+const os = __importStar(__nccwpck_require__(2037));
 const utils_1 = __nccwpck_require__(5278);
 /**
  * Commands
@@ -3717,8 +3789,8 @@ exports.getIDToken = exports.getState = exports.saveState = exports.group = expo
 const command_1 = __nccwpck_require__(7351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(5278);
-const os = __importStar(__nccwpck_require__(2087));
-const path = __importStar(__nccwpck_require__(5622));
+const os = __importStar(__nccwpck_require__(2037));
+const path = __importStar(__nccwpck_require__(1017));
 const oidc_utils_1 = __nccwpck_require__(8041);
 /**
  * The code to exit an action
@@ -4051,8 +4123,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const fs = __importStar(__nccwpck_require__(5747));
-const os = __importStar(__nccwpck_require__(2087));
+const fs = __importStar(__nccwpck_require__(7147));
+const os = __importStar(__nccwpck_require__(2037));
 const uuid_1 = __nccwpck_require__(5840);
 const utils_1 = __nccwpck_require__(5278);
 function issueFileCommand(command, message) {
@@ -4197,7 +4269,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = void 0;
-const path = __importStar(__nccwpck_require__(5622));
+const path = __importStar(__nccwpck_require__(1017));
 /**
  * toPosixPath converts the given path to the posix form. On Windows, \\ will be
  * replaced with /.
@@ -4252,8 +4324,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.summary = exports.markdownSummary = exports.SUMMARY_DOCS_URL = exports.SUMMARY_ENV_VAR = void 0;
-const os_1 = __nccwpck_require__(2087);
-const fs_1 = __nccwpck_require__(5747);
+const os_1 = __nccwpck_require__(2037);
+const fs_1 = __nccwpck_require__(7147);
 const { access, appendFile, writeFile } = fs_1.promises;
 exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
 exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary';
@@ -4697,8 +4769,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HttpClient = exports.isHttps = exports.HttpClientResponse = exports.HttpClientError = exports.getProxyUrl = exports.MediaTypes = exports.Headers = exports.HttpCodes = void 0;
-const http = __importStar(__nccwpck_require__(8605));
-const https = __importStar(__nccwpck_require__(7211));
+const http = __importStar(__nccwpck_require__(3685));
+const https = __importStar(__nccwpck_require__(5687));
 const pm = __importStar(__nccwpck_require__(9835));
 const tunnel = __importStar(__nccwpck_require__(4294));
 var HttpCodes;
@@ -5349,9 +5421,9 @@ const Image = __nccwpck_require__(1767)
 const CanvasRenderingContext2D = __nccwpck_require__(7389)
 const CanvasPattern = __nccwpck_require__(7608)
 const parseFont = __nccwpck_require__(6018)
-const packageJson = __nccwpck_require__(2160)
+const packageJson = __nccwpck_require__(8392)
 const bindings = __nccwpck_require__(4829)
-const fs = __nccwpck_require__(5747)
+const fs = __nccwpck_require__(7147)
 const PNGStream = __nccwpck_require__(734)
 const PDFStream = __nccwpck_require__(5977)
 const JPEGStream = __nccwpck_require__(2503)
@@ -5448,7 +5520,7 @@ exports.pangoVersion = bindings.pangoVersion
 "use strict";
 
 
-const util = __nccwpck_require__(1669)
+const util = __nccwpck_require__(3837)
 
 // DOMMatrix per https://drafts.fxtf.org/geometry/#DOMMatrix
 
@@ -6110,7 +6182,7 @@ const PNGStream = __nccwpck_require__(734)
 const PDFStream = __nccwpck_require__(5977)
 const JPEGStream = __nccwpck_require__(2503)
 const FORMATS = ['image/png', 'image/jpeg']
-const util = __nccwpck_require__(1669)
+const util = __nccwpck_require__(3837)
 
 // TODO || is for Node.js pre-v6.6.0
 Canvas.prototype[util.inspect.custom || 'inspect'] = function () {
@@ -6252,7 +6324,7 @@ module.exports = bindings.CanvasRenderingContext2d
 
 const bindings = __nccwpck_require__(4829)
 const Image = module.exports = bindings.Image
-const util = __nccwpck_require__(1669)
+const util = __nccwpck_require__(3837)
 
 // Lazily loaded simple-get
 let get
@@ -6350,7 +6422,7 @@ function setSource (img, src, origSrc) {
  * MIT Licensed
  */
 
-const { Readable } = __nccwpck_require__(2413)
+const { Readable } = __nccwpck_require__(2781)
 function noop () {}
 
 class JPEGStream extends Readable {
@@ -6531,7 +6603,7 @@ bindings.CanvasPattern.prototype.toString = function () {
  * Canvas - PDFStream
  */
 
-const { Readable } = __nccwpck_require__(2413)
+const { Readable } = __nccwpck_require__(2781)
 function noop () {}
 
 class PDFStream extends Readable {
@@ -6576,7 +6648,7 @@ module.exports = PDFStream
  * MIT Licensed
  */
 
-const { Readable } = __nccwpck_require__(2413)
+const { Readable } = __nccwpck_require__(2781)
 function noop () {}
 
 class PNGStream extends Readable {
@@ -6619,8 +6691,8 @@ module.exports = PNGStream
 
 "use strict";
 
-const {PassThrough: PassThroughStream} = __nccwpck_require__(2413);
-const zlib = __nccwpck_require__(8761);
+const {PassThrough: PassThroughStream} = __nccwpck_require__(2781);
+const zlib = __nccwpck_require__(9796);
 const mimicResponse = __nccwpck_require__(2610);
 
 const decompressResponse = response => {
@@ -6657,7 +6729,7 @@ const decompressResponse = response => {
 
 module.exports = decompressResponse;
 // TODO: remove this in the next major version
-module.exports.default = decompressResponse;
+module.exports["default"] = decompressResponse;
 
 
 /***/ }),
@@ -9717,7 +9789,7 @@ module.exports = __nccwpck_require__(1035);
 
 
 
-module.exports = __nccwpck_require__(2011).extend({
+module.exports = (__nccwpck_require__(2011).extend)({
   implicit: [
     __nccwpck_require__(9212),
     __nccwpck_require__(6104)
@@ -9773,7 +9845,7 @@ module.exports = new Schema({
 
 
 
-module.exports = __nccwpck_require__(8562).extend({
+module.exports = (__nccwpck_require__(8562).extend)({
   implicit: [
     __nccwpck_require__(721),
     __nccwpck_require__(4993),
@@ -10894,11 +10966,11 @@ module.exports = simpleGet
 
 const concat = __nccwpck_require__(5854)
 const decompressResponse = __nccwpck_require__(2391) // excluded from browser build
-const http = __nccwpck_require__(8605)
-const https = __nccwpck_require__(7211)
+const http = __nccwpck_require__(3685)
+const https = __nccwpck_require__(5687)
 const once = __nccwpck_require__(1223)
-const querystring = __nccwpck_require__(1191)
-const url = __nccwpck_require__(8835)
+const querystring = __nccwpck_require__(3477)
+const url = __nccwpck_require__(7310)
 
 const isStream = o => o !== null && typeof o === 'object' && typeof o.pipe === 'function'
 
@@ -11015,13 +11087,13 @@ module.exports = __nccwpck_require__(4219);
 "use strict";
 
 
-var net = __nccwpck_require__(1631);
-var tls = __nccwpck_require__(4016);
-var http = __nccwpck_require__(8605);
-var https = __nccwpck_require__(7211);
-var events = __nccwpck_require__(8614);
-var assert = __nccwpck_require__(2357);
-var util = __nccwpck_require__(1669);
+var net = __nccwpck_require__(1808);
+var tls = __nccwpck_require__(4404);
+var http = __nccwpck_require__(3685);
+var https = __nccwpck_require__(5687);
+var events = __nccwpck_require__(2361);
+var assert = __nccwpck_require__(9491);
+var util = __nccwpck_require__(3837);
 
 
 exports.httpOverHttp = httpOverHttp;
@@ -11376,9 +11448,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
-var _crypto = _interopRequireDefault(__nccwpck_require__(6417));
+var _crypto = _interopRequireDefault(__nccwpck_require__(6113));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11393,7 +11465,7 @@ function md5(bytes) {
 }
 
 var _default = md5;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11406,9 +11478,9 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = '00000000-0000-0000-0000-000000000000';
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11421,7 +11493,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _validate = _interopRequireDefault(__nccwpck_require__(6900));
 
@@ -11460,7 +11532,7 @@ function parse(uuid) {
 }
 
 var _default = parse;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11473,9 +11545,9 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11488,9 +11560,9 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = rng;
+exports["default"] = rng;
 
-var _crypto = _interopRequireDefault(__nccwpck_require__(6417));
+var _crypto = _interopRequireDefault(__nccwpck_require__(6113));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11519,9 +11591,9 @@ function rng() {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
-var _crypto = _interopRequireDefault(__nccwpck_require__(6417));
+var _crypto = _interopRequireDefault(__nccwpck_require__(6113));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11536,7 +11608,7 @@ function sha1(bytes) {
 }
 
 var _default = sha1;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11549,7 +11621,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _validate = _interopRequireDefault(__nccwpck_require__(6900));
 
@@ -11582,7 +11654,7 @@ function stringify(arr, offset = 0) {
 }
 
 var _default = stringify;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11595,7 +11667,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _rng = _interopRequireDefault(__nccwpck_require__(807));
 
@@ -11696,7 +11768,7 @@ function v1(options, buf, offset) {
 }
 
 var _default = v1;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11709,7 +11781,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _v = _interopRequireDefault(__nccwpck_require__(5998));
 
@@ -11719,7 +11791,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const v3 = (0, _v.default)('v3', 0x30, _md.default);
 var _default = v3;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11732,7 +11804,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = _default;
+exports["default"] = _default;
 exports.URL = exports.DNS = void 0;
 
 var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
@@ -11817,7 +11889,7 @@ function _default(name, version, hashfunc) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _rng = _interopRequireDefault(__nccwpck_require__(807));
 
@@ -11848,7 +11920,7 @@ function v4(options, buf, offset) {
 }
 
 var _default = v4;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11861,7 +11933,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _v = _interopRequireDefault(__nccwpck_require__(5998));
 
@@ -11871,7 +11943,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const v5 = (0, _v.default)('v5', 0x50, _sha.default);
 var _default = v5;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11884,7 +11956,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _regex = _interopRequireDefault(__nccwpck_require__(814));
 
@@ -11895,7 +11967,7 @@ function validate(uuid) {
 }
 
 var _default = validate;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11908,7 +11980,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _validate = _interopRequireDefault(__nccwpck_require__(6900));
 
@@ -11923,7 +11995,7 @@ function version(uuid) {
 }
 
 var _default = version;
-exports.default = _default;
+exports["default"] = _default;
 
 /***/ }),
 
@@ -11974,15 +12046,7 @@ module.exports = require(__nccwpck_require__.ab + "build/Release/canvas.node")
 
 /***/ }),
 
-/***/ 2160:
-/***/ ((module) => {
-
-"use strict";
-module.exports = JSON.parse('{"name":"canvas","description":"Canvas graphics API backed by Cairo","version":"2.11.0","author":"TJ Holowaychuk <tj@learnboost.com>","main":"index.js","browser":"browser.js","contributors":["Nathan Rajlich <nathan@tootallnate.net>","Rod Vagg <r@va.gg>","Juriy Zaytsev <kangax@gmail.com>"],"keywords":["canvas","graphic","graphics","pixman","cairo","image","images","pdf"],"homepage":"https://github.com/Automattic/node-canvas","repository":"git://github.com/Automattic/node-canvas.git","scripts":{"prebenchmark":"node-gyp build","benchmark":"node benchmarks/run.js","lint":"standard examples/*.js test/server.js test/public/*.js benchmarks/run.js lib/context2d.js util/has_lib.js browser.js index.js","test":"mocha test/*.test.js","pretest-server":"node-gyp build","test-server":"node test/server.js","generate-wpt":"node ./test/wpt/generate.js","test-wpt":"mocha test/wpt/generated/*.js","install":"node-pre-gyp install --fallback-to-build --update-binary","dtslint":"dtslint types"},"binary":{"module_name":"canvas","module_path":"build/Release","host":"https://github.com/Automattic/node-canvas/releases/download/","remote_path":"v{version}","package_name":"{module_name}-v{version}-{node_abi}-{platform}-{libc}-{arch}.tar.gz"},"files":["binding.gyp","lib/","src/","util/","types/index.d.ts"],"types":"types/index.d.ts","dependencies":{"@mapbox/node-pre-gyp":"^1.0.0","nan":"^2.17.0","simple-get":"^3.0.3"},"devDependencies":{"@types/node":"^10.12.18","assert-rejects":"^1.0.0","dtslint":"^4.0.7","express":"^4.16.3","js-yaml":"^4.1.0","mocha":"^5.2.0","pixelmatch":"^4.0.2","standard":"^12.0.1","typescript":"^4.2.2"},"engines":{"node":">=6"},"license":"MIT"}');
-
-/***/ }),
-
-/***/ 2357:
+/***/ 9491:
 /***/ ((module) => {
 
 "use strict";
@@ -11990,7 +12054,7 @@ module.exports = require("assert");
 
 /***/ }),
 
-/***/ 6417:
+/***/ 6113:
 /***/ ((module) => {
 
 "use strict";
@@ -11998,7 +12062,7 @@ module.exports = require("crypto");
 
 /***/ }),
 
-/***/ 8614:
+/***/ 2361:
 /***/ ((module) => {
 
 "use strict";
@@ -12006,7 +12070,7 @@ module.exports = require("events");
 
 /***/ }),
 
-/***/ 5747:
+/***/ 7147:
 /***/ ((module) => {
 
 "use strict";
@@ -12014,7 +12078,7 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 8605:
+/***/ 3685:
 /***/ ((module) => {
 
 "use strict";
@@ -12022,7 +12086,7 @@ module.exports = require("http");
 
 /***/ }),
 
-/***/ 7211:
+/***/ 5687:
 /***/ ((module) => {
 
 "use strict";
@@ -12030,7 +12094,7 @@ module.exports = require("https");
 
 /***/ }),
 
-/***/ 1631:
+/***/ 1808:
 /***/ ((module) => {
 
 "use strict";
@@ -12038,7 +12102,7 @@ module.exports = require("net");
 
 /***/ }),
 
-/***/ 2087:
+/***/ 2037:
 /***/ ((module) => {
 
 "use strict";
@@ -12046,7 +12110,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 5622:
+/***/ 1017:
 /***/ ((module) => {
 
 "use strict";
@@ -12054,7 +12118,7 @@ module.exports = require("path");
 
 /***/ }),
 
-/***/ 1191:
+/***/ 3477:
 /***/ ((module) => {
 
 "use strict";
@@ -12062,7 +12126,7 @@ module.exports = require("querystring");
 
 /***/ }),
 
-/***/ 2413:
+/***/ 2781:
 /***/ ((module) => {
 
 "use strict";
@@ -12070,7 +12134,7 @@ module.exports = require("stream");
 
 /***/ }),
 
-/***/ 4016:
+/***/ 4404:
 /***/ ((module) => {
 
 "use strict";
@@ -12078,7 +12142,7 @@ module.exports = require("tls");
 
 /***/ }),
 
-/***/ 8835:
+/***/ 7310:
 /***/ ((module) => {
 
 "use strict";
@@ -12086,7 +12150,7 @@ module.exports = require("url");
 
 /***/ }),
 
-/***/ 1669:
+/***/ 3837:
 /***/ ((module) => {
 
 "use strict";
@@ -12094,11 +12158,19 @@ module.exports = require("util");
 
 /***/ }),
 
-/***/ 8761:
+/***/ 9796:
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("zlib");
+
+/***/ }),
+
+/***/ 8392:
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"name":"canvas","description":"Canvas graphics API backed by Cairo","version":"2.11.0","author":"TJ Holowaychuk <tj@learnboost.com>","main":"index.js","browser":"browser.js","contributors":["Nathan Rajlich <nathan@tootallnate.net>","Rod Vagg <r@va.gg>","Juriy Zaytsev <kangax@gmail.com>"],"keywords":["canvas","graphic","graphics","pixman","cairo","image","images","pdf"],"homepage":"https://github.com/Automattic/node-canvas","repository":"git://github.com/Automattic/node-canvas.git","scripts":{"prebenchmark":"node-gyp build","benchmark":"node benchmarks/run.js","lint":"standard examples/*.js test/server.js test/public/*.js benchmarks/run.js lib/context2d.js util/has_lib.js browser.js index.js","test":"mocha test/*.test.js","pretest-server":"node-gyp build","test-server":"node test/server.js","generate-wpt":"node ./test/wpt/generate.js","test-wpt":"mocha test/wpt/generated/*.js","install":"node-pre-gyp install --fallback-to-build --update-binary","dtslint":"dtslint types"},"binary":{"module_name":"canvas","module_path":"build/Release","host":"https://github.com/Automattic/node-canvas/releases/download/","remote_path":"v{version}","package_name":"{module_name}-v{version}-{node_abi}-{platform}-{libc}-{arch}.tar.gz"},"files":["binding.gyp","lib/","src/","util/","types/index.d.ts"],"types":"types/index.d.ts","dependencies":{"@mapbox/node-pre-gyp":"^1.0.0","nan":"^2.17.0","simple-get":"^3.0.3"},"devDependencies":{"@types/node":"^10.12.18","assert-rejects":"^1.0.0","dtslint":"^4.0.7","express":"^4.16.3","js-yaml":"^4.1.0","mocha":"^5.2.0","pixelmatch":"^4.0.2","standard":"^12.0.1","typescript":"^4.2.2"},"engines":{"node":">=6"},"license":"MIT"}');
 
 /***/ })
 
