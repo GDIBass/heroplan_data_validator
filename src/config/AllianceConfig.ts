@@ -4,6 +4,10 @@ import { HasObjects, HasRequiredKeys, Config, validate, validateNoDuplicateIds }
 const requiredKeys = ['member_status'];
 const requiredObjects = ['member_status'];
 
+interface RawAllianceConfig {
+  member_status: {[key: string]: object},
+}
+
 class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
 
   public readonly member_status: {[key: string]: MemberStatus} = {};
@@ -11,8 +15,7 @@ class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    // @ts-ignore
-    const memberStatus: {[key: string]: object} = rawYaml.member_status;
+    const memberStatus: {[key: string]: object} = (rawYaml as RawAllianceConfig).member_status;
     for (let statusKey in memberStatus) {
       this.member_status[statusKey] = new MemberStatus(statusKey, memberStatus[statusKey]);
     }

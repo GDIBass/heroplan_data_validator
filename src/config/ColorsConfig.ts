@@ -5,6 +5,11 @@ import Color from "./colors/Color";
 const requiredKeys = ['colors', 'open_color'];
 const objectKeys = ['colors', 'open_color'];
 
+interface RawColorsConfig {
+  colors: {[key: string]: object},
+  open_color: {[key: string]: string},
+}
+
 class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
 
   public readonly colors: {[key: string]: Color} = {};
@@ -13,14 +18,12 @@ class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    // @ts-ignore
-    const colors: {[key: string]: object} = rawYaml.colors;
+    const colors: {[key: string]: object} = (rawYaml as RawColorsConfig).colors;
     for (let colorKey in colors) {
       this.colors[colorKey] = new Color(colorKey, colors[colorKey]);
     }
 
-    // @ts-ignore
-    const openColors: {[key: string]: string} = rawYaml.openColors;
+    const openColors: {[key: string]: string} = (rawYaml as RawColorsConfig).open_color;
     for (let openColorKey in openColors) {
       this.open_color[openColorKey] = openColors[openColorKey];
     }

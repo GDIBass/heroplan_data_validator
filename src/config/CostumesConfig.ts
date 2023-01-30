@@ -6,6 +6,11 @@ import Bonus from "./costumes/Bonus";
 const requiredKeys = ['images', 'bonuses'];
 const objectKeys = ['images', 'bonuses'];
 
+interface RawCostumesConfig {
+  images: object,
+  bonuses: {[key: string]: object},
+}
+
 class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
 
   public readonly images: Images;
@@ -14,11 +19,9 @@ class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    // @ts-ignore
-    this.images = new Images(rawYaml.images);
+    this.images = new Images((rawYaml as RawCostumesConfig).images);
 
-    // @ts-ignore
-    const bonuses: {[key: string]: object} = rawYaml.bonuses;
+    const bonuses: {[key: string]: object} = (rawYaml as RawCostumesConfig).bonuses;
     for (let bonusKey in bonuses) {
       this.bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
     }

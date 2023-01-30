@@ -21,4 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: setup node-gyp
+        run: npm install -g node-gyp@latest
       - uses: ./
