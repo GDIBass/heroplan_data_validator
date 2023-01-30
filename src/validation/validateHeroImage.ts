@@ -6,7 +6,7 @@ import util from "util";
 import { Image } from "canvas";
 import InvalidImage from "../error/InvalidImage";
 
-const imageFromBuffer = (base64Contents: Buffer): Promise<Image> => {
+const imageFromBuffer = async (base64Contents: Buffer): Promise<Image> => {
   const image = new Image();
   return new Promise<Image>((resolve, reject) => {
     image.onload = () => resolve(image);

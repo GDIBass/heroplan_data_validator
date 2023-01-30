@@ -29,13 +29,13 @@ class TeamsConfig implements Config, HasRequiredKeys, HasObjects {
     validate(this, rawYaml);
     // typesets
     const typesets = (rawYaml as RawTeamsConfig).typesets;
-    for (let typeset in typesets) {
+    for (const typeset in typesets) {
       this._typesets[typeset] = new TypeSet(typeset, typesets[typeset], classes);
     }
 
     // categories
     const categories = (rawYaml as RawTeamsConfig).categories;
-    for (let category in categories) {
+    for (const category in categories) {
       this._categories[category] = new Category(category, categories[category], this._typesets, colors);
     }
     validateNoDuplicateIds(this, 'categories', Object.values(this._categories));
