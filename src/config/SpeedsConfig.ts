@@ -19,7 +19,7 @@ class SpeedsConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const speeds = (rawYaml as RawSpeedsConfig).speeds;
-    for (let speed in speeds) {
+    for (const speed in speeds) {
       this._speeds[speed] = new Speed(speed, speeds[speed]);
       this._validSpeeds.add(this._speeds[speed].description);
     }

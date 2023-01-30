@@ -23,12 +23,12 @@ class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
     validate(this, rawYaml);
 
     const colors: {[key: string]: object} = (rawYaml as RawColorsConfig).colors;
-    for (let colorKey in colors) {
+    for (const colorKey in colors) {
       this._colors[colorKey] = new Color(colorKey, colors[colorKey]);
     }
 
     const openColors: StringKeyAndValueObject = (rawYaml as RawColorsConfig).open_color;
-    for (let openColorKey in openColors) {
+    for (const openColorKey in openColors) {
       this._open_color[openColorKey] = openColors[openColorKey];
     }
   }

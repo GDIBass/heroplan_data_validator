@@ -18,7 +18,7 @@ class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
     validate(this, rawYaml);
 
     const memberStatus: {[key: string]: object} = (rawYaml as RawAllianceConfig).member_status;
-    for (let statusKey in memberStatus) {
+    for (const statusKey in memberStatus) {
       this._member_status[statusKey] = new MemberStatus(statusKey, memberStatus[statusKey]);
     }
 

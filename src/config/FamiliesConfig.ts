@@ -18,7 +18,7 @@ class FamiliesConfig implements Config, HasRequiredKeys, HasObjects {
     validate(this, rawYaml);
     // Populate families object
     const families = (rawYaml as RawFamiliesConfig).families;
-    for (let family in families) {
+    for (const family in families) {
       this._families[family] = new Family(family, families[family]);
     }
     // verify no duplicate codes

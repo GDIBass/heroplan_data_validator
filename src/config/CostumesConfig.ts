@@ -24,7 +24,7 @@ class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
     this._images = new Images((rawYaml as RawCostumesConfig).images);
 
     const bonuses: {[key: string]: object} = (rawYaml as RawCostumesConfig).bonuses;
-    for (let bonusKey in bonuses) {
+    for (const bonusKey in bonuses) {
       this._bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
     }
   }

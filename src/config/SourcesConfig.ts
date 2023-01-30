@@ -16,7 +16,7 @@ class SourcesConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const sources = (rawYaml as RawSourceConfig).sources;
-    for (let source in sources) {
+    for (const source in sources) {
       this._sources[source] = new Source(source, sources[source]);
     }
     validateNoDuplicateIds(this, 'sources', Object.values(this._sources));

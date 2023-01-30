@@ -42,7 +42,7 @@ class TeamsConfig implements Config, HasRequiredKeys, HasObjects {
 
     // Positions
     const positions = (rawYaml as RawTeamsConfig).positions;
-    for (let position in positions) {
+    for (const position in positions) {
       this._positions[position] = new Position(position, positions[position]);
     }
     validateNoDuplicateIds(this, 'positions', Object.values(this._positions));

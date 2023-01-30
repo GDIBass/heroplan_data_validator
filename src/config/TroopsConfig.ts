@@ -23,12 +23,12 @@ class TroopsConfig implements Config, HasRequiredKeys, HasObjects {
 
     // troops
     const troops = (rawYaml as RawTroopsConfig).troops;
-    for (let troop in troops) {
+    for (const troop in troops) {
       this._troops[troop] = new Troop(troop, troops[troop]);
     }
     // max_level_by_stars
     const maxLevelByStars = (rawYaml as RawTroopsConfig).max_level_by_stars;
-    for (let star in maxLevelByStars) {
+    for (const star in maxLevelByStars) {
       this._maxLevelByStars[parseInt(star)] = parseInt(maxLevelByStars[star]);
     }
     validateNoDuplicateIds(this, 'troops', Object.values(this._troops));

@@ -25,13 +25,13 @@ class AscensionsConfig implements Config, HasObjects, HasRequiredKeys {
     const maxAscension: {[key: string]: string} = (rawYaml as RawAscensionsConfig).max_ascension;
     validateAllIntegers(this, 'max_ascension<keys>', Object.keys(maxAscension));
     validateAllIntegers(this, 'max_ascension<values>', Object.values(maxAscension));
-    for (let maxKey in maxAscension) {
+    for (const maxKey in maxAscension) {
       this._max_ascension[parseInt(maxKey)] = parseInt(maxAscension[maxKey]);
     }
 
     const ascensions: {[key: string]: object} = (rawYaml as RawAscensionsConfig).ascensions;
     validateAllIntegers(this, 'ascensions<keys>', Object.keys(ascensions));
-    for (let key in ascensions) {
+    for (const key in ascensions) {
       const intKey = parseInt(key);
       this._ascensions[intKey] = new Ascension(key, ascensions[key]);
     }

@@ -18,7 +18,7 @@ class ClassesConfig implements Config, HasRequiredKeys, HasObjects {
     validate(this, rawYaml);
 
     const classes: {[key: string]: object} = (rawYaml as RawClassesConfig).classes;
-    for (let classKey in classes) {
+    for (const classKey in classes) {
       this._classes[classKey] = new Class(classKey, classes[classKey]);
     }
   }

@@ -16,7 +16,7 @@ class FiltersConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const filters = (rawYaml as RawFiltersConfig).filters;
-    for (let filter in filters) {
+    for (const filter in filters) {
       this._filters[filter] = new Filter(filter, filters[filter]);
     }
   }

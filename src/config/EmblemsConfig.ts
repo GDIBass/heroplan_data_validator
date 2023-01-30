@@ -45,22 +45,22 @@ class EmblemsConfig implements Config, HasRequiredKeys, HasObjects {
     this._totals = new Totals((rawYaml as RawEmblemsConfig).totals);
 
     const modes = (rawYaml as RawEmblemsConfig).modes;
-    for (let mode in modes) {
+    for (const mode in modes) {
       this._modes[mode] = new Mode(mode, modes[mode]);
     }
 
     const effects = (rawYaml as RawEmblemsConfig).effects;
-    for (let effect in effects) {
+    for (const effect in effects) {
       this._effects[effect] = new Effect(effect, effects[effect], this._modes);
     }
 
     const nodes = (rawYaml as RawEmblemsConfig).nodes;
-    for (let node in nodes) {
+    for (const node in nodes) {
       this._nodes[node] = new Node(node, nodes[node], this._effects);
     }
     // Load trees w/ effects and classes for verification
     const trees = (rawYaml as RawEmblemsConfig).trees;
-    for (let tree in trees) {
+    for (const tree in trees) {
       this._trees[tree] = new Tree(tree, trees[tree], this._nodes, classesConfig);
     }
     // Load Reset

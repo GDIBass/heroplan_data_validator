@@ -62,7 +62,7 @@ class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, Has
       validateAllIntegers(this, 'limit_break<keys>', Object.keys(limitBreak));
       validateAllIntegers(this, 'limit_break<values>', Object.values(limitBreak));
 
-      for (let key in limitBreak) {
+      for (const key in limitBreak) {
         this._limit_break[parseInt(key)] = parseInt(limitBreak[key]);
       }
     }

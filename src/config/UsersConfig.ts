@@ -21,11 +21,11 @@ class UsersConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const sharingModes = (rawYaml as RawUsersConfig).sharing_modes;
-    for (let sharingMode in sharingModes) {
+    for (const sharingMode in sharingModes) {
       this._sharingModes[sharingMode] = new SharingMode(sharingMode, sharingModes[sharingMode]);
     }
     const socialNetworks = (rawYaml as RawUsersConfig).sharing_modes;
-    for (let socialNetwork in socialNetworks) {
+    for (const socialNetwork in socialNetworks) {
       this._socialNetworks[socialNetwork] = new SocialNetwork(socialNetwork, socialNetworks[socialNetwork]);
     }
     validateNoDuplicateIds(this, 'sharingModes', Object.values(this._sharingModes));

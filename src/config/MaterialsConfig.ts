@@ -19,7 +19,7 @@ class MaterialsConfig implements Config, HasRequiredKeys, HasObjects {
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const ascension = (rawYaml as RawMaterialsConfig).ascension;
-    for (let ascensionKey in ascension) {
+    for (const ascensionKey in ascension) {
       this._ascension[ascensionKey] = new Ascension(ascensionKey, ascension[ascensionKey]);
     }
   }
