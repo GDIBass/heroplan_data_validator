@@ -1,7 +1,7 @@
 import Config from "../../validation/interfaces/Config";
 import HasRequiredKeys from "../../validation/interfaces/HasRequiredKeys";
 import { HasImages, HasIntegers, HasStrings, validate, validateKeysMatch } from "../../validation";
-import validateImageType, { ImageType } from "../../validation/validateImageType";
+import validateImageType, { ImageTypes as ImageType } from "../../validation/validateImageType";
 
 
 const requiredKeys = ['code', 'key', 'description', 'avatarImage', 'badgeImage'];

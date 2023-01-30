@@ -1,5 +1,5 @@
 import { Config, HasImages, HasRequiredKeys, validate } from "../../validation";
-import validateImageType, { ImageType } from "../../validation/validateImageType";
+import validateImageType, { ImageTypes as ImageType } from "../../validation/validateImageType";
 
 
 const requiredKeys = ['avatarImage', 'troopImage'];
