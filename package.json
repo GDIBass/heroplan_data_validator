@@ -1,5 +1,5 @@
 {
-  "name": "typescript-action",
+  "name": "@gdibass/heroplan_data_validator",
   "version": "0.0.1",
   "private": true,
   "description": "TypeScript template action",
