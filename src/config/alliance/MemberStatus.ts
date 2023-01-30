@@ -15,6 +15,12 @@ const requiredIntegers = [
   'id',
 ];
 
+interface RawMemberStatus {
+  key: string,
+  id: string,
+  description: string,
+}
+
 class MemberStatus implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
   private readonly _id: number;
   private readonly _key: string;
@@ -23,13 +29,13 @@ class MemberStatus implements Config, HasRequiredKeys, HasStrings, HasIntegers, 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);
     // @ts-ignore
-    validateKeysMatch(this, statusKey, rawYaml._key);
+    validateKeysMatch(this, statusKey, (rawYaml as RawMemberStatus).key);
     // @ts-ignore
-    this._id = parseInt(rawYaml._id);
+    this._id = parseInt((rawYaml as RawMemberStatus).id);
     // @ts-ignore
-    this._key = rawYaml._key;
+    this._key = (rawYaml as RawMemberStatus).key;
     // @ts-ignore
-    this._description = rawYaml._description;
+    this._description = (rawYaml as RawMemberStatus).description;
   }
 
   getRequiredKeys = (): string[] => requiredKeys;

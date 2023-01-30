@@ -894,13 +894,13 @@ class MemberStatus {
         this.getId = () => this._id;
         (0, validation_1.validate)(this, rawYaml);
         // @ts-ignore
-        (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml._key);
+        (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml.key);
         // @ts-ignore
-        this._id = parseInt(rawYaml._id);
+        this._id = parseInt(rawYaml.id);
         // @ts-ignore
-        this._key = rawYaml._key;
+        this._key = rawYaml.key;
         // @ts-ignore
-        this._description = rawYaml._description;
+        this._description = rawYaml.description;
     }
     get id() {
         return this._id;
@@ -3961,7 +3961,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateKeysMatch = (config, inputKey, setKey) => {
-    if (inputKey.toString() !== setKey.toString()) {
+    if (!setKey || inputKey.toString() !== setKey.toString()) {
         throw new InvalidConfig_1.default(config, `keys do not match: ${inputKey}:${setKey}`);
     }
 };
