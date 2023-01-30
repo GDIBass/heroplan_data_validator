@@ -1,0 +1,583 @@
+typesets:
+  war:
+    key: war
+    types:
+      one:
+        key: one
+        type: 1
+        description: War Team One
+      two:
+        key: two
+        type: 2
+        description: War Team Two
+      three:
+        key: three
+        type: 3
+        description: War Team Three
+      four:
+        key: four
+        type: 4
+        description: War Team Four
+      five:
+        key: five
+        type: 5
+        description: War Team Five
+  war_defense:
+    key: war_defense
+    types:
+      purple:
+        key: purple
+        type: 1
+        description: Purple Defense
+      yellow:
+        key: yellow
+        type: 2
+        description: Yellow Defense
+      blue:
+        key: blue
+        type: 3
+        description: Blue Defense
+      green:
+        key: green
+        type: 4
+        description: Green Defense
+      red:
+        key: red
+        type: 5
+        description: Red Defense
+      undead_horde:
+        key: undead_horde
+        type: 6
+        description: Undead Horde Defense
+      equalizer:
+        key: equalizer
+        type: 7
+        description: Equalizer Defense
+      rush:
+        key: rush
+        type: 8
+        description: Rush Defense
+  trial:
+    key: trial
+    types:
+      strength:
+        key: strength
+        type: 0
+        description: Trials of Strength
+        classes:
+          - barbarian
+          - fighter
+      fortitude:
+        key: fortitude
+        type: 1
+        description: Trials of Fortitude
+        classes:
+          - cleric
+          - druid
+      mysticism:
+        key: mysticism
+        type: 2
+        description: Trials of Mysticism
+        classes:
+          - sorcerer
+          - wizard
+      serenity:
+        key: serenity
+        type: 3
+        description: Trials of Serenity
+        classes:
+          - paladin
+          - ranger
+      survival:
+        key: survival
+        type: 4
+        description: Trials of Survival
+        classes:
+          - barbarian
+          - rogue
+      piety:
+        key: piety
+        type: 5
+        description: Trials of Piety
+        classes:
+          - cleric
+          - monk
+      decimation:
+        key: decimation
+        type: 6
+        description: Trials of Decimation
+        classes:
+          - fighter
+          - wizard
+      nature:
+        key: nature
+        type: 7
+        description: Trials of Nature
+        classes:
+          - druid
+          - ranger
+      shadows:
+        key: shadows
+        type: 8
+        description: Trials of Shadows
+        classes:
+          - rogue
+          - sorcerer
+      justice:
+        key: justice
+        type: 9
+        description: Trials of Justice
+        classes:
+          - monk
+          - paladin
+  color:
+    key: color
+    types:
+      purple:
+        key: purple
+        type: 1
+        description: Purple Team
+      yellow:
+        key: yellow
+        type: 2
+        description: Yellow Team
+      blue:
+        key: blue
+        type: 3
+        description: Blue Team
+      green:
+        key: green
+        type: 4
+        description: Green Team
+      red:
+        key: red
+        type: 5
+        description: Red Team
+  tournament:
+    key: tournament
+    types:
+      buff_booster:
+        key: buff_booster
+        type: 1
+        description: Buff Booster
+      rush_attack:
+        key: rush_attack
+        type: 2
+        description: Rush Attack
+      bloody_battle:
+        key: bloody_battle
+        type: 3
+        description: Bloody Battle
+  tavern:
+    key: tavern
+    types:
+      1:
+        key: 1
+        type: 1
+        description: Tavern Team 1
+      2:
+        key: 2
+        type: 2
+        description: Tavern Team 2
+      3:
+        key: 3
+        type: 3
+        description: Tavern Team 3
+      4:
+        key: 4
+        type: 4
+        description: Tavern Team 4
+      5:
+        key: 5
+        type: 5
+        description: Tavern Team 5
+      6:
+        key: 6
+        type: 6
+        description: Tavern Team 6
+      7:
+        key: 7
+        type: 7
+        description: Tavern Team 7
+      8:
+        key: 8
+        type: 8
+        description: Tavern Team 8
+      9:
+        key: 9
+        type: 9
+        description: Tavern Team 9
+      10:
+        key: 10
+        type: 10
+        description: Tavern Team 10
+      11:
+        key: 11
+        type: 11
+        description: Tavern Team 11
+      12:
+        key: 12
+        type: 12
+        description: Tavern Team 12
+      13:
+        key: 13
+        type: 13
+        description: Tavern Team 13
+      14:
+        key: 14
+        type: 14
+        description: Tavern Team 14
+      15:
+        key: 15
+        type: 15
+        description: Tavern Team 15
+  custom:
+    key: custom
+    types:
+      1:
+        key: 1
+        type: 1
+        description: Team 1
+      2:
+        key: 2
+        type: 2
+        description: Team 2
+      3:
+        key: 3
+        type: 3
+        description: Team 3
+      4:
+        key: 4
+        type: 4
+        description: Team 4
+      5:
+        key: 5
+        type: 5
+        description: Team 5
+      6:
+        key: 6
+        type: 6
+        description: Team 6
+      7:
+        key: 7
+        type: 7
+        description: Team 7
+      8:
+        key: 8
+        type: 8
+        description: Team 8
+      9:
+        key: 9
+        type: 9
+        description: Team 9
+      10:
+        key: 10
+        type: 10
+        description: Team 10
+
+categories:
+  war_one:
+    category: 1
+    distinct: true
+    description: War Group One
+    typeset: war
+  war_two:
+    category: 2
+    distinct: true
+    description: War Group Two
+    typeset: war
+  war_three:
+    category: 3
+    distinct: true
+    description: War Group Three
+    typeset: war
+  war_four:
+    category: 4
+    distinct: true
+    description: War Group Four
+    typeset: war
+  war_five:
+    category: 5
+    distinct: true
+    description: War Group Five
+    typeset: war
+  war_six:
+    category: 6
+    distinct: true
+    description: War Group Six
+    typeset: war
+  war_seven:
+    category: 7
+    distinct: true
+    description: War Group Seven
+    typeset: war
+  war_eight:
+    category: 8
+    distinct: true
+    description: War Group Eight
+    typeset: war
+  war_defenses:
+    category: 9
+    description: War Defenses
+    typeset: war_defense
+  trials:
+    category: 11
+    description: Trial Teams
+    typeset: trial
+  titans:
+    category: 16
+    description: Titan Teams
+    typeset: color
+  event_rare:
+    category: 23
+    description: Rare Event
+    typeset: color
+    stars:
+      - 1
+      - 2
+      - 3
+  event_epic:
+    category: 24
+    description: Epic Event
+    typeset: color
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+  event_legendary:
+    category: 25
+    description: Legendary Event
+    typeset: color
+  category_tournament_three_star_no_purple:
+    category: 31
+    description: 3* Tournament No Purple
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+    colors:
+      - yellow
+      - blue
+      - green
+      - red
+  category_tournament_three_star_no_yellow:
+    category: 32
+    description: 3* Tournament No Yellow
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+    colors:
+      - purple
+      - blue
+      - green
+      - red
+  category_tournament_three_star_no_blue:
+    category: 33
+    description: 3* Tournament No Blue
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+    colors:
+      - purple
+      - yellow
+      - green
+      - red
+  category_tournament_three_star_no_green:
+    category: 34
+    description: 3* Tournament No Green
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+    colors:
+      - purple
+      - yellow
+      - blue
+      - red
+  category_tournament_three_star_no_red:
+    category: 35
+    description: 3* Tournament No Red
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+    colors:
+      - purple
+      - yellow
+      - blue
+      - green
+  category_tournament_three_star_all_colors:
+    category: 36
+    description: 3* Tournament All Colors
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+  category_tournament_four_star_no_purple:
+    category: 41
+    description: 4* Tournament No Purple
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+    colors:
+      - yellow
+      - blue
+      - green
+      - red
+  category_tournament_four_star_no_yellow:
+    category: 42
+    description: 4* Tournament No Yellow
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+    colors:
+      - purple
+      - blue
+      - green
+      - red
+  category_tournament_four_star_no_blue:
+    category: 43
+    description: 4* Tournament No Blue
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+    colors:
+      - purple
+      - yellow
+      - green
+      - red
+  category_tournament_four_star_no_green:
+    category: 44
+    description: 4* Tournament No Green
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+    colors:
+      - purple
+      - yellow
+      - blue
+      - red
+  category_tournament_four_star_no_red:
+    category: 45
+    description: 4* Tournament No Red
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+    colors:
+      - purple
+      - yellow
+      - blue
+      - green
+  category_tournament_four_star_all_colors:
+    category: 46
+    description: 4* Tournament All Colors
+    typeset: tournament
+    stars:
+      - 1
+      - 2
+      - 3
+      - 4
+  category_tournament_five_star_no_purple:
+    category: 51
+    description: 5* Tournament No Purple
+    typeset: tournament
+    colors:
+      - yellow
+      - blue
+      - green
+      - red
+  category_tournament_five_star_no_yellow:
+    category: 52
+    description: 5* Tournament No Yellow
+    typeset: tournament
+    colors:
+      - purple
+      - blue
+      - green
+      - red
+  category_tournament_five_star_no_blue:
+    category: 53
+    description: 5* Tournament No Blue
+    typeset: tournament
+    colors:
+      - purple
+      - yellow
+      - green
+      - red
+  category_tournament_five_star_no_green:
+    category: 54
+    description: 5* Tournament No Green
+    typeset: tournament
+    colors:
+      - purple
+      - yellow
+      - blue
+      - red
+  category_tournament_five_star_no_red:
+    category: 55
+    description: 5* Tournament No Red
+    typeset: tournament
+    colors:
+      - purple
+      - yellow
+      - blue
+      - green
+  category_tournament_five_star_all_colors:
+    category: 56
+    description: 5* Tournament All Colors
+    typeset: tournament
+  tavern_of_legends:
+    category: 61
+    distinct: true
+    description: Tavern of Legends
+    typeset: tavern
+  custom:
+    category: 71
+    description: Custom
+    typeset: custom
+
+positions:
+  left_wing:
+    key: left_wing
+    id: 1
+    description: Left Wing
+  left_flank:
+    key: left_flank
+    id: 2
+    description: Left Flank
+  tank:
+    key: tank
+    id: 3
+    description: Tank
+  right_flank:
+    key: right_flank
+    id: 4
+    description: Right Flank
+  right_wing:
+    key: right_wing
+    id: 5
+    description: Right Wing
