@@ -234,17 +234,19 @@ const requiredKeys = ['member_status'];
 const requiredObjects = ['member_status'];
 class AllianceConfig {
     constructor(rawYaml) {
-        this.member_status = {};
+        this._member_status = {};
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => requiredObjects;
         this.getClassName = () => AllianceConfig.name;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
         const memberStatus = rawYaml.member_status;
-        for (let statusKey in memberStatus) {
-            this.member_status[statusKey] = new MemberStatus_1.default(statusKey, memberStatus[statusKey]);
+        for (const statusKey in memberStatus) {
+            this._member_status[statusKey] = new MemberStatus_1.default(statusKey, memberStatus[statusKey]);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'member_status', Object.values(this.member_status));
+        (0, validation_1.validateNoDuplicateIds)(this, 'member_status', Object.values(this._member_status));
+    }
+    get member_status() {
+        return this._member_status;
     }
 }
 exports["default"] = AllianceConfig;
@@ -268,26 +270,30 @@ const requiredKeys = ['max_ascension', 'ascensions'];
 const requiredObjects = ['max_ascension', 'ascensions'];
 class AscensionsConfig {
     constructor(rawYaml) {
-        this.max_ascension = {};
-        this.ascensions = {};
+        this._max_ascension = {};
+        this._ascensions = {};
         this.getClassName = () => AscensionsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => requiredObjects;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
         const maxAscension = rawYaml.max_ascension;
         (0, validateAllIntegers_1.default)(this, 'max_ascension<keys>', Object.keys(maxAscension));
         (0, validateAllIntegers_1.default)(this, 'max_ascension<values>', Object.values(maxAscension));
-        for (let maxKey in maxAscension) {
-            this.max_ascension[parseInt(maxKey)] = parseInt(maxAscension[maxKey]);
+        for (const maxKey in maxAscension) {
+            this._max_ascension[parseInt(maxKey)] = parseInt(maxAscension[maxKey]);
         }
-        // @ts-ignore
         const ascensions = rawYaml.ascensions;
         (0, validateAllIntegers_1.default)(this, 'ascensions<keys>', Object.keys(ascensions));
-        for (let key in ascensions) {
+        for (const key in ascensions) {
             const intKey = parseInt(key);
-            this.ascensions[intKey] = new Ascension_1.default(key, ascensions[key]);
+            this._ascensions[intKey] = new Ascension_1.default(key, ascensions[key]);
         }
+    }
+    get max_ascension() {
+        return this._max_ascension;
+    }
+    get ascensions() {
+        return this._ascensions;
     }
 }
 exports["default"] = AscensionsConfig;
@@ -310,16 +316,18 @@ const requiredKeys = ['classes'];
 const objectKeys = ['classes'];
 class ClassesConfig {
     constructor(rawYaml) {
-        this.classes = {};
+        this._classes = {};
         this.getClassName = () => ClassesConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
         const classes = rawYaml.classes;
-        for (let classKey in classes) {
-            this.classes[classKey] = new Class_1.default(classKey, classes[classKey]);
+        for (const classKey in classes) {
+            this._classes[classKey] = new Class_1.default(classKey, classes[classKey]);
         }
+    }
+    get classes() {
+        return this._classes;
     }
 }
 exports["default"] = ClassesConfig;
@@ -342,22 +350,26 @@ const requiredKeys = ['colors', 'open_color'];
 const objectKeys = ['colors', 'open_color'];
 class ColorsConfig {
     constructor(rawYaml) {
-        this.colors = {};
-        this.open_color = {};
+        this._colors = {};
+        this._open_color = {};
         this.getClassName = () => ColorsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
         const colors = rawYaml.colors;
-        for (let colorKey in colors) {
-            this.colors[colorKey] = new Color_1.default(colorKey, colors[colorKey]);
+        for (const colorKey in colors) {
+            this._colors[colorKey] = new Color_1.default(colorKey, colors[colorKey]);
         }
-        // @ts-ignore
-        const openColors = rawYaml.openColors;
-        for (let openColorKey in openColors) {
-            this.open_color[openColorKey] = openColors[openColorKey];
+        const openColors = rawYaml.open_color;
+        for (const openColorKey in openColors) {
+            this._open_color[openColorKey] = openColors[openColorKey];
         }
+    }
+    get colors() {
+        return this._colors;
+    }
+    get open_color() {
+        return this._open_color;
     }
 }
 exports["default"] = ColorsConfig;
@@ -381,18 +393,22 @@ const requiredKeys = ['images', 'bonuses'];
 const objectKeys = ['images', 'bonuses'];
 class CostumesConfig {
     constructor(rawYaml) {
-        this.bonuses = {};
+        this._bonuses = {};
         this.getClassName = () => CostumesConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
-        this.images = new Images_1.default(rawYaml.images);
-        // @ts-ignore
+        this._images = new Images_1.default(rawYaml.images);
         const bonuses = rawYaml.bonuses;
-        for (let bonusKey in bonuses) {
-            this.bonuses[bonusKey] = new Bonus_1.default(bonusKey, bonuses[bonusKey]);
+        for (const bonusKey in bonuses) {
+            this._bonuses[bonusKey] = new Bonus_1.default(bonusKey, bonuses[bonusKey]);
         }
+    }
+    get images() {
+        return this._images;
+    }
+    get bonuses() {
+        return this._bonuses;
     }
 }
 exports["default"] = CostumesConfig;
@@ -420,34 +436,52 @@ const requiredKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
 const objectKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
 class EmblemsConfig {
     constructor(classesConfig, rawYaml) {
-        this.modes = {};
-        this.effects = {};
-        this.nodes = {};
-        this.trees = {};
+        this._modes = {};
+        this._effects = {};
+        this._nodes = {};
+        this._trees = {};
         this.getClassName = () => EmblemsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.totals = new Totals_1.default(rawYaml.totals);
+        this._totals = new Totals_1.default(rawYaml.totals);
         const modes = rawYaml.modes;
-        for (let mode in modes) {
-            this.modes[mode] = new Mode_1.default(mode, modes[mode]);
+        for (const mode in modes) {
+            this._modes[mode] = new Mode_1.default(mode, modes[mode]);
         }
         const effects = rawYaml.effects;
-        for (let effect in effects) {
-            this.effects[effect] = new Effect_1.default(effect, effects[effect], this.modes);
+        for (const effect in effects) {
+            this._effects[effect] = new Effect_1.default(effect, effects[effect], this._modes);
         }
         const nodes = rawYaml.nodes;
-        for (let node in nodes) {
-            this.nodes[node] = new Node_1.default(node, nodes[node], this.effects);
+        for (const node in nodes) {
+            this._nodes[node] = new Node_1.default(node, nodes[node], this._effects);
         }
         // Load trees w/ effects and classes for verification
         const trees = rawYaml.trees;
-        for (let tree in trees) {
-            this.trees[tree] = new Tree_1.default(tree, trees[tree], this.nodes, classesConfig);
+        for (const tree in trees) {
+            this._trees[tree] = new Tree_1.default(tree, trees[tree], this._nodes, classesConfig);
         }
         // Load Reset
-        this.reset = new Reset_1.default(rawYaml.reset);
+        this._reset = new Reset_1.default(rawYaml.reset);
+    }
+    get totals() {
+        return this._totals;
+    }
+    get modes() {
+        return this._modes;
+    }
+    get effects() {
+        return this._effects;
+    }
+    get nodes() {
+        return this._nodes;
+    }
+    get trees() {
+        return this._trees;
+    }
+    get reset() {
+        return this._reset;
     }
 }
 exports["default"] = EmblemsConfig;
@@ -470,18 +504,21 @@ const requiredKeys = ['families'];
 const objectKeys = ['families'];
 class FamiliesConfig {
     constructor(rawYaml) {
-        this.families = {};
+        this._families = {};
         this.getClassName = () => FamiliesConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         // Populate families object
         const families = rawYaml.families;
-        for (let family in families) {
-            this.families[family] = new Family_1.default(family, families[family]);
+        for (const family in families) {
+            this._families[family] = new Family_1.default(family, families[family]);
         }
         // verify no duplicate codes
-        (0, validation_1.validateNoDuplicateIds)(this, 'families', Object.values(this.families));
+        (0, validation_1.validateNoDuplicateIds)(this, 'families', Object.values(this._families));
+    }
+    get families() {
+        return this._families;
     }
 }
 exports["default"] = FamiliesConfig;
@@ -504,15 +541,18 @@ const requiredKeys = ['filters'];
 const objectKeys = ['filters'];
 class FiltersConfig {
     constructor(rawYaml) {
-        this.filters = {};
+        this._filters = {};
         this.getClassName = () => FiltersConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         const filters = rawYaml.filters;
-        for (let filter in filters) {
-            this.filters[filter] = new Filter_1.default(filter, filters[filter]);
+        for (const filter in filters) {
+            this._filters[filter] = new Filter_1.default(filter, filters[filter]);
         }
+    }
+    get filters() {
+        return this._filters;
     }
 }
 exports["default"] = FiltersConfig;
@@ -543,11 +583,11 @@ const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 class HeroesConfig {
     constructor(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig, heroImagesDirectory) {
-        this.heroes = {};
+        this._heroes = {};
         this.addHeroes = (color, stars, rawYaml) => __awaiter(this, void 0, void 0, function* () {
             for (const rawHero of rawYaml) {
                 const hero = yield Hero_1.default.build(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.speedsConfig, this.heroImagesDirectory);
-                if ((0, ohp_1.default)(this.heroes, hero.name)) {
+                if ((0, ohp_1.default)(this._heroes, hero.name)) {
                     throw new InvalidConfig_1.default(this, `Hero with name ${hero.name} already exists`);
                 }
             }
@@ -560,6 +600,9 @@ class HeroesConfig {
         this.colorsConfig = colorsConfig;
         this.speedsConfig = speedsConfig;
         this.heroImagesDirectory = heroImagesDirectory;
+    }
+    get heroes() {
+        return this._heroes;
     }
 }
 exports["default"] = HeroesConfig;
@@ -582,15 +625,18 @@ const requiredKeys = ['ascension'];
 const objectKeys = ['ascension'];
 class MaterialsConfig {
     constructor(rawYaml) {
-        this.ascension = {};
+        this._ascension = {};
         this.getClassName = () => MaterialsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         const ascension = rawYaml.ascension;
-        for (let ascensionKey in ascension) {
-            this.ascension[ascensionKey] = new Ascension_1.default(ascensionKey, ascension[ascensionKey]);
+        for (const ascensionKey in ascension) {
+            this._ascension[ascensionKey] = new Ascension_1.default(ascensionKey, ascension[ascensionKey]);
         }
+    }
+    get ascension() {
+        return this._ascension;
     }
 }
 exports["default"] = MaterialsConfig;
@@ -613,16 +659,19 @@ const requiredKeys = ['sources'];
 const objectKeys = ['sources'];
 class SourcesConfig {
     constructor(rawYaml) {
-        this.sources = {};
+        this._sources = {};
         this.getClassName = () => SourcesConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         const sources = rawYaml.sources;
-        for (let source in sources) {
-            this.sources[source] = new Source_1.default(source, sources[source]);
+        for (const source in sources) {
+            this._sources[source] = new Source_1.default(source, sources[source]);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'sources', Object.values(this.sources));
+        (0, validation_1.validateNoDuplicateIds)(this, 'sources', Object.values(this._sources));
+    }
+    get sources() {
+        return this._sources;
     }
 }
 exports["default"] = SourcesConfig;
@@ -645,19 +694,25 @@ const requiredKeys = ['speeds'];
 const objectKeys = ['speeds'];
 class SpeedsConfig {
     constructor(rawYaml) {
-        this.speeds = {};
-        this.validSpeeds = new Set();
-        this.isValidSpeed = (speed) => this.validSpeeds.has(speed);
+        this._speeds = {};
+        this._validSpeeds = new Set();
+        this.isValidSpeed = (speed) => this._validSpeeds.has(speed);
         this.getClassName = () => SpeedsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         const speeds = rawYaml.speeds;
-        for (let speed in speeds) {
-            this.speeds[speed] = new Speed_1.default(speed, speeds[speed]);
-            this.validSpeeds.add(this.speeds[speed].description);
+        for (const speed in speeds) {
+            this._speeds[speed] = new Speed_1.default(speed, speeds[speed]);
+            this._validSpeeds.add(this._speeds[speed].description);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'speeds', Object.values(this.speeds));
+        (0, validation_1.validateNoDuplicateIds)(this, 'speeds', Object.values(this._speeds));
+    }
+    get speeds() {
+        return this._speeds;
+    }
+    get validSpeeds() {
+        return this._validSpeeds;
     }
 }
 exports["default"] = SpeedsConfig;
@@ -682,30 +737,39 @@ const requiredKeys = ['typesets', 'categories', 'positions'];
 const objectKeys = ['typesets', 'categories', 'positions'];
 class TeamsConfig {
     constructor(rawYaml, classes, colors) {
-        this.typesets = {};
-        this.categories = {};
-        this.positions = {};
+        this._typesets = {};
+        this._categories = {};
+        this._positions = {};
         this.getClassName = () => TeamsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         // typesets
         const typesets = rawYaml.typesets;
-        for (let typeset in typesets) {
-            this.typesets[typeset] = new TypeSet_1.default(typeset, typesets[typeset], classes);
+        for (const typeset in typesets) {
+            this._typesets[typeset] = new TypeSet_1.default(typeset, typesets[typeset], classes);
         }
         // categories
         const categories = rawYaml.categories;
-        for (let category in categories) {
-            this.categories[category] = new Category_1.default(category, categories[category], this.typesets, colors);
+        for (const category in categories) {
+            this._categories[category] = new Category_1.default(category, categories[category], this._typesets, colors);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'categories', Object.values(this.categories));
+        (0, validation_1.validateNoDuplicateIds)(this, 'categories', Object.values(this._categories));
         // Positions
         const positions = rawYaml.positions;
-        for (let position in positions) {
-            this.positions[position] = new Position_1.default(position, positions[position]);
+        for (const position in positions) {
+            this._positions[position] = new Position_1.default(position, positions[position]);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'positions', Object.values(this.positions));
+        (0, validation_1.validateNoDuplicateIds)(this, 'positions', Object.values(this._positions));
+    }
+    get typesets() {
+        return this._typesets;
+    }
+    get categories() {
+        return this._categories;
+    }
+    get positions() {
+        return this._positions;
     }
 }
 exports["default"] = TeamsConfig;
@@ -728,23 +792,29 @@ const requiredKeys = ['troops', 'max_level_by_stars'];
 const objectKeys = ['troops', 'max_level_by_stars'];
 class TroopsConfig {
     constructor(rawYaml) {
-        this.troops = {};
-        this.maxLevelByStars = {};
+        this._troops = {};
+        this._maxLevelByStars = {};
         this.getClassName = () => TroopsConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         // troops
         const troops = rawYaml.troops;
-        for (let troop in troops) {
-            this.troops[troop] = new Troop_1.default(troop, troops[troop]);
+        for (const troop in troops) {
+            this._troops[troop] = new Troop_1.default(troop, troops[troop]);
         }
         // max_level_by_stars
         const maxLevelByStars = rawYaml.max_level_by_stars;
-        for (let star in maxLevelByStars) {
-            this.maxLevelByStars[parseInt(star)] = parseInt(maxLevelByStars[star]);
+        for (const star in maxLevelByStars) {
+            this._maxLevelByStars[parseInt(star)] = parseInt(maxLevelByStars[star]);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'troops', Object.values(this.troops));
+        (0, validation_1.validateNoDuplicateIds)(this, 'troops', Object.values(this._troops));
+    }
+    get troops() {
+        return this._troops;
+    }
+    get maxLevelByStars() {
+        return this._maxLevelByStars;
     }
 }
 exports["default"] = TroopsConfig;
@@ -768,21 +838,27 @@ const requiredKeys = ['sharing_modes', 'social_networks'];
 const objectKeys = ['sharing_modes', 'social_networks'];
 class UsersConfig {
     constructor(rawYaml) {
-        this.sharingModes = {};
-        this.socialNetworks = {};
+        this._sharingModes = {};
+        this._socialNetworks = {};
         this.getClassName = () => UsersConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         const sharingModes = rawYaml.sharing_modes;
-        for (let sharingMode in sharingModes) {
-            this.sharingModes[sharingMode] = new SharingMode_1.default(sharingMode, sharingModes[sharingMode]);
+        for (const sharingMode in sharingModes) {
+            this._sharingModes[sharingMode] = new SharingMode_1.default(sharingMode, sharingModes[sharingMode]);
         }
         const socialNetworks = rawYaml.sharing_modes;
-        for (let socialNetwork in socialNetworks) {
-            this.socialNetworks[socialNetwork] = new SocialNetwork_1.default(socialNetwork, socialNetworks[socialNetwork]);
+        for (const socialNetwork in socialNetworks) {
+            this._socialNetworks[socialNetwork] = new SocialNetwork_1.default(socialNetwork, socialNetworks[socialNetwork]);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'sharingModes', Object.values(this.sharingModes));
+        (0, validation_1.validateNoDuplicateIds)(this, 'sharingModes', Object.values(this._sharingModes));
+    }
+    get sharingModes() {
+        return this._sharingModes;
+    }
+    get socialNetworks() {
+        return this._socialNetworks;
     }
 }
 exports["default"] = UsersConfig;
@@ -815,16 +891,25 @@ class MemberStatus {
         this.getClassName = () => MemberStatus.name;
         this.getStrings = () => requiredStrings;
         this.getIntegers = () => requiredIntegers;
-        this.getId = () => this.id;
+        this.getId = () => this._id;
         (0, validation_1.validate)(this, rawYaml);
         // @ts-ignore
-        (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml.key);
+        (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml._key);
         // @ts-ignore
-        this.id = parseInt(rawYaml.id);
+        this._id = parseInt(rawYaml._id);
         // @ts-ignore
-        this.key = rawYaml.key;
+        this._key = rawYaml._key;
         // @ts-ignore
-        this.description = rawYaml.description;
+        this._description = rawYaml._description;
+    }
+    get id() {
+        return this._id;
+    }
+    get key() {
+        return this._key;
+    }
+    get description() {
+        return this._description;
     }
 }
 exports["default"] = MemberStatus;
@@ -860,8 +945,8 @@ const objectKeys = [
 ];
 class Ascension {
     constructor(statusKey, rawYaml) {
-        this.star_max = {};
-        this.limit_break = {};
+        this._star_max = {};
+        this._limit_break = {};
         this.getClassName = () => Ascension.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
@@ -869,24 +954,36 @@ class Ascension {
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml.key);
-        this.key = parseInt(rawYaml.key);
-        this.description = rawYaml.description;
+        this._key = parseInt(rawYaml.key);
+        this._description = rawYaml.description;
         if ((0, ohp_1.default)(rawYaml, 'star_max')) {
             const starMax = rawYaml.star_max;
             (0, validateAllIntegers_1.default)(this, 'star_max<keys>', Object.keys(starMax));
             (0, validateAllIntegers_1.default)(this, 'star_max<values>', Object.values(starMax));
             for (let key in starMax) {
-                this.star_max[parseInt(key)] = parseInt(starMax[key]);
+                this._star_max[parseInt(key)] = parseInt(starMax[key]);
             }
         }
         if ((0, ohp_1.default)(rawYaml, 'limit_break')) {
             const limitBreak = rawYaml.limit_break;
             (0, validateAllIntegers_1.default)(this, 'limit_break<keys>', Object.keys(limitBreak));
             (0, validateAllIntegers_1.default)(this, 'limit_break<values>', Object.values(limitBreak));
-            for (let key in limitBreak) {
-                this.limit_break[parseInt(key)] = parseInt(limitBreak[key]);
+            for (const key in limitBreak) {
+                this._limit_break[parseInt(key)] = parseInt(limitBreak[key]);
             }
         }
+    }
+    get key() {
+        return this._key;
+    }
+    get description() {
+        return this._description;
+    }
+    get star_max() {
+        return this._star_max;
+    }
+    get limit_break() {
+        return this._limit_break;
     }
 }
 exports["default"] = Ascension;
@@ -914,12 +1011,24 @@ class Class {
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, classKey, rawYaml.key);
-        this.code = parseInt(rawYaml.code);
-        this.key = rawYaml.key;
-        this.description = rawYaml.description;
-        this.image = rawYaml.image;
-        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+        this._code = parseInt(rawYaml.code);
+        this._key = rawYaml.key;
+        this._description = rawYaml.description;
+        this._image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this._image, validation_1.ImageType.PNG);
         // TODO: Load image file and verify dimensions
+    }
+    get code() {
+        return this._code;
+    }
+    get key() {
+        return this._key;
+    }
+    get description() {
+        return this._description;
+    }
+    get image() {
+        return this._image;
     }
 }
 exports["default"] = Class;
@@ -971,13 +1080,28 @@ class Color {
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, colorKey, rawYaml.key);
-        this.code = parseInt(rawYaml.code);
-        this.key = rawYaml.key;
-        this.description = rawYaml.description;
-        this.avatarImage = rawYaml.avatarImage;
-        this.badgeImage = rawYaml.badgeImage;
-        (0, validateImageType_1.default)(this, 'avatarImage', this.avatarImage, validateImageType_1.ImageType.PNG);
-        (0, validateImageType_1.default)(this, 'badgeImage', this.badgeImage, validateImageType_1.ImageType.PNG);
+        this._code = parseInt(rawYaml.code);
+        this._key = rawYaml.key;
+        this._description = rawYaml.description;
+        this._avatarImage = rawYaml.avatarImage;
+        this._badgeImage = rawYaml.badgeImage;
+        (0, validateImageType_1.default)(this, 'avatarImage', this._avatarImage, validateImageType_1.ImageTypes.PNG);
+        (0, validateImageType_1.default)(this, 'badgeImage', this._badgeImage, validateImageType_1.ImageTypes.PNG);
+    }
+    get code() {
+        return this._code;
+    }
+    get key() {
+        return this._key;
+    }
+    get description() {
+        return this._description;
+    }
+    get avatarImage() {
+        return this._avatarImage;
+    }
+    get badgeImage() {
+        return this._badgeImage;
     }
 }
 exports["default"] = Color;
@@ -1007,11 +1131,26 @@ class Bonus {
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, bonusKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.max = new StatBonuses_1.default(rawYaml.max);
-        this[4] = new StatBonuses_1.default(rawYaml[4]);
-        this[3] = new StatBonuses_1.default(rawYaml[3]);
-        this[2] = new StatBonuses_1.default(rawYaml[2]);
+        this._key = rawYaml.key;
+        this._max = new StatBonuses_1.default(rawYaml.max);
+        this._4 = new StatBonuses_1.default(rawYaml[4]);
+        this._3 = new StatBonuses_1.default(rawYaml[3]);
+        this._2 = new StatBonuses_1.default(rawYaml[2]);
+    }
+    get key() {
+        return this._key;
+    }
+    get max() {
+        return this._max;
+    }
+    get 4() {
+        return this._4;
+    }
+    get 3() {
+        return this._3;
+    }
+    get 2() {
+        return this._2;
     }
 }
 exports["default"] = Bonus;
@@ -1034,10 +1173,16 @@ class Images {
         this.getRequiredKeys = () => requiredKeys;
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.costume = rawYaml.costume;
-        this.maxcostume = rawYaml.maxcostume;
-        (0, validation_1.validateImageType)(this, "costume", this.costume, validation_1.ImageType.PNG);
-        (0, validation_1.validateImageType)(this, "maxcostume", this.maxcostume, validation_1.ImageType.PNG);
+        this._costume = rawYaml.costume;
+        this._maxcostume = rawYaml.maxcostume;
+        (0, validation_1.validateImageType)(this, "costume", this._costume, validation_1.ImageType.PNG);
+        (0, validation_1.validateImageType)(this, "maxcostume", this._maxcostume, validation_1.ImageType.PNG);
+    }
+    get costume() {
+        return this._costume;
+    }
+    get maxcostume() {
+        return this._maxcostume;
     }
 }
 exports["default"] = Images;
@@ -1060,10 +1205,22 @@ class StatBonuses {
         this.getRequiredKeys = () => requiredKeys;
         this.getIntegers = () => integerKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.attack = parseInt(rawYaml.attack);
-        this.defense = parseInt(rawYaml.defense);
-        this.health = parseInt(rawYaml.health);
-        this.mana = parseInt(rawYaml.mana);
+        this._attack = parseInt(rawYaml.attack);
+        this._defense = parseInt(rawYaml.defense);
+        this._health = parseInt(rawYaml.health);
+        this._mana = parseInt(rawYaml.mana);
+    }
+    get attack() {
+        return this._attack;
+    }
+    get defense() {
+        return this._defense;
+    }
+    get health() {
+        return this._health;
+    }
+    get mana() {
+        return this._mana;
     }
 }
 exports["default"] = StatBonuses;
@@ -1094,15 +1251,30 @@ class Effect {
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, effectKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.description = rawYaml.description;
-        this.effect = rawYaml.effect;
-        this.mode = rawYaml.mode;
-        this.image = rawYaml.image;
-        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
-        if (!(0, ohp_1.default)(modes, this.mode)) {
-            throw new InvalidConfig_1.default(this, `modes does not exist for key ${this.key} and mode ${this.mode}`);
+        this._key = rawYaml.key;
+        this._description = rawYaml.description;
+        this._effect = rawYaml.effect;
+        this._mode = rawYaml.mode;
+        this._image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this._image, validation_1.ImageType.PNG);
+        if (!(0, ohp_1.default)(modes, this._mode)) {
+            throw new InvalidConfig_1.default(this, `modes does not exist for key ${this._key} and mode ${this._mode}`);
         }
+    }
+    get key() {
+        return this._key;
+    }
+    get description() {
+        return this._description;
+    }
+    get effect() {
+        return this._effect;
+    }
+    get mode() {
+        return this._mode;
+    }
+    get image() {
+        return this._image;
     }
 }
 exports["default"] = Effect;
@@ -1126,8 +1298,14 @@ class Mode {
         this.getStrings = () => stringKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, modeKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.display = rawYaml.display;
+        this._key = rawYaml.key;
+        this._display = rawYaml.display;
+    }
+    get key() {
+        return this._key;
+    }
+    get display() {
+        return this._display;
     }
 }
 exports["default"] = Mode;
@@ -1167,12 +1345,21 @@ class Node {
         this.getIntegers = () => integerKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, effectKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.type = rawYaml.type;
-        this.amount = parseInt(rawYaml.amount);
-        if (!(0, ohp_1.default)(effects, this.type)) {
-            throw new InvalidConfig_1.default(this, `types does not exist for key ${this.key} and effect ${this.type}`);
+        this._key = rawYaml.key;
+        this._type = rawYaml.type;
+        this._amount = parseInt(rawYaml.amount);
+        if (!(0, ohp_1.default)(effects, this._type)) {
+            throw new InvalidConfig_1.default(this, `types does not exist for key ${this._key} and effect ${this._type}`);
         }
+    }
+    get key() {
+        return this._key;
+    }
+    get type() {
+        return this._type;
+    }
+    get amount() {
+        return this._amount;
     }
 }
 exports["default"] = Node;
@@ -1195,8 +1382,11 @@ class Reset {
         this.getRequiredKeys = () => requiredKeys;
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.image = rawYaml.image;
-        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+        this._image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this._image, validation_1.ImageType.PNG);
+    }
+    get image() {
+        return this._image;
     }
 }
 exports["default"] = Reset;
@@ -1223,8 +1413,14 @@ class SplitNode {
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.l = (0, validateNode_1.default)(this, 'l', rawYaml.l, nodes);
-        this.r = (0, validateNode_1.default)(this, 'r', rawYaml.r, nodes);
+        this._l = (0, validateNode_1.default)(this, 'l', rawYaml.l, nodes);
+        this._r = (0, validateNode_1.default)(this, 'r', rawYaml.r, nodes);
+    }
+    get l() {
+        return this._l;
+    }
+    get r() {
+        return this._r;
     }
 }
 exports["default"] = SplitNode;
@@ -1289,26 +1485,86 @@ class Total {
         this.getRequiredKeys = () => requiredKeys;
         this.getIntegers = () => integerKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this[1] = rawYaml['1'];
-        this[2] = rawYaml['2'];
-        this[3] = rawYaml['3'];
-        this[4] = rawYaml['4'];
-        this[5] = rawYaml['5'];
-        this[6] = rawYaml['6'];
-        this[7] = rawYaml['7'];
-        this[8] = rawYaml['8'];
-        this[9] = rawYaml['9'];
-        this[10] = rawYaml['10'];
-        this[11] = rawYaml['11'];
-        this[12] = rawYaml['12'];
-        this[13] = rawYaml['13'];
-        this[14] = rawYaml['14'];
-        this[15] = rawYaml['15'];
-        this[16] = rawYaml['16'];
-        this[17] = rawYaml['17'];
-        this[18] = rawYaml['18'];
-        this[19] = rawYaml['19'];
-        this[20] = rawYaml['20'];
+        this._1 = rawYaml['1'];
+        this._2 = rawYaml['2'];
+        this._3 = rawYaml['3'];
+        this._4 = rawYaml['4'];
+        this._5 = rawYaml['5'];
+        this._6 = rawYaml['6'];
+        this._7 = rawYaml['7'];
+        this._8 = rawYaml['8'];
+        this._9 = rawYaml['9'];
+        this._10 = rawYaml['10'];
+        this._11 = rawYaml['11'];
+        this._12 = rawYaml['12'];
+        this._13 = rawYaml['13'];
+        this._14 = rawYaml['14'];
+        this._15 = rawYaml['15'];
+        this._16 = rawYaml['16'];
+        this._17 = rawYaml['17'];
+        this._18 = rawYaml['18'];
+        this._19 = rawYaml['19'];
+        this._20 = rawYaml['20'];
+    }
+    get 1() {
+        return this._1;
+    }
+    get 2() {
+        return this._2;
+    }
+    get 3() {
+        return this._3;
+    }
+    get 4() {
+        return this._4;
+    }
+    get 5() {
+        return this._5;
+    }
+    get 6() {
+        return this._6;
+    }
+    get 7() {
+        return this._7;
+    }
+    get 8() {
+        return this._8;
+    }
+    get 9() {
+        return this._9;
+    }
+    get 10() {
+        return this._10;
+    }
+    get 11() {
+        return this._11;
+    }
+    get 12() {
+        return this._12;
+    }
+    get 13() {
+        return this._13;
+    }
+    get 14() {
+        return this._14;
+    }
+    get 15() {
+        return this._15;
+    }
+    get 16() {
+        return this._16;
+    }
+    get 17() {
+        return this._17;
+    }
+    get 18() {
+        return this._18;
+    }
+    get 19() {
+        return this._19;
+    }
+    get 20() {
+        return this._20;
     }
 }
 exports["default"] = Total;
@@ -1335,11 +1591,26 @@ class Totals {
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this[1] = new Total_1.default(rawYaml['1']);
-        this[2] = new Total_1.default(rawYaml['2']);
-        this[3] = new Total_1.default(rawYaml['3']);
-        this[4] = new Total_1.default(rawYaml['4']);
-        this[5] = new Total_1.default(rawYaml['5']);
+        this._1 = new Total_1.default(rawYaml['1']);
+        this._2 = new Total_1.default(rawYaml['2']);
+        this._3 = new Total_1.default(rawYaml['3']);
+        this._4 = new Total_1.default(rawYaml['4']);
+        this._5 = new Total_1.default(rawYaml['5']);
+    }
+    get 1() {
+        return this._1;
+    }
+    get 2() {
+        return this._2;
+    }
+    get 3() {
+        return this._3;
+    }
+    get 4() {
+        return this._4;
+    }
+    get 5() {
+        return this._5;
     }
 }
 exports["default"] = Totals;
@@ -1417,30 +1688,93 @@ class Tree {
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, effectKey, rawYaml.key);
-        this['key'] = rawYaml['key'];
-        if (!(0, ohp_1.default)(classesConfig.classes, this['key'])) {
-            throw new InvalidConfig_1.default(this, `${this['key']} is not a valid class, did you enter a valid class?`);
+        this['_key'] = rawYaml['key'];
+        if (!(0, ohp_1.default)(classesConfig.classes, this['_key'])) {
+            throw new InvalidConfig_1.default(this, `${this['_key']} is not a valid class, did you enter a valid class?`);
         }
-        this[1] = (0, validateNode_1.default)(this, '1', rawYaml[1], nodes);
-        this[2] = new SplitNode_1.default(rawYaml[2], nodes);
-        this[3] = new SplitNode_1.default(rawYaml[3], nodes);
-        this[4] = (0, validateNode_1.default)(this, '4', rawYaml[4], nodes);
-        this[5] = new SplitNode_1.default(rawYaml[5], nodes);
-        this[6] = new SplitNode_1.default(rawYaml[6], nodes);
-        this[7] = (0, validateNode_1.default)(this, '7', rawYaml[7], nodes);
-        this[8] = new SplitNode_1.default(rawYaml[8], nodes);
-        this[9] = new SplitNode_1.default(rawYaml[9], nodes);
-        this[10] = (0, validateNode_1.default)(this, '10', rawYaml[10], nodes);
-        this[11] = new SplitNode_1.default(rawYaml[11], nodes);
-        this[12] = (0, validateNode_1.default)(this, '12', rawYaml[12], nodes);
-        this[13] = new SplitNode_1.default(rawYaml[13], nodes);
-        this[14] = new SplitNode_1.default(rawYaml[14], nodes);
-        this[15] = (0, validateNode_1.default)(this, '15', rawYaml[15], nodes);
-        this[16] = new SplitNode_1.default(rawYaml[16], nodes);
-        this[17] = new SplitNode_1.default(rawYaml[17], nodes);
-        this[18] = (0, validateNode_1.default)(this, '18', rawYaml[18], nodes);
-        this[19] = new SplitNode_1.default(rawYaml[19], nodes);
-        this[20] = (0, validateNode_1.default)(this, '20', rawYaml[20], nodes);
+        this._1 = (0, validateNode_1.default)(this, '1', rawYaml[1], nodes);
+        this._2 = new SplitNode_1.default(rawYaml[2], nodes);
+        this._3 = new SplitNode_1.default(rawYaml[3], nodes);
+        this._4 = (0, validateNode_1.default)(this, '4', rawYaml[4], nodes);
+        this._5 = new SplitNode_1.default(rawYaml[5], nodes);
+        this._6 = new SplitNode_1.default(rawYaml[6], nodes);
+        this._7 = (0, validateNode_1.default)(this, '7', rawYaml[7], nodes);
+        this._8 = new SplitNode_1.default(rawYaml[8], nodes);
+        this._9 = new SplitNode_1.default(rawYaml[9], nodes);
+        this._10 = (0, validateNode_1.default)(this, '10', rawYaml[10], nodes);
+        this._11 = new SplitNode_1.default(rawYaml[11], nodes);
+        this._12 = (0, validateNode_1.default)(this, '12', rawYaml[12], nodes);
+        this._13 = new SplitNode_1.default(rawYaml[13], nodes);
+        this._14 = new SplitNode_1.default(rawYaml[14], nodes);
+        this._15 = (0, validateNode_1.default)(this, '15', rawYaml[15], nodes);
+        this._16 = new SplitNode_1.default(rawYaml[16], nodes);
+        this._17 = new SplitNode_1.default(rawYaml[17], nodes);
+        this._18 = (0, validateNode_1.default)(this, '18', rawYaml[18], nodes);
+        this._19 = new SplitNode_1.default(rawYaml[19], nodes);
+        this._20 = (0, validateNode_1.default)(this, '20', rawYaml[20], nodes);
+    }
+    get key() {
+        return this._key;
+    }
+    get 1() {
+        return this._1;
+    }
+    get 2() {
+        return this._2;
+    }
+    get 3() {
+        return this._3;
+    }
+    get 4() {
+        return this._4;
+    }
+    get 5() {
+        return this._5;
+    }
+    get 6() {
+        return this._6;
+    }
+    get 7() {
+        return this._7;
+    }
+    get 8() {
+        return this._8;
+    }
+    get 9() {
+        return this._9;
+    }
+    get 10() {
+        return this._10;
+    }
+    get 11() {
+        return this._11;
+    }
+    get 12() {
+        return this._12;
+    }
+    get 13() {
+        return this._13;
+    }
+    get 14() {
+        return this._14;
+    }
+    get 15() {
+        return this._15;
+    }
+    get 16() {
+        return this._16;
+    }
+    get 17() {
+        return this._17;
+    }
+    get 18() {
+        return this._18;
+    }
+    get 19() {
+        return this._19;
+    }
+    get 20() {
+        return this._20;
     }
 }
 exports["default"] = Tree;
@@ -1495,24 +1829,39 @@ const imageKeys = ['image'];
 const arrayKeys = ['bonus'];
 class Family {
     constructor(familyKey, rawYaml) {
-        this.bonus = [];
+        this._bonus = [];
         this.getClassName = () => Family.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getArrays = () => arrayKeys;
         this.getIntegers = () => integerKeys;
         this.getImages = () => imageKeys;
         this.getStrings = () => stringKeys;
-        this.getId = () => this.code;
+        this.getId = () => this._code;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, familyKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.code = parseInt(rawYaml.code);
-        this.description = rawYaml.description;
-        this.image = rawYaml.image;
+        this._key = rawYaml.key;
+        this._code = parseInt(rawYaml.code);
+        this._description = rawYaml.description;
+        this._image = rawYaml.image;
         for (let bonusItem of rawYaml.bonus) {
-            this.bonus.push(bonusItem);
+            this._bonus.push(bonusItem);
         }
-        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+        (0, validation_1.validateImageType)(this, 'image', this._image, validation_1.ImageType.PNG);
+    }
+    get key() {
+        return this._key;
+    }
+    get code() {
+        return this._code;
+    }
+    get description() {
+        return this._description;
+    }
+    get image() {
+        return this._image;
+    }
+    get bonus() {
+        return this._bonus;
     }
 }
 exports["default"] = Family;
@@ -1536,22 +1885,31 @@ const stringKeys = ['description', 'type'];
 const objectKeys = ['ascensions'];
 class Filter {
     constructor(filter, rawYaml) {
-        this.ascensions = {};
+        this._ascensions = {};
         this.getClassName = () => Filter.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         this.getStrings = () => stringKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, filter, rawYaml.key);
-        this.description = rawYaml.description;
-        this.type = rawYaml.type;
+        this._description = rawYaml.description;
+        this._type = rawYaml.type;
         if ((0, ohp_1.default)(rawYaml, 'ascensions')) {
             // this.ascensions = {};
             const ascensions = rawYaml.ascensions;
             for (let ascension in ascensions) {
-                this.ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
+                this._ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
             }
         }
+    }
+    get description() {
+        return this._description;
+    }
+    get type() {
+        return this._type;
+    }
+    get ascensions() {
+        return this._ascensions;
     }
 }
 exports["default"] = Filter;
@@ -1587,46 +1945,76 @@ const stringKeys = ['class', 'skill', 'family', 'image', 'bonuses'];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
 const arrayKeys = ['effets', 'types'];
 class Costume {
-    constructor(stars, color, name, rawYaml, classesConfig, costumesConfig, costumeVariant) {
-        this.effects = [];
-        this.types = [];
+    constructor(name, rawYaml, classesConfig, costumesConfig, costumeVariant) {
+        this._effects = [];
+        this._types = [];
         this.getClassName = () => Costume.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getIntegers = () => integerKeys;
         this.getStrings = () => stringKeys;
         this.getArrays = () => arrayKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.class = rawYaml.class;
-        this.power = rawYaml.power;
-        this.attack = rawYaml.attack;
-        this.defense = rawYaml.defense;
-        this.health = rawYaml.health;
-        this.skill = rawYaml.skill;
-        this.image = rawYaml.image;
-        this.bonuses = rawYaml.bonuses;
+        this._class = rawYaml.class;
+        this._power = rawYaml.power;
+        this._attack = rawYaml.attack;
+        this._defense = rawYaml.defense;
+        this._health = rawYaml.health;
+        this._skill = rawYaml.skill;
+        this._image = rawYaml.image;
+        this._bonuses = rawYaml.bonuses;
         const effects = rawYaml.effects;
         for (let effect of effects) {
-            this.effects.push(effect);
+            this._effects.push(effect);
         }
         const types = rawYaml.types;
         for (let type of types) {
-            this.types.push(type);
+            this._types.push(type);
         }
         // validate class is valid
-        if (!(0, ohp_1.default)(classesConfig.classes, this.class.toLowerCase())) {
-            throw new InvalidConfig_1.default(this, `${name}'s costume (${costumeVariant}) has an invalid class ${this.class}`);
+        if (!(0, ohp_1.default)(classesConfig.classes, this._class.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${name}'s costume (${costumeVariant}) has an invalid class ${this._class}`);
         }
         // validate bonuses are valid
-        if (this.bonuses && !(0, ohp_1.default)(costumesConfig.bonuses, this.bonuses)) {
-            throw new InvalidConfig_1.default(this, `${name}'s costume (${costumeVariant}) has an invalid bonus ${this.bonuses}`);
+        if (this._bonuses && !(0, ohp_1.default)(costumesConfig.bonuses, this._bonuses)) {
+            throw new InvalidConfig_1.default(this, `${name}'s costume (${costumeVariant}) has an invalid bonus ${this._bonuses}`);
         }
         // TODO: Populate default variant if bonuses isn't set
+    }
+    get class() {
+        return this._class;
+    }
+    get power() {
+        return this._power;
+    }
+    get attack() {
+        return this._attack;
+    }
+    get defense() {
+        return this._defense;
+    }
+    get health() {
+        return this._health;
+    }
+    get skill() {
+        return this._skill;
+    }
+    get effects() {
+        return this._effects;
+    }
+    get types() {
+        return this._types;
+    }
+    get image() {
+        return this._image;
+    }
+    get bonuses() {
+        return this._bonuses;
     }
 }
 _a = Costume;
 Costume.build = (stars, color, name, rawYaml, classesConfig, costumesConfig, costumeVariant, heroImagesDirectory) => __awaiter(void 0, void 0, void 0, function* () {
-    const costume = new Costume(stars, color, name, rawYaml, classesConfig, costumesConfig, costumeVariant);
-    yield (0, validateHeroImage_1.default)(costume, name, costume.image, color, stars, heroImagesDirectory, costumeVariant);
+    const costume = new Costume(name, rawYaml, classesConfig, costumesConfig, costumeVariant);
+    yield (0, validateHeroImage_1.default)(costume, name, costume._image, color, stars, heroImagesDirectory, costumeVariant);
     return costume;
 });
 exports["default"] = Costume;
@@ -1665,11 +2053,11 @@ const objectKeys = ['costume', 'costume2'];
 const arrayKeys = ['effects', 'types', 'passives'];
 class Hero {
     constructor(stars, color, rawYaml, costume, costume2, classesConfig, familiesConfig, sourcesConfig, speedsConfig) {
-        this.family = null;
-        this.effects = [];
-        this.types = [];
-        this.costume = null;
-        this.costume2 = null;
+        this._family = null;
+        this._effects = [];
+        this._types = [];
+        this._costume = null;
+        this._costume2 = null;
         this.getClassName = () => Hero.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getIntegers = () => integerKeys;
@@ -1677,46 +2065,100 @@ class Hero {
         this.getStrings = () => stringKeys;
         this.getArrays = () => arrayKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.stars = stars;
-        this.color = color;
-        this.name = rawYaml.name;
-        this.source = rawYaml.source;
-        this.class = rawYaml.class;
-        this.speed = rawYaml.speed;
-        this.power = rawYaml.power;
-        this.attack = rawYaml.attack;
-        this.defense = rawYaml.defense;
-        this.health = rawYaml.health;
-        this.skill = rawYaml.skill;
-        this.image = rawYaml.image;
-        this.effects = rawYaml.effects;
-        this.types = rawYaml.types;
-        this.passives = rawYaml.passives;
-        this.costume = costume;
-        this.costume2 = costume2;
+        this._stars = stars;
+        this._color = color;
+        this._name = rawYaml.name;
+        this._source = rawYaml.source;
+        this._class = rawYaml.class;
+        this._speed = rawYaml.speed;
+        this._power = rawYaml.power;
+        this._attack = rawYaml.attack;
+        this._defense = rawYaml.defense;
+        this._health = rawYaml.health;
+        this._skill = rawYaml.skill;
+        this._image = rawYaml.image;
+        this._effects = rawYaml.effects;
+        this._types = rawYaml.types;
+        this._passives = rawYaml.passives;
+        this._costume = costume;
+        this._costume2 = costume2;
         // Validate effects & types have values
-        if (this.types.length === 0) {
-            throw new InvalidConfig_1.default(this, `${this.name} has no types`);
+        if (this._types.length === 0) {
+            throw new InvalidConfig_1.default(this, `${this._name} has no types`);
         }
-        if (this.effects.length === 0) {
-            throw new InvalidConfig_1.default(this, `${this.name} has no effects`);
+        if (this._effects.length === 0) {
+            throw new InvalidConfig_1.default(this, `${this._name} has no effects`);
         }
         // Validate class is valid
-        if (!(0, ohp_1.default)(classesConfig.classes, this.class.toLowerCase())) {
-            throw new InvalidConfig_1.default(this, `${this.name} has an invalid class ${this.class}`);
+        if (!(0, ohp_1.default)(classesConfig.classes, this._class.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${this._name} has an invalid class ${this._class}`);
         }
         // Validate speeds is valid
-        if (!speedsConfig.isValidSpeed(this.speed)) {
-            throw new InvalidConfig_1.default(this, `${this.name} has an invalid speed ${this.speed}`);
+        if (!speedsConfig.isValidSpeed(this._speed)) {
+            throw new InvalidConfig_1.default(this, `${this._name} has an invalid speed ${this._speed}`);
         }
         // Validate source is valid
-        if (!(0, ohp_1.default)(sourcesConfig.sources, this.source.toLowerCase())) {
-            throw new InvalidConfig_1.default(this, `${this.name} has an invalid source ${this.source}`);
+        if (!(0, ohp_1.default)(sourcesConfig.sources, this._source.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${this._name} has an invalid source ${this._source}`);
         }
         // Validate family is valid (if set)
-        if (this.family && !(0, ohp_1.default)(familiesConfig.families, this.family.toLowerCase())) {
-            throw new InvalidConfig_1.default(this, `${this.name} has an invalid family ${this.family}`);
+        if (this._family && !(0, ohp_1.default)(familiesConfig.families, this._family.toLowerCase())) {
+            throw new InvalidConfig_1.default(this, `${this._name} has an invalid family ${this._family}`);
         }
+    }
+    get stars() {
+        return this._stars;
+    }
+    get color() {
+        return this._color;
+    }
+    get name() {
+        return this._name;
+    }
+    get source() {
+        return this._source;
+    }
+    get class() {
+        return this._class;
+    }
+    get speed() {
+        return this._speed;
+    }
+    get power() {
+        return this._power;
+    }
+    get attack() {
+        return this._attack;
+    }
+    get defense() {
+        return this._defense;
+    }
+    get health() {
+        return this._health;
+    }
+    get skill() {
+        return this._skill;
+    }
+    get family() {
+        return this._family;
+    }
+    get image() {
+        return this._image;
+    }
+    get effects() {
+        return this._effects;
+    }
+    get types() {
+        return this._types;
+    }
+    get passives() {
+        return this._passives;
+    }
+    get costume() {
+        return this._costume;
+    }
+    get costume2() {
+        return this._costume2;
     }
 }
 _a = Hero;
@@ -1731,7 +2173,7 @@ Hero.build = (stars, color, rawYaml, classesConfig, familiesConfig, sourcesConfi
         ? yield Costume_1.default.build(stars, color, name, costume2Raw, classesConfig, costumesConfig, 1, heroImagesDirectory)
         : null;
     const hero = new Hero(stars, color, rawYaml, costume, costume2, classesConfig, familiesConfig, sourcesConfig, speedsConfig);
-    const image = hero.image;
+    const image = hero._image;
     yield (0, validateHeroImage_1.default)(hero, name, image, color, stars, heroImagesDirectory, 0);
     return hero;
 });
@@ -1758,9 +2200,15 @@ class Ascension {
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, ascensionKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.image = rawYaml.image;
-        (0, validation_1.validateImageType)(this, 'image', this.image, validation_1.ImageType.PNG);
+        this._key = rawYaml.key;
+        this._image = rawYaml.image;
+        (0, validation_1.validateImageType)(this, 'image', this._image, validation_1.ImageType.PNG);
+    }
+    get key() {
+        return this._key;
+    }
+    get image() {
+        return this._image;
     }
 }
 exports["default"] = Ascension;
@@ -1784,12 +2232,21 @@ class Source {
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         this.getIntegers = () => integerKey;
-        this.getId = () => this.code;
+        this.getId = () => this._code;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, sourceKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.code = parseInt(rawYaml.code);
-        this.description = rawYaml.description;
+        this._key = rawYaml.key;
+        this._code = parseInt(rawYaml.code);
+        this._description = rawYaml.description;
+    }
+    get key() {
+        return this._key;
+    }
+    get code() {
+        return this._code;
+    }
+    get description() {
+        return this._description;
     }
 }
 exports["default"] = Source;
@@ -1818,32 +2275,50 @@ const arrayKeys = ['tiles'];
 const objectKeys = ['breakPoints'];
 class Speed {
     constructor(speedKey, rawYaml) {
-        this.tiles = [];
-        this.breakPoints = {};
+        this._tiles = [];
+        this._breakPoints = {};
         this.getClassName = () => Speed.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         this.getIntegers = () => intKeys;
         this.getStrings = () => stringKeys;
         this.getArrays = () => arrayKeys;
-        this.getId = () => this.code;
+        this.getId = () => this._code;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, speedKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.code = parseInt(rawYaml.code);
-        this.shortName = rawYaml.shortName;
-        this.description = rawYaml.description;
+        this._key = rawYaml.key;
+        this._code = parseInt(rawYaml.code);
+        this._shortName = rawYaml.shortName;
+        this._description = rawYaml.description;
         for (let tile of rawYaml.tiles) {
-            this.tiles.push(parseFloat(tile));
+            this._tiles.push(parseFloat(tile));
         }
         const breakpoints = rawYaml.breakPoints;
         for (let breakpointRaw in breakpoints) {
             const breakpoint = parseInt(breakpointRaw);
-            this.breakPoints[breakpoint] = [];
+            this._breakPoints[breakpoint] = [];
             for (let breakpointItem of breakpoints[breakpoint]) {
-                this.breakPoints[breakpoint].push(parseFloat(breakpointItem));
+                this._breakPoints[breakpoint].push(parseFloat(breakpointItem));
             }
         }
+    }
+    get key() {
+        return this._key;
+    }
+    get code() {
+        return this._code;
+    }
+    get shortName() {
+        return this._shortName;
+    }
+    get description() {
+        return this._description;
+    }
+    get tiles() {
+        return this._tiles;
+    }
+    get breakPoints() {
+        return this._breakPoints;
     }
 }
 exports["default"] = Speed;
@@ -1870,39 +2345,57 @@ const integerKeys = ['category'];
 const arrayKeys = ['stars', 'colors'];
 class Category {
     constructor(categoryKey, rawYaml, typesets, colorsConfig) {
-        this.distinct = false;
-        this.colors = new Set();
-        this.stars = new Set();
+        this._distinct = false;
+        this._colors = new Set();
+        this._stars = new Set();
         this.getClassName = () => Category.name;
-        this.getId = () => this.category;
+        this.getId = () => this._category;
         this.getIntegers = () => integerKeys;
         this.getBooleans = () => booleanKeys;
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         this.getArrays = () => arrayKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.description = rawYaml.description;
-        this.category = parseInt(rawYaml.category);
+        this._description = rawYaml.description;
+        this._category = parseInt(rawYaml.category);
         const typeset = rawYaml.typeset;
         if (!(0, ohp_1.default)(typesets, typeset)) {
             throw new InvalidConfig_1.default(this, `invalid typeset set for ${categoryKey}, category: ${typeset}`);
         }
-        this.typeset = typeset;
+        this._typeset = typeset;
         const colors = rawYaml.colors || [];
         for (let color of colors) {
             if (!(0, ohp_1.default)(colorsConfig.colors, color)) {
-                throw new InvalidConfig_1.default(this, `Color for team category ${this.category} is invalid: ${color}`);
+                throw new InvalidConfig_1.default(this, `Color for team category ${this._category} is invalid: ${color}`);
             }
-            this.colors.add(color);
+            this._colors.add(color);
         }
         const stars = rawYaml.stars || [];
         for (let star of stars) {
             let starVal = parseInt(star);
             if (isNaN(starVal) || starVal < 1 || starVal > 5) {
-                throw new InvalidConfig_1.default(this, `Invalid stars for team category ${this.category} is invalid: ${star}`);
+                throw new InvalidConfig_1.default(this, `Invalid stars for team category ${this._category} is invalid: ${star}`);
             }
-            this.stars.add(starVal);
+            this._stars.add(starVal);
         }
+    }
+    get description() {
+        return this._description;
+    }
+    get category() {
+        return this._category;
+    }
+    get distinct() {
+        return this._distinct;
+    }
+    get typeset() {
+        return this._typeset;
+    }
+    get colors() {
+        return this._colors;
+    }
+    get stars() {
+        return this._stars;
     }
 }
 exports["default"] = Category;
@@ -1923,15 +2416,24 @@ const integerKeys = ['id'];
 class Position {
     constructor(positionKey, rawYaml) {
         this.getClassName = () => Position.name;
-        this.getId = () => this.id;
+        this.getId = () => this._id;
         this.getIntegers = () => integerKeys;
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, positionKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.id = parseInt(rawYaml.id);
-        this.description = rawYaml.description;
+        this._key = rawYaml.key;
+        this._id = parseInt(rawYaml.id);
+        this._description = rawYaml.description;
+    }
+    get key() {
+        return this._key;
+    }
+    get id() {
+        return this._id;
+    }
+    get description() {
+        return this._description;
     }
 }
 exports["default"] = Position;
@@ -1957,25 +2459,37 @@ const integerKeys = ['type'];
 const arrayKeys = ['classes'];
 class Type {
     constructor(typeKey, rawYaml, classesConfig) {
-        this.classes = new Set();
+        this._classes = new Set();
         this.getClassName = () => Type.name;
-        this.getId = () => this.type;
+        this.getId = () => this._type;
         this.getIntegers = () => integerKeys;
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         this.getArrays = () => arrayKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, typeKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.type = parseInt(rawYaml.type);
-        this.description = rawYaml.description;
+        this._key = rawYaml.key;
+        this._type = parseInt(rawYaml.type);
+        this._description = rawYaml.description;
         const classes = rawYaml.classes || [];
         for (let className of classes) {
             if (!(0, ohp_1.default)(classesConfig.classes, className)) {
-                throw new InvalidConfig_1.default(this, `Class for team type ${this.description} is invalid: ${className}`);
+                throw new InvalidConfig_1.default(this, `Class for team type ${this._description} is invalid: ${className}`);
             }
-            this.classes.add(className);
+            this._classes.add(className);
         }
+    }
+    get key() {
+        return this._key;
+    }
+    get type() {
+        return this._type;
+    }
+    get description() {
+        return this._description;
+    }
+    get classes() {
+        return this._classes;
     }
 }
 exports["default"] = Type;
@@ -1999,19 +2513,25 @@ const objectKeys = ['types'];
 class TypeSet {
     // Validate no duplicate types.type
     constructor(typesetKey, rawYaml, classesConfig) {
-        this.types = {};
+        this._types = {};
         this.getClassName = () => TypeSet.name;
         this.getObjects = () => objectKeys;
         this.getRequiredKeys = () => requiredKeys;
         (0, validation_1.validate)(this, rawYaml);
         const key = rawYaml.key;
         (0, validation_1.validateKeysMatch)(this, typesetKey, key);
-        this.key = rawYaml.key;
+        this._key = rawYaml.key;
         const types = rawYaml.types;
         for (let type in types) {
-            this.types[type] = new Type_1.default(type, types[type], classesConfig);
+            this._types[type] = new Type_1.default(type, types[type], classesConfig);
         }
-        (0, validation_1.validateNoDuplicateIds)(this, 'types', Object.values(this.types));
+        (0, validation_1.validateNoDuplicateIds)(this, 'types', Object.values(this._types));
+    }
+    get key() {
+        return this._key;
+    }
+    get types() {
+        return this._types;
     }
 }
 exports["default"] = TypeSet;
@@ -2034,16 +2554,31 @@ class ImageSet {
         this.getRequiredKeys = () => requiredKeys;
         this.getImages = () => imageKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.purple = rawYaml.purple;
-        this.yellow = rawYaml.yellow;
-        this.blue = rawYaml.blue;
-        this.green = rawYaml.green;
-        this.red = rawYaml.red;
-        (0, validation_1.validateImageType)(this, 'purple', this.purple, validation_1.ImageType.JPG);
-        (0, validation_1.validateImageType)(this, 'yellow', this.yellow, validation_1.ImageType.JPG);
-        (0, validation_1.validateImageType)(this, 'blue', this.blue, validation_1.ImageType.JPG);
-        (0, validation_1.validateImageType)(this, 'green', this.green, validation_1.ImageType.JPG);
-        (0, validation_1.validateImageType)(this, 'red', this.red, validation_1.ImageType.JPG);
+        this._purple = rawYaml.purple;
+        this._yellow = rawYaml.yellow;
+        this._blue = rawYaml.blue;
+        this._green = rawYaml.green;
+        this._red = rawYaml.red;
+        (0, validation_1.validateImageType)(this, 'purple', this._purple, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'yellow', this._yellow, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'blue', this._blue, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'green', this._green, validation_1.ImageType.JPG);
+        (0, validation_1.validateImageType)(this, 'red', this._red, validation_1.ImageType.JPG);
+    }
+    get purple() {
+        return this._purple;
+    }
+    get yellow() {
+        return this._yellow;
+    }
+    get blue() {
+        return this._blue;
+    }
+    get green() {
+        return this._green;
+    }
+    get red() {
+        return this._red;
     }
 }
 exports["default"] = ImageSet;
@@ -2070,8 +2605,14 @@ class Images {
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        this.full = new ImageSet_1.default(rawYaml.full);
-        this.half = new ImageSet_1.default(rawYaml.half);
+        this._full = new ImageSet_1.default(rawYaml.full);
+        this._half = new ImageSet_1.default(rawYaml.half);
+    }
+    get full() {
+        return this._full;
+    }
+    get half() {
+        return this._half;
     }
 }
 exports["default"] = Images;
@@ -2096,25 +2637,46 @@ const objectKeys = ['images', 'manaBonus'];
 const integerKeys = ['id', 'stars'];
 class Troop {
     constructor(troopKey, rawYaml) {
-        this.manaBonus = {};
+        this._manaBonus = {};
         this.getClassName = () => Troop.name;
         this.getIntegers = () => integerKeys;
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         this.getObjects = () => objectKeys;
-        this.getId = () => this.id;
+        this.getId = () => this._id;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, troopKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.id = parseInt(rawYaml.id);
-        this.stars = parseInt(rawYaml.stars);
-        this.name = rawYaml.name;
-        this.description = rawYaml.description;
-        this.images = new Images_1.default(rawYaml.images);
+        this._key = rawYaml.key;
+        this._id = parseInt(rawYaml.id);
+        this._stars = parseInt(rawYaml.stars);
+        this._name = rawYaml.name;
+        this._description = rawYaml.description;
+        this._images = new Images_1.default(rawYaml.images);
         const manaBonus = rawYaml.mana_bonus || {};
         for (let breakpoint in manaBonus) {
-            this.manaBonus[parseInt(breakpoint)] = parseInt(manaBonus[breakpoint]);
+            this._manaBonus[parseInt(breakpoint)] = parseInt(manaBonus[breakpoint]);
         }
+    }
+    get key() {
+        return this._key;
+    }
+    get id() {
+        return this._id;
+    }
+    get stars() {
+        return this._stars;
+    }
+    get name() {
+        return this._name;
+    }
+    get description() {
+        return this._description;
+    }
+    get images() {
+        return this._images;
+    }
+    get manaBonus() {
+        return this._manaBonus;
     }
 }
 exports["default"] = Troop;
@@ -2138,12 +2700,21 @@ class SharingMode {
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         this.getIntegers = () => integerKeys;
-        this.getId = () => this.id;
+        this.getId = () => this._id;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, sharingModeKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.id = parseInt(rawYaml.id);
-        this.description = rawYaml.description;
+        this._key = rawYaml.key;
+        this._id = parseInt(rawYaml.id);
+        this._description = rawYaml.description;
+    }
+    get key() {
+        return this._key;
+    }
+    get id() {
+        return this._id;
+    }
+    get description() {
+        return this._description;
     }
 }
 exports["default"] = SharingMode;
@@ -2167,8 +2738,14 @@ class SocialNetwork {
         this.getStrings = () => stringKeys;
         (0, validation_1.validate)(this, rawYaml);
         (0, validation_1.validateKeysMatch)(this, socialNetworkKey, rawYaml.key);
-        this.key = rawYaml.key;
-        this.description = rawYaml.description;
+        this._key = rawYaml.key;
+        this._description = rawYaml.description;
+    }
+    get key() {
+        return this._key;
+    }
+    get description() {
+        return this._description;
     }
 }
 exports["default"] = SocialNetwork;
@@ -2295,8 +2872,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 class FileLoadFailed extends Error {
     constructor(filename, data) {
         super(`File failed to load: ${filename}`);
-        this.filename = filename;
-        this.data = data;
+        this._filename = filename;
+        this._data = data;
+    }
+    get filename() {
+        return this._filename;
+    }
+    get data() {
+        return this._data;
     }
 }
 exports["default"] = FileLoadFailed;
@@ -2313,8 +2896,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 class ImageMissing extends Error {
     constructor(heroName, fileName) {
         super(`Hero is missing image | hero=${heroName} | fileName=${fileName}`);
-        this.heroName = heroName;
-        this.fileName = fileName;
+        this._heroName = heroName;
+        this._fileName = fileName;
+    }
+    get heroName() {
+        return this._heroName;
+    }
+    get fileName() {
+        return this._fileName;
     }
 }
 exports["default"] = ImageMissing;
@@ -2331,8 +2920,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 class InvalidConfig extends Error {
     constructor(config, data) {
         super(`Config is not valid: ${config.getClassName()}:${data}`);
-        this.configName = config.getClassName();
-        this.data = data;
+        this._configName = config.getClassName();
+        this._data = data;
+    }
+    get configName() {
+        return this._configName;
+    }
+    get data() {
+        return this._data;
     }
 }
 exports["default"] = InvalidConfig;
@@ -2349,8 +2944,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 class InvalidImage extends Error {
     constructor(heroName, additionalDetails) {
         super(`Hero image is invalid | hero=${heroName} | ${additionalDetails}`);
-        this.heroName = heroName;
-        this.additionalDetails = additionalDetails;
+        this._heroName = heroName;
+        this._additionalDetails = additionalDetails;
+    }
+    get heroName() {
+        return this._heroName;
+    }
+    get additionalDetails() {
+        return this._additionalDetails;
     }
 }
 exports["default"] = InvalidImage;
@@ -2367,9 +2968,18 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 class MissingRequiredKey extends Error {
     constructor(config, data, source) {
         super(`Config is missing key | ${config.getClassName()}:${data} | keysPassed=${Object.keys(source)}`);
-        this.configName = config.getClassName();
-        this.data = data;
-        this.source = source;
+        this._configName = config.getClassName();
+        this._data = data;
+        this._source = source;
+    }
+    get configName() {
+        return this._configName;
+    }
+    get data() {
+        return this._data;
+    }
+    get source() {
+        return this._source;
     }
 }
 exports["default"] = MissingRequiredKey;
@@ -2386,8 +2996,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 class YamlParseFailed extends Error {
     constructor(filename, data) {
         super(`Yaml Parse failed on file: ${data}`);
-        this.filename = filename;
-        this.data = data;
+        this._filename = filename;
+        this._data = data;
+    }
+    get filename() {
+        return this._filename;
+    }
+    get data() {
+        return this._data;
     }
 }
 exports["default"] = YamlParseFailed;
@@ -3050,7 +3666,7 @@ var validateNoDuplicateIds_1 = __nccwpck_require__(5861);
 Object.defineProperty(exports, "validateNoDuplicateIds", ({ enumerable: true, get: function () { return __importDefault(validateNoDuplicateIds_1).default; } }));
 var validateImageType_1 = __nccwpck_require__(8475);
 Object.defineProperty(exports, "validateImageType", ({ enumerable: true, get: function () { return __importDefault(validateImageType_1).default; } }));
-Object.defineProperty(exports, "ImageType", ({ enumerable: true, get: function () { return validateImageType_1.ImageType; } }));
+Object.defineProperty(exports, "ImageType", ({ enumerable: true, get: function () { return validateImageType_1.ImageTypes; } }));
 
 
 /***/ }),
@@ -3221,7 +3837,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateAllIntegers = (config, key, elements) => {
-    for (let element of elements) {
+    for (const element of elements) {
         if (isNaN(parseInt(element))) {
             throw new InvalidConfig_1.default(config, `One of value in ${key} is not an integer: ${element}`);
         }
@@ -3257,14 +3873,14 @@ const fs_1 = __importDefault(__nccwpck_require__(7147));
 const util_1 = __importDefault(__nccwpck_require__(3837));
 const canvas_1 = __nccwpck_require__(771);
 const InvalidImage_1 = __importDefault(__nccwpck_require__(4382));
-const imageFromBuffer = (base64Contents) => {
+const imageFromBuffer = (base64Contents) => __awaiter(void 0, void 0, void 0, function* () {
     const image = new canvas_1.Image();
     return new Promise((resolve, reject) => {
         image.onload = () => resolve(image);
         image.onerror = () => reject(image);
         image.src = base64Contents;
     });
-};
+});
 const validImageSizes = new Set([200, 201]);
 const validateHeroImage = (config, heroName, imageLink, color, stars, heroImagesDirectory, costumeVariant = 0) => __awaiter(void 0, void 0, void 0, function* () {
     // Checks imgur image type
@@ -3313,13 +3929,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.checkImageType = exports.ImageType = void 0;
+exports.checkImageType = exports.ImageTypes = void 0;
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
-var ImageType;
-(function (ImageType) {
-    ImageType["PNG"] = "png";
-    ImageType["JPG"] = "jpg";
-})(ImageType = exports.ImageType || (exports.ImageType = {}));
+var ImageTypes;
+(function (ImageTypes) {
+    ImageTypes["PNG"] = "png";
+    ImageTypes["JPG"] = "jpg";
+})(ImageTypes = exports.ImageTypes || (exports.ImageTypes = {}));
 const checkImageType = (config, errorString, value, type) => {
     if (!value.endsWith(`.${type}`)) {
         throw new InvalidConfig_1.default(config, errorString);
@@ -3366,7 +3982,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateNoDuplicateIds = (config, child, elements) => {
     const ids = new Set();
-    for (let element of elements) {
+    for (const element of elements) {
         const id = element.getId();
         if (ids.has(id)) {
             throw new InvalidConfig_1.default(config, `Duplicate ID found | child=${child} | id=${id}`);
