@@ -11,4 +11,4 @@ export { default as HasArrays } from './interfaces/HasArrays';
 export { default as validate } from './validate';
 export { default as validateKeysMatch } from './validateKeysMatch';
 export { default as validateNoDuplicateIds } from './validateNoDuplicateIds';
-export { default as validateImageType, ImageType } from './validateImageType';
+export { default as validateImageType, ImageTypes as ImageType } from './validateImageType';
