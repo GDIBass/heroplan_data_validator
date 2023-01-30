@@ -15,6 +15,7 @@ import CostumesConfig from "../CostumesConfig";
 import ohp from "../../util/ohp";
 import InvalidConfig from "../../error/InvalidConfig";
 import validateHeroImage from "../../validation/validateHeroImage";
+import SpeedsConfig from "../SpeedsConfig";
 
 const requiredKeys = ['name', 'class', 'source', 'speed', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
@@ -61,15 +62,16 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
   public readonly costume: Costume|null = null;
   public readonly costume2: Costume|null = null;
 
-  constructor(
+  private constructor(
     stars: number,
     color: string,
     rawYaml: object,
+    costume: Costume|null,
+    costume2: Costume|null,
     classesConfig: ClassesConfig,
     familiesConfig: FamiliesConfig,
     sourcesConfig: SourcesConfig,
-    costumesConfig: CostumesConfig,
-    heroImagesDirectory: string
+    speedsConfig: SpeedsConfig
   ) {
     validate(this, rawYaml);
 
@@ -88,17 +90,8 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     this.effects = (rawYaml as RawHero).effects;
     this.types = (rawYaml as RawHero).types;
     this.passives = (rawYaml as RawHero).passives;
-    const costume = (rawYaml as RawHero).costume;
-
-    if (costume) {
-      this.costume = new Costume(stars, color, this.name, costume, classesConfig, costumesConfig, 1, heroImagesDirectory);
-    }
-    const costume2 = (rawYaml as RawHero).costume2;
-    if (costume2) {
-      this.costume = new Costume(stars, color, this.name, costume2, classesConfig, costumesConfig, 2, heroImagesDirectory);
-    }
-
-    validateHeroImage(this, this.name, this.image, this.color, this.stars, heroImagesDirectory, 0);
+    this.costume = costume;
+    this.costume2 = costume2;
 
     // Validate effects & types have values
     if (this.types.length === 0) {
@@ -120,6 +113,13 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
         `${this.name} has an invalid class ${this.class}`
       );
     }
+    // Validate speeds is valid
+    if (!speedsConfig.isValidSpeed(this.speed)) {
+      throw new InvalidConfig(
+        this,
+        `${this.name} has an invalid speed ${this.speed}`
+      );
+    }
     // Validate source is valid
     if (!ohp(sourcesConfig.sources, this.source.toLowerCase())) {
       throw new InvalidConfig(
@@ -135,6 +135,44 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
         `${this.name} has an invalid family ${this.family}`
       );
     }
+  }
+
+  public static build = async (
+    stars: number,
+    color: string,
+    rawYaml: object,
+    classesConfig: ClassesConfig,
+    familiesConfig: FamiliesConfig,
+    sourcesConfig: SourcesConfig,
+    costumesConfig: CostumesConfig,
+    speedsConfig: SpeedsConfig,
+    heroImagesDirectory: string
+  ) => {
+    const name = (rawYaml as RawHero).name;
+    const costumeRaw = (rawYaml as RawHero).costume || null;
+    const costume = costumeRaw
+      ? await Costume.build(stars, color, name, costumeRaw, classesConfig, costumesConfig, 1, heroImagesDirectory)
+      : null;
+    const costume2Raw = (rawYaml as RawHero).costume2 || null;
+    const costume2 = costume2Raw
+      ? await Costume.build(stars, color, name, costume2Raw, classesConfig, costumesConfig, 1, heroImagesDirectory)
+      : null;
+
+    const hero: Hero = new Hero(
+      stars,
+      color,
+      rawYaml,
+      costume,
+      costume2,
+      classesConfig,
+      familiesConfig,
+      sourcesConfig,
+      speedsConfig
+    );
+    const image = hero.image;
+    await validateHeroImage(hero, name, image, color, stars, heroImagesDirectory, 0);
+
+    return hero;
   }
 
   getClassName = () => Hero.name;

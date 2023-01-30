@@ -41,7 +41,15 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
   public readonly image: string;
   public readonly bonuses: string;
 
-  constructor(stars: number, color: string, name: string, rawYaml: object, classesConfig: ClassesConfig, costumesConfig: CostumesConfig, costumeVariant: number, heroImagesDirectory: string) {
+  private constructor(
+    stars: number,
+    color: string,
+    name: string,
+    rawYaml: object,
+    classesConfig: ClassesConfig,
+    costumesConfig: CostumesConfig,
+    costumeVariant: number
+  ) {
     validate(this, rawYaml);
 
     this.class = (rawYaml as RawCostume).class;
@@ -61,8 +69,6 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
       this.types.push(type);
     }
 
-    validateHeroImage(this, name, this.image, color, stars, heroImagesDirectory, costumeVariant);
-
     // validate class is valid
     if (!ohp(classesConfig.classes, this.class.toLowerCase())) {
       throw new InvalidConfig(
@@ -78,6 +84,29 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
       );
     }
     // TODO: Populate default variant if bonuses isn't set
+  }
+
+  public static build = async (
+    stars: number,
+    color: string,
+    name: string,
+    rawYaml: object,
+    classesConfig: ClassesConfig,
+    costumesConfig: CostumesConfig,
+    costumeVariant: number,
+    heroImagesDirectory: string
+  ) => {
+    const costume = new Costume(
+      stars,
+      color,
+      name,
+      rawYaml,
+      classesConfig,
+      costumesConfig,
+      costumeVariant
+    );
+    await validateHeroImage(costume, name, costume.image, color, stars, heroImagesDirectory, costumeVariant);
+    return costume;
   }
 
   getClassName = () => Costume.name;

@@ -7,6 +7,7 @@ import ColorsConfig from "./ColorsConfig";
 import Hero from "./heroes/Hero";
 import ohp from "../util/ohp";
 import InvalidConfig from "../error/InvalidConfig";
+import SpeedsConfig from "./SpeedsConfig";
 
 class HeroesConfig implements Config {
   public readonly heroes: {[key: string]: Hero} = {};
@@ -15,20 +16,22 @@ class HeroesConfig implements Config {
   private readonly sourcesConfig: SourcesConfig;
   private readonly costumesConfig: CostumesConfig;
   private readonly colorsConfig: ColorsConfig;
+  private readonly speedsConfig: SpeedsConfig;
   private readonly heroImagesDirectory: string;
 
-  constructor(classesConfig: ClassesConfig, familiesConfig: FamiliesConfig, sourcesConfig: SourcesConfig, costumesConfig: CostumesConfig, colorsConfig: ColorsConfig, heroImagesDirectory: string) {
+  constructor(classesConfig: ClassesConfig, familiesConfig: FamiliesConfig, sourcesConfig: SourcesConfig, costumesConfig: CostumesConfig, colorsConfig: ColorsConfig, speedsConfig: SpeedsConfig, heroImagesDirectory: string) {
     this.classesConfig = classesConfig;
     this.familiesConfig = familiesConfig;
     this.sourcesConfig = sourcesConfig;
     this.costumesConfig = costumesConfig;
     this.colorsConfig = colorsConfig;
+    this.speedsConfig = speedsConfig;
     this.heroImagesDirectory = heroImagesDirectory;
   }
 
-  addHeroes = (color: string, stars: number, rawYaml: object[]) => {
+  addHeroes = async (color: string, stars: number, rawYaml: object[]) => {
     for (const rawHero of rawYaml) {
-      const hero = new Hero(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.heroImagesDirectory);
+      const hero = await Hero.build(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.speedsConfig, this.heroImagesDirectory);
       if (ohp(this.heroes, hero.name)) {
         throw new InvalidConfig(
           this,
