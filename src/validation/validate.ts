@@ -14,7 +14,7 @@ import verifyKeysAreFloats from "./validators/verifyKeysAreFloats";
 import { hasBooleans } from "./interfaces/HasBooleans";
 import verifyKeysAreBooleans from "./validators/verifyKeysAreBooleans";
 
-const validate = (config: Config, rawObject: object) => {
+const validate = (config: Config, rawObject: object): void => {
   if (hasRequiredKeys(config)) {
     verifyRequiredKeys(config, rawObject);
   }

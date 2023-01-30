@@ -6,7 +6,7 @@ export enum ImageType {
   JPG = 'jpg',
 }
 
-export const checkImageType = (config: Config, errorString: string, value: string, type: ImageType) => {
+export const checkImageType = (config: Config, errorString: string, value: string, type: ImageType): void => {
   if (!value.endsWith(`.${type}`)) {
     throw new InvalidConfig(
       config,
@@ -15,7 +15,7 @@ export const checkImageType = (config: Config, errorString: string, value: strin
   }
 }
 
-const validateImageType = (config: Config, key: string, value: string, type: ImageType) => {
+const validateImageType = (config: Config, key: string, value: string, type: ImageType): void => {
   checkImageType(
     config,
     `${key} must be a ${type}: ${value}`,

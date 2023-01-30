@@ -25,7 +25,7 @@ const validateHeroImage = async (
   stars: number,
   heroImagesDirectory: string,
   costumeVariant = 0
-) => {
+): Promise<void> => {
   // Checks imgur image type
   checkImageType(
     config,

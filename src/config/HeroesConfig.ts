@@ -31,7 +31,7 @@ class HeroesConfig implements Config {
     this.heroImagesDirectory = heroImagesDirectory;
   }
 
-  addHeroes = async (color: string, stars: number, rawYaml: object[]) => {
+  addHeroes = async (color: string, stars: number, rawYaml: object[]): Promise<void> => {
     for (const rawHero of rawYaml) {
       const hero = await Hero.build(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.speedsConfig, this.heroImagesDirectory);
       if (ohp(this._heroes, hero.name)) {
