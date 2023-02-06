@@ -1,21 +1,19 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
-import Color from "./colors/Color";
-
+import {Config, HasObjects, HasRequiredKeys, validate} from '../validation';
+import Color from './colors/Color';
 
 const requiredKeys = ['colors', 'open_color'];
 const objectKeys = ['colors', 'open_color'];
 
-type StringKeyAndValueObject = { [key: string]: string };
+type StringKeyAndValueObject = {[key: string]: string};
 
 interface RawColorsConfig {
-  colors: {[key: string]: object},
-  open_color: StringKeyAndValueObject,
+  colors: {[key: string]: object};
+  open_color: StringKeyAndValueObject;
 }
 
-type Colors = { [key: string]: Color };
+type Colors = {[key: string]: Color};
 
 class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
-
   private readonly _colors: Colors = {};
   private readonly _open_color: StringKeyAndValueObject = {};
 
@@ -27,7 +25,8 @@ class ColorsConfig implements Config, HasRequiredKeys, HasObjects {
       this._colors[colorKey] = new Color(colorKey, colors[colorKey]);
     }
 
-    const openColors: StringKeyAndValueObject = (rawYaml as RawColorsConfig).open_color;
+    const openColors: StringKeyAndValueObject = (rawYaml as RawColorsConfig)
+      .open_color;
     for (const openColorKey in openColors) {
       this._open_color[openColorKey] = openColors[openColorKey];
     }

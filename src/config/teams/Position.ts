@@ -1,16 +1,26 @@
-import { Config, HasId, HasIntegers, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
+import {
+  Config,
+  HasId,
+  HasIntegers,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
 
 interface RawPosition {
-  key: string,
-  id: string,
-  description: string,
+  key: string;
+  id: string;
+  description: string;
 }
 
 const requiredKeys = ['key', 'id', 'description'];
 const stringKeys = ['key', 'description'];
 const integerKeys = ['id'];
 
-class Position implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers {
+class Position
+  implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers
+{
   private readonly _key: string;
   private readonly _id: number;
   private readonly _description: string;

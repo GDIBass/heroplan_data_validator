@@ -1,37 +1,35 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
-import Totals from "./emblems/Totals";
-import ClassesConfig from "./ClassesConfig";
-import Mode from "./emblems/Mode";
-import Effect from "./emblems/Effect";
-import Tree from "./emblems/Tree";
-import Node from "./emblems/Node";
-import Reset from "./emblems/Reset";
-
+import {Config, HasObjects, HasRequiredKeys, validate} from '../validation';
+import Totals from './emblems/Totals';
+import ClassesConfig from './ClassesConfig';
+import Mode from './emblems/Mode';
+import Effect from './emblems/Effect';
+import Tree from './emblems/Tree';
+import Node from './emblems/Node';
+import Reset from './emblems/Reset';
 
 const requiredKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
 const objectKeys = ['totals', 'modes', 'effects', 'nodes', 'trees', 'reset'];
 
-type StringKeyObjectType = { [key: string]: object };
+type StringKeyObjectType = {[key: string]: object};
 
 interface RawEmblemsConfig {
-  totals: object,
-  modes: StringKeyObjectType,
-  effects: StringKeyObjectType,
-  nodes: StringKeyObjectType,
-  trees: StringKeyObjectType,
-  reset: StringKeyObjectType,
+  totals: object;
+  modes: StringKeyObjectType;
+  effects: StringKeyObjectType;
+  nodes: StringKeyObjectType;
+  trees: StringKeyObjectType;
+  reset: StringKeyObjectType;
 }
 
-type Modes = { [key: string]: Mode };
+type Modes = {[key: string]: Mode};
 
-type Effects = { [key: string]: Effect };
+type Effects = {[key: string]: Effect};
 
-type Nodes = { [key: string]: Node };
+type Nodes = {[key: string]: Node};
 
-type Trees = { [key: string]: Tree };
+type Trees = {[key: string]: Tree};
 
 class EmblemsConfig implements Config, HasRequiredKeys, HasObjects {
-
   private readonly _totals: Totals;
   private readonly _modes: Modes = {};
   private readonly _effects: Effects = {};
@@ -61,7 +59,12 @@ class EmblemsConfig implements Config, HasRequiredKeys, HasObjects {
     // Load trees w/ effects and classes for verification
     const trees = (rawYaml as RawEmblemsConfig).trees;
     for (const tree in trees) {
-      this._trees[tree] = new Tree(tree, trees[tree], this._nodes, classesConfig);
+      this._trees[tree] = new Tree(
+        tree,
+        trees[tree],
+        this._nodes,
+        classesConfig
+      );
     }
     // Load Reset
     this._reset = new Reset((rawYaml as RawEmblemsConfig).reset);

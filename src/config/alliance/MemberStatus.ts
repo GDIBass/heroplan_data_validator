@@ -1,41 +1,43 @@
-import { HasStrings, HasIntegers, HasRequiredKeys, HasId, Config, validate, validateKeysMatch } from "../../validation";
+import {
+  HasStrings,
+  HasIntegers,
+  HasRequiredKeys,
+  HasId,
+  Config,
+  validate,
+  validateKeysMatch
+} from '../../validation';
 
-const requiredKeys = [
-  'key',
-  'id',
-  'description',
-];
+const requiredKeys = ['key', 'id', 'description'];
 
-const requiredStrings = [
-  'key',
-  'description',
-];
+const requiredStrings = ['key', 'description'];
 
-const requiredIntegers = [
-  'id',
-];
+const requiredIntegers = ['id'];
 
 interface RawMemberStatus {
-  key: string,
-  id: string,
-  description: string,
+  key: string;
+  id: string;
+  description: string;
+  leader: string | boolean;
 }
 
-class MemberStatus implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
+class MemberStatus
+  implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId
+{
   private readonly _id: number;
   private readonly _key: string;
   private readonly _description: string;
+  private readonly _leader: boolean;
 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);
-    // @ts-ignore
     validateKeysMatch(this, statusKey, (rawYaml as RawMemberStatus).key);
-    // @ts-ignore
     this._id = parseInt((rawYaml as RawMemberStatus).id);
-    // @ts-ignore
     this._key = (rawYaml as RawMemberStatus).key;
-    // @ts-ignore
     this._description = (rawYaml as RawMemberStatus).description;
+    this._leader =
+      (rawYaml as RawMemberStatus).leader === 'true' ||
+      (rawYaml as RawMemberStatus).leader === true;
   }
 
   getRequiredKeys = (): string[] => requiredKeys;
@@ -54,6 +56,10 @@ class MemberStatus implements Config, HasRequiredKeys, HasStrings, HasIntegers, 
 
   get description(): string {
     return this._description;
+  }
+
+  get leader(): boolean {
+    return this._leader;
   }
 }
 

@@ -10,52 +10,50 @@ import {
   validate,
   validateImageType,
   validateKeysMatch
-} from "../../validation";
+} from '../../validation';
 
 interface RawFamily {
   key: string;
   code: string;
   description: string;
   image: string;
-  bonus: Array<string>,
+  bonus: string[];
 }
 
-const requiredKeys = [
-  'key',
-  'code',
-  'description',
-  'image',
-  'bonus',
-];
+const requiredKeys = ['key', 'code', 'description', 'image', 'bonus'];
 
-const stringKeys = [
-  'key',
-  'description',
-];
+const stringKeys = ['key', 'description'];
 
-const integerKeys = [
-  'code',
-];
+const integerKeys = ['code'];
 
 const imageKeys = ['image'];
 
 const arrayKeys = ['bonus'];
 
-class Family implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasImages, HasArrays, HasId {
-  private readonly _key:string;
-  private readonly _code:number;
-  private readonly _description:string;
-  private readonly _image:string;
-  private readonly _bonus:Array<string> = [];
+class Family
+  implements
+    Config,
+    HasRequiredKeys,
+    HasStrings,
+    HasIntegers,
+    HasImages,
+    HasArrays,
+    HasId
+{
+  private readonly _key: string;
+  private readonly _code: number;
+  private readonly _description: string;
+  private readonly _image: string;
+  private readonly _bonus: string[] = [];
 
   constructor(familyKey: string, rawYaml: object) {
     validate(this, rawYaml);
-    validateKeysMatch(this, familyKey as string, (rawYaml as RawFamily).key as string);
+    validateKeysMatch(this, familyKey, (rawYaml as RawFamily).key);
     this._key = (rawYaml as RawFamily).key;
     this._code = parseInt((rawYaml as RawFamily).code);
     this._description = (rawYaml as RawFamily).description;
     this._image = (rawYaml as RawFamily).image;
-    for (let bonusItem of (rawYaml as RawFamily).bonus) {
+    for (const bonusItem of (rawYaml as RawFamily).bonus) {
       this._bonus.push(bonusItem);
     }
     validateImageType(this, 'image', this._image, ImageType.PNG);
@@ -68,7 +66,6 @@ class Family implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasIma
   getImages = (): string[] => imageKeys;
   getStrings = (): string[] => stringKeys;
   getId = (): number => this._code;
-
 
   get key(): string {
     return this._key;
@@ -86,7 +83,7 @@ class Family implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasIma
     return this._image;
   }
 
-  get bonus(): Array<string> {
+  get bonus(): string[] {
     return this._bonus;
   }
 }

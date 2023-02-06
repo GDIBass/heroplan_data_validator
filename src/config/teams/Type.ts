@@ -7,10 +7,10 @@ import {
   HasStrings,
   validate,
   validateKeysMatch
-} from "../../validation";
-import ClassesConfig from "../ClassesConfig";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
+} from '../../validation';
+import ClassesConfig from '../ClassesConfig';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
 
 const requiredKeys = ['key', 'type', 'description'];
 const stringKeys = ['key', 'description'];
@@ -18,13 +18,15 @@ const integerKeys = ['type'];
 const arrayKeys = ['classes'];
 
 interface RawType {
-  key: string,
-  type: string,
-  description: string,
-  classes: Array<string>,
+  key: string;
+  type: string;
+  description: string;
+  classes: string[];
 }
 
-class Type implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
+class Type
+  implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers, HasArrays
+{
   private readonly _key: string;
   private readonly _type: number;
   private readonly _description: string;
@@ -37,7 +39,7 @@ class Type implements Config, HasId, HasRequiredKeys, HasStrings, HasIntegers, H
     this._type = parseInt((rawYaml as RawType).type);
     this._description = (rawYaml as RawType).description;
     const classes = (rawYaml as RawType).classes || [];
-    for (let className of classes) {
+    for (const className of classes) {
       if (!ohp(classesConfig.classes, className)) {
         throw new InvalidConfig(
           this,

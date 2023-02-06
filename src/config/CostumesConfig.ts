@@ -1,20 +1,18 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
-import Images from "./costumes/Images";
-import Bonus from "./costumes/Bonus";
-
+import {Config, HasObjects, HasRequiredKeys, validate} from '../validation';
+import Images from './costumes/Images';
+import Bonus from './costumes/Bonus';
 
 const requiredKeys = ['images', 'bonuses'];
 const objectKeys = ['images', 'bonuses'];
 
 interface RawCostumesConfig {
-  images: object,
-  bonuses: {[key: string]: object},
+  images: object;
+  bonuses: {[key: string]: object};
 }
 
-type Bonuses = { [key: string]: Bonus };
+type Bonuses = {[key: string]: Bonus};
 
 class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
-
   private readonly _images: Images;
   private readonly _bonuses: Bonuses = {};
 
@@ -23,7 +21,8 @@ class CostumesConfig implements Config, HasRequiredKeys, HasObjects {
 
     this._images = new Images((rawYaml as RawCostumesConfig).images);
 
-    const bonuses: {[key: string]: object} = (rawYaml as RawCostumesConfig).bonuses;
+    const bonuses: {[key: string]: object} = (rawYaml as RawCostumesConfig)
+      .bonuses;
     for (const bonusKey in bonuses) {
       this._bonuses[bonusKey] = new Bonus(bonusKey, bonuses[bonusKey]);
     }

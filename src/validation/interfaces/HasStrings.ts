@@ -1,10 +1,10 @@
-import Config from "./Config";
+import Config from './Config';
 
 interface HasStrings extends Config {
-  getStrings(): Array<string>;
+  getStrings(): string[];
 }
 
 export const hasStrings = (arg: any): arg is HasStrings =>
-  typeof(arg?.getStrings) === 'function';
+  typeof arg?.getStrings === 'function';
 
 export default HasStrings;

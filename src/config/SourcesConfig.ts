@@ -1,5 +1,11 @@
-import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
-import Source from "./sources/Source";
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  validate,
+  validateNoDuplicateIds
+} from '../validation';
+import Source from './sources/Source';
 
 interface RawSourceConfig {
   sources: {[Key: string]: object};
@@ -8,7 +14,7 @@ interface RawSourceConfig {
 const requiredKeys = ['sources'];
 const objectKeys = ['sources'];
 
-type Sources = { [key: string]: Source };
+type Sources = {[key: string]: Source};
 
 class SourcesConfig implements Config, HasRequiredKeys, HasObjects {
   private readonly _sources: Sources = {};

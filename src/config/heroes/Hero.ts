@@ -5,44 +5,65 @@ import {
   HasObjects,
   HasRequiredKeys,
   HasStrings,
-  validate,
-} from "../../validation";
-import Costume from "./Costume";
-import ClassesConfig from "../ClassesConfig";
-import FamiliesConfig from "../FamiliesConfig";
-import SourcesConfig from "../SourcesConfig";
-import CostumesConfig from "../CostumesConfig";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
-import validateHeroImage from "../../validation/validateHeroImage";
-import SpeedsConfig from "../SpeedsConfig";
+  validate
+} from '../../validation';
+import Costume from './Costume';
+import ClassesConfig from '../ClassesConfig';
+import FamiliesConfig from '../FamiliesConfig';
+import SourcesConfig from '../SourcesConfig';
+import CostumesConfig from '../CostumesConfig';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
+import validateHeroImage from '../../validation/validateHeroImage';
+import SpeedsConfig from '../SpeedsConfig';
 
-const requiredKeys = ['name', 'class', 'source', 'speed', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
+const requiredKeys = [
+  'name',
+  'class',
+  'source',
+  'speed',
+  'power',
+  'attack',
+  'defense',
+  'health',
+  'skill',
+  'effects',
+  'types',
+  'image'
+];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
 const stringKeys = ['name', 'class', 'source', 'speed', 'skill', 'family'];
 const objectKeys = ['costume', 'costume2'];
 const arrayKeys = ['effects', 'types', 'passives'];
 
 interface RawHero {
-  name: string,
-  image: string,
-  source: string,
-  class: string,
-  speed: string,
-  power: string,
-  attack: string,
-  defense: string,
-  health: string,
-  skill: string,
-  family: string|null,
-  effects: Array<string>,
-  types: Array<string>,
-  passives: Array<string>|null,
-  costume: object|null,
-  costume2: object|null,
+  name: string;
+  image: string;
+  source: string;
+  class: string;
+  speed: string;
+  power: string;
+  attack: string;
+  defense: string;
+  health: string;
+  skill: string;
+  family: string | null;
+  effects: string[];
+  types: string[];
+  passives: string[] | null;
+  costume: object | null;
+  costume2: object | null;
 }
 
-class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjects, HasArrays {
+class Hero
+  implements
+    Config,
+    HasRequiredKeys,
+    HasIntegers,
+    HasStrings,
+    HasObjects,
+    HasArrays
+{
   private readonly _stars: number;
   private readonly _color: string;
   private readonly _name: string;
@@ -54,20 +75,20 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
   private readonly _defense: string;
   private readonly _health: string;
   private readonly _skill: string;
-  private readonly _family: string|null = null;
+  private readonly _family: string | null = null;
   private readonly _image: string;
-  private readonly _effects: Array<string> = [];
-  private readonly _types: Array<string> = [];
-  private readonly _passives: Array<string>|null;
-  private readonly _costume: Costume|null = null;
-  private readonly _costume2: Costume|null = null;
+  private readonly _effects: string[] = [];
+  private readonly _types: string[] = [];
+  private readonly _passives: string[] | null;
+  private readonly _costume: Costume | null = null;
+  private readonly _costume2: Costume | null = null;
 
   private constructor(
     stars: number,
     color: string,
     rawYaml: object,
-    costume: Costume|null,
-    costume2: Costume|null,
+    costume: Costume | null,
+    costume2: Costume | null,
     classesConfig: ClassesConfig,
     familiesConfig: FamiliesConfig,
     sourcesConfig: SourcesConfig,
@@ -95,16 +116,10 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
 
     // Validate effects & types have values
     if (this._types.length === 0) {
-      throw new InvalidConfig(
-        this,
-        `${this._name} has no types`
-      );
+      throw new InvalidConfig(this, `${this._name} has no types`);
     }
     if (this._effects.length === 0) {
-      throw new InvalidConfig(
-        this,
-        `${this._name} has no effects`
-      );
+      throw new InvalidConfig(this, `${this._name} has no effects`);
     }
     // Validate class is valid
     if (!ohp(classesConfig.classes, this._class.toLowerCase())) {
@@ -129,7 +144,10 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     }
 
     // Validate family is valid (if set)
-    if (this._family && !ohp(familiesConfig.families, this._family.toLowerCase())) {
+    if (
+      this._family &&
+      !ohp(familiesConfig.families, this._family.toLowerCase())
+    ) {
       throw new InvalidConfig(
         this,
         `${this._name} has an invalid family ${this._family}`
@@ -137,7 +155,7 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     }
   }
 
-  public static build = async (
+  static build = async (
     stars: number,
     color: string,
     rawYaml: object,
@@ -151,11 +169,29 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     const name = (rawYaml as RawHero).name;
     const costumeRaw = (rawYaml as RawHero).costume || null;
     const costume = costumeRaw
-      ? await Costume.build(stars, color, name, costumeRaw, classesConfig, costumesConfig, 1, heroImagesDirectory)
+      ? await Costume.build(
+          stars,
+          color,
+          name,
+          costumeRaw,
+          classesConfig,
+          costumesConfig,
+          1,
+          heroImagesDirectory
+        )
       : null;
     const costume2Raw = (rawYaml as RawHero).costume2 || null;
     const costume2 = costume2Raw
-      ? await Costume.build(stars, color, name, costume2Raw, classesConfig, costumesConfig, 1, heroImagesDirectory)
+      ? await Costume.build(
+          stars,
+          color,
+          name,
+          costume2Raw,
+          classesConfig,
+          costumesConfig,
+          1,
+          heroImagesDirectory
+        )
       : null;
 
     const hero: Hero = new Hero(
@@ -170,10 +206,18 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
       speedsConfig
     );
     const image = hero._image;
-    await validateHeroImage(hero, name, image, color, stars, heroImagesDirectory, 0);
+    await validateHeroImage(
+      hero,
+      name,
+      image,
+      color,
+      stars,
+      heroImagesDirectory,
+      0
+    );
 
     return hero;
-  }
+  };
 
   getClassName = (): string => Hero.name;
   getRequiredKeys = (): string[] => requiredKeys;
@@ -234,15 +278,15 @@ class Hero implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjec
     return this._image;
   }
 
-  get effects(): Array<string> {
+  get effects(): string[] {
     return this._effects;
   }
 
-  get types(): Array<string> {
+  get types(): string[] {
     return this._types;
   }
 
-  get passives(): Array<string> | null {
+  get passives(): string[] | null {
     return this._passives;
   }
 

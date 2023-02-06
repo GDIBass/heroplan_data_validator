@@ -1,10 +1,10 @@
-import Config from "./Config";
+import Config from './Config';
 
 interface HasBooleans extends Config {
-  getBooleans(): Array<string>;
+  getBooleans(): string[];
 }
 
 export const hasBooleans = (arg: any): arg is HasBooleans =>
-  typeof(arg?.getBooleans) === 'function';
+  typeof arg?.getBooleans === 'function';
 
 export default HasBooleans;

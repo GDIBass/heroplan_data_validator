@@ -1,5 +1,11 @@
-import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
-import Speed from "./speeds/Speed";
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  validate,
+  validateNoDuplicateIds
+} from '../validation';
+import Speed from './speeds/Speed';
 
 interface RawSpeedsConfig {
   speeds: {[key: string]: object};
@@ -8,7 +14,7 @@ interface RawSpeedsConfig {
 const requiredKeys = ['speeds'];
 const objectKeys = ['speeds'];
 
-type Speeds = { [key: string]: Speed };
+type Speeds = {[key: string]: Speed};
 
 type ValidSpeeds = Set<string>;
 

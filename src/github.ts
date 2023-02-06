@@ -1,4 +1,3 @@
-import {context} from "@actions/github";
+import {context} from '@actions/github';
 
 export type GithubContext = typeof context;
-

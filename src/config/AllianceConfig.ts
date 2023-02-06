@@ -1,34 +1,66 @@
-import MemberStatus from "./alliance/MemberStatus";
-import { HasObjects, HasRequiredKeys, Config, validate, validateNoDuplicateIds } from '../validation';
+import MemberStatus from './alliance/MemberStatus';
+import {
+  HasObjects,
+  HasRequiredKeys,
+  Config,
+  validate,
+  validateNoDuplicateIds
+} from '../validation';
+import InvalidConfig from '../error/InvalidConfig';
 
 const requiredKeys = ['member_status'];
 const requiredObjects = ['member_status'];
 
 interface RawAllianceConfig {
-  member_status: {[key: string]: object},
+  member_status: {[key: string]: object};
 }
 
 type MemberStatuses = {[key: string]: MemberStatus};
 
 class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
-
   private readonly _member_status: MemberStatuses = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
 
-    const memberStatus: {[key: string]: object} = (rawYaml as RawAllianceConfig).member_status;
+    const memberStatus: {[key: string]: object} = (rawYaml as RawAllianceConfig)
+      .member_status;
     for (const statusKey in memberStatus) {
-      this._member_status[statusKey] = new MemberStatus(statusKey, memberStatus[statusKey]);
+      this._member_status[statusKey] = new MemberStatus(
+        statusKey,
+        memberStatus[statusKey]
+      );
     }
 
-    validateNoDuplicateIds(this, 'member_status', Object.values(this._member_status));
+    validateNoDuplicateIds(
+      this,
+      'member_status',
+      Object.values(this._member_status)
+    );
+
+    let leaderFound = false;
+    for (const memberStatusKey in this.member_status) {
+      const member = this.member_status[memberStatusKey];
+      if (member.leader) {
+        if (leaderFound) {
+          throw new InvalidConfig(this, 'Cannot have two leader statuses');
+        } else {
+          leaderFound = true;
+        }
+      }
+    }
+
+    if (!leaderFound) {
+      throw new InvalidConfig(
+        this,
+        'One member status must be tagged as leader, found 0'
+      );
+    }
   }
 
   getRequiredKeys = (): string[] => requiredKeys;
   getObjects = (): string[] => requiredObjects;
   getClassName = (): string => AllianceConfig.name;
-
 
   get member_status(): MemberStatuses {
     return this._member_status;

@@ -1,16 +1,26 @@
-import { Config, HasId, HasIntegers, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
+import {
+  Config,
+  HasId,
+  HasIntegers,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
 
 const requiredKeys = ['key', 'id', 'description'];
 const stringKeys = ['key', 'description'];
 const integerKeys = ['id'];
 
 interface RawSharingMode {
-  key: string,
-  id: string,
-  description: string,
+  key: string;
+  id: string;
+  description: string;
 }
 
-class SharingMode implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
+class SharingMode
+  implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId
+{
   private readonly _key: string;
   private readonly _id: number;
   private readonly _description: string;

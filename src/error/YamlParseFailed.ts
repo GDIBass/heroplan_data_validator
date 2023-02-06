@@ -7,7 +7,6 @@ class YamlParseFailed extends Error {
     this._data = data;
   }
 
-
   get filename(): string {
     return this._filename;
   }

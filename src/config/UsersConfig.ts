@@ -1,18 +1,24 @@
-import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
-import SharingMode from "./users/SharingMode";
-import SocialNetwork from "./users/SocialNetwork";
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  validate,
+  validateNoDuplicateIds
+} from '../validation';
+import SharingMode from './users/SharingMode';
+import SocialNetwork from './users/SocialNetwork';
 
 const requiredKeys = ['sharing_modes', 'social_networks'];
 const objectKeys = ['sharing_modes', 'social_networks'];
 
 interface RawUsersConfig {
-  sharing_modes: {[key: string]: object},
-  social_networks: {[key: string]: object},
+  sharing_modes: {[key: string]: object};
+  social_networks: {[key: string]: object};
 }
 
-type SharingModes = { [key: string]: SharingMode };
+type SharingModes = {[key: string]: SharingMode};
 
-type SocialNetworks = { [key: string]: SocialNetwork };
+type SocialNetworks = {[key: string]: SocialNetwork};
 
 class UsersConfig implements Config, HasRequiredKeys, HasObjects {
   private readonly _sharingModes: SharingModes = {};
@@ -22,19 +28,28 @@ class UsersConfig implements Config, HasRequiredKeys, HasObjects {
     validate(this, rawYaml);
     const sharingModes = (rawYaml as RawUsersConfig).sharing_modes;
     for (const sharingMode in sharingModes) {
-      this._sharingModes[sharingMode] = new SharingMode(sharingMode, sharingModes[sharingMode]);
+      this._sharingModes[sharingMode] = new SharingMode(
+        sharingMode,
+        sharingModes[sharingMode]
+      );
     }
     const socialNetworks = (rawYaml as RawUsersConfig).sharing_modes;
     for (const socialNetwork in socialNetworks) {
-      this._socialNetworks[socialNetwork] = new SocialNetwork(socialNetwork, socialNetworks[socialNetwork]);
+      this._socialNetworks[socialNetwork] = new SocialNetwork(
+        socialNetwork,
+        socialNetworks[socialNetwork]
+      );
     }
-    validateNoDuplicateIds(this, 'sharingModes', Object.values(this._sharingModes));
+    validateNoDuplicateIds(
+      this,
+      'sharingModes',
+      Object.values(this._sharingModes)
+    );
   }
 
   getClassName = (): string => UsersConfig.name;
   getRequiredKeys = (): string[] => requiredKeys;
   getObjects = (): string[] => objectKeys;
-
 
   get sharingModes(): SharingModes {
     return this._sharingModes;

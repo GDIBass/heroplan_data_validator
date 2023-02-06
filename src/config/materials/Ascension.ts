@@ -7,12 +7,11 @@ import {
   validate,
   validateImageType,
   validateKeysMatch
-} from "../../validation";
-
+} from '../../validation';
 
 interface RawAscension {
-  key: string,
-  image: string,
+  key: string;
+  image: string;
 }
 
 const requiredKeys = ['key', 'image'];

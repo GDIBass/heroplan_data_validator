@@ -1,35 +1,37 @@
-import { Config, HasIntegers, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
-import Effect from "./Effect";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
+import {
+  Config,
+  HasIntegers,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
+import Effect from './Effect';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
 
-const requiredKeys = [
-  'key',
-  'type',
-  'amount',
-];
+const requiredKeys = ['key', 'type', 'amount'];
 
-const stringKeys = [
-  'key',
-  'type',
-];
+const stringKeys = ['key', 'type'];
 
-const integerKeys = [
-  'amount'
-];
+const integerKeys = ['amount'];
 
 interface RawNode {
-  key: string,
-  type: string,
-  amount: string,
+  key: string;
+  type: string;
+  amount: string;
 }
 
 class Node implements Config, HasRequiredKeys, HasStrings, HasIntegers {
-  private readonly _key:string;
-  private readonly _type:string;
-  private readonly _amount:number;
+  private readonly _key: string;
+  private readonly _type: string;
+  private readonly _amount: number;
 
-  constructor(effectKey: string, rawYaml: object, effects: {[key: string]: Effect}) {
+  constructor(
+    effectKey: string,
+    rawYaml: object,
+    effects: {[key: string]: Effect}
+  ) {
     validate(this, rawYaml);
     validateKeysMatch(this, effectKey, (rawYaml as RawNode).key);
     this._key = (rawYaml as RawNode).key;

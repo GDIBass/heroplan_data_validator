@@ -1,10 +1,10 @@
-import Config from "./Config";
+import Config from './Config';
 
 interface HasObjects extends Config {
-  getObjects(): Array<string>;
+  getObjects(): string[];
 }
 
 export const hasObjects = (arg: any): arg is HasObjects =>
-  typeof(arg?.getObjects) === 'function';
+  typeof arg?.getObjects === 'function';
 
 export default HasObjects;

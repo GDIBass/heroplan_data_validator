@@ -1,8 +1,14 @@
-import { Config, HasImages, HasRequiredKeys, validate, validateImageType, ImageType } from "../../validation";
+import {
+  Config,
+  HasImages,
+  HasRequiredKeys,
+  validate,
+  validateImageType,
+  ImageType
+} from '../../validation';
 
-
-const requiredKeys = ["costume", "maxcostume"];
-const imageKeys = ["costume", "maxcostume"];
+const requiredKeys = ['costume', 'maxcostume'];
+const imageKeys = ['costume', 'maxcostume'];
 
 interface RawImages {
   costume: string;
@@ -17,8 +23,8 @@ class Images implements Config, HasRequiredKeys, HasImages {
     validate(this, rawYaml);
     this._costume = (rawYaml as RawImages).costume;
     this._maxcostume = (rawYaml as RawImages).maxcostume;
-    validateImageType(this, "costume", this._costume, ImageType.PNG);
-    validateImageType(this, "maxcostume", this._maxcostume, ImageType.PNG);
+    validateImageType(this, 'costume', this._costume, ImageType.PNG);
+    validateImageType(this, 'maxcostume', this._maxcostume, ImageType.PNG);
   }
 
   getClassName = (): string => Images.name;

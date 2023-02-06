@@ -1,12 +1,18 @@
-import { Config, HasObjects, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
-import ohp from "../../util/ohp";
-
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
+import ohp from '../../util/ohp';
 
 interface RawFilter {
-  description: string,
-  key: string,
-  type: string,
-  ascensions: {[key: string]: string},
+  description: string;
+  key: string;
+  type: string;
+  ascensions: {[key: string]: string};
 }
 
 const requiredKeys = ['description', 'type'];
@@ -18,7 +24,7 @@ class Filter implements Config, HasRequiredKeys, HasStrings, HasObjects {
   private readonly _type: string;
   private readonly _ascensions: {[key: number]: number} = {};
 
-  constructor (filter: string, rawYaml: object) {
+  constructor(filter: string, rawYaml: object) {
     validate(this, rawYaml);
     validateKeysMatch(this, filter, (rawYaml as RawFilter).key);
     this._description = (rawYaml as RawFilter).description;
@@ -26,7 +32,7 @@ class Filter implements Config, HasRequiredKeys, HasStrings, HasObjects {
     if (ohp(rawYaml, 'ascensions')) {
       // this.ascensions = {};
       const ascensions = (rawYaml as RawFilter).ascensions;
-      for (let ascension in ascensions) {
+      for (const ascension in ascensions) {
         this._ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
       }
     }
@@ -45,7 +51,7 @@ class Filter implements Config, HasRequiredKeys, HasStrings, HasObjects {
     return this._type;
   }
 
-  get ascensions(): { [p: number]: number } {
+  get ascensions(): {[p: number]: number} {
     return this._ascensions;
   }
 }

@@ -1,10 +1,17 @@
-import { Config, HasObjects, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
-import Node from "./Node";
-import validateNode from "./validateNode";
-import SplitNode from "./SplitNode";
-import ClassesConfig from "../ClassesConfig";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
+import Node from './Node';
+import validateNode from './validateNode';
+import SplitNode from './SplitNode';
+import ClassesConfig from '../ClassesConfig';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
 
 const requiredKeys = [
   'key',
@@ -27,44 +34,34 @@ const requiredKeys = [
   '17',
   '18',
   '19',
-  '20',
+  '20'
 ];
 
 interface RawTree {
-  'key': string,
-  '1': string,
-  '2': object,
-  '3': object,
-  '4': string,
-  '5': object,
-  '6': object,
-  '7': string,
-  '8': object,
-  '9': object,
-  '10': string,
-  '11': object,
-  '12': string,
-  '13': object,
-  '14': object,
-  '15': string,
-  '16': object,
-  '17': object,
-  '18': string,
-  '19': object,
-  '20': string,
+  key: string;
+  '1': string;
+  '2': object;
+  '3': object;
+  '4': string;
+  '5': object;
+  '6': object;
+  '7': string;
+  '8': object;
+  '9': object;
+  '10': string;
+  '11': object;
+  '12': string;
+  '13': object;
+  '14': object;
+  '15': string;
+  '16': object;
+  '17': object;
+  '18': string;
+  '19': object;
+  '20': string;
 }
 
-const stringKeys = [
-  'key',
-  '1',
-  '4',
-  '7',
-  '10',
-  '12',
-  '15',
-  '18',
-  '20',
-];
+const stringKeys = ['key', '1', '4', '7', '10', '12', '15', '18', '20'];
 
 const objectKeys = [
   '2',
@@ -78,34 +75,38 @@ const objectKeys = [
   '14',
   '16',
   '17',
-  '19',
+  '19'
 ];
 
 class Tree implements Config, HasRequiredKeys, HasStrings, HasObjects {
-
   private readonly _key: string;
-  private readonly "_1": string;
-  private readonly "_2": object;
-  private readonly "_3": object;
-  private readonly "_4": string;
-  private readonly "_5": object;
-  private readonly "_6": object;
-  private readonly "_7": string;
-  private readonly "_8": object;
-  private readonly "_9": object;
-  private readonly "_10": string;
-  private readonly "_11": object;
-  private readonly "_12": string;
-  private readonly "_13": object;
-  private readonly "_14": object;
-  private readonly "_15": string;
-  private readonly "_16": object;
-  private readonly "_17": object;
-  private readonly "_18": string;
-  private readonly "_19": object;
-  private readonly "_20": string;
+  private readonly '_1': string;
+  private readonly '_2': object;
+  private readonly '_3': object;
+  private readonly '_4': string;
+  private readonly '_5': object;
+  private readonly '_6': object;
+  private readonly '_7': string;
+  private readonly '_8': object;
+  private readonly '_9': object;
+  private readonly '_10': string;
+  private readonly '_11': object;
+  private readonly '_12': string;
+  private readonly '_13': object;
+  private readonly '_14': object;
+  private readonly '_15': string;
+  private readonly '_16': object;
+  private readonly '_17': object;
+  private readonly '_18': string;
+  private readonly '_19': object;
+  private readonly '_20': string;
 
-  constructor(effectKey: string, rawYaml: object, nodes: {[key: string]: Node}, classesConfig: ClassesConfig) {
+  constructor(
+    effectKey: string,
+    rawYaml: object,
+    nodes: {[key: string]: Node},
+    classesConfig: ClassesConfig
+  ) {
     validate(this, rawYaml);
     validateKeysMatch(this, effectKey, (rawYaml as RawTree).key);
     this['_key'] = (rawYaml as RawTree)['key'];
@@ -125,15 +126,15 @@ class Tree implements Config, HasRequiredKeys, HasStrings, HasObjects {
     this._8 = new SplitNode((rawYaml as RawTree)[8], nodes);
     this._9 = new SplitNode((rawYaml as RawTree)[9], nodes);
     this._10 = validateNode(this, '10', (rawYaml as RawTree)[10], nodes);
-    this._11 = new SplitNode( (rawYaml as RawTree)[11], nodes);
+    this._11 = new SplitNode((rawYaml as RawTree)[11], nodes);
     this._12 = validateNode(this, '12', (rawYaml as RawTree)[12], nodes);
-    this._13 = new SplitNode( (rawYaml as RawTree)[13], nodes);
-    this._14 = new SplitNode( (rawYaml as RawTree)[14], nodes);
+    this._13 = new SplitNode((rawYaml as RawTree)[13], nodes);
+    this._14 = new SplitNode((rawYaml as RawTree)[14], nodes);
     this._15 = validateNode(this, '15', (rawYaml as RawTree)[15], nodes);
-    this._16 = new SplitNode( (rawYaml as RawTree)[16], nodes);
-    this._17 = new SplitNode( (rawYaml as RawTree)[17], nodes);
+    this._16 = new SplitNode((rawYaml as RawTree)[16], nodes);
+    this._17 = new SplitNode((rawYaml as RawTree)[17], nodes);
     this._18 = validateNode(this, '18', (rawYaml as RawTree)[18], nodes);
-    this._19 = new SplitNode( (rawYaml as RawTree)[19], nodes);
+    this._19 = new SplitNode((rawYaml as RawTree)[19], nodes);
     this._20 = validateNode(this, '20', (rawYaml as RawTree)[20], nodes);
   }
 

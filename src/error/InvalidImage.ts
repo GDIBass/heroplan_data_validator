@@ -8,7 +8,6 @@ class InvalidImage extends Error {
     this._additionalDetails = additionalDetails;
   }
 
-
   get heroName(): string {
     return this._heroName;
   }
