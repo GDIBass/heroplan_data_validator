@@ -230,14 +230,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const MemberStatus_1 = __importDefault(__nccwpck_require__(613));
 const validation_1 = __nccwpck_require__(7110);
-const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
-const requiredKeys = ['member_status'];
+const requiredKeys = [
+    'member_status',
+    'leader_status',
+    'requester_status',
+    'new_member_status'
+];
+const integerKeys = ['leader_status', 'requester_status', 'new_member_status'];
 const requiredObjects = ['member_status'];
 class AllianceConfig {
     constructor(rawYaml) {
         this._member_status = {};
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => requiredObjects;
+        this.getIntegers = () => integerKeys;
         this.getClassName = () => AllianceConfig.name;
         (0, validation_1.validate)(this, rawYaml);
         const memberStatus = rawYaml
@@ -245,25 +251,22 @@ class AllianceConfig {
         for (const statusKey in memberStatus) {
             this._member_status[statusKey] = new MemberStatus_1.default(statusKey, memberStatus[statusKey]);
         }
+        this._leader_status = parseInt(rawYaml.leader_status);
+        this._requester_status = parseInt(rawYaml.requester_status);
+        this._new_member_status = parseInt(rawYaml.new_member_status);
         (0, validation_1.validateNoDuplicateIds)(this, 'member_status', Object.values(this._member_status));
-        let leaderFound = false;
-        for (const memberStatusKey in this.member_status) {
-            const member = this.member_status[memberStatusKey];
-            if (member.leader) {
-                if (leaderFound) {
-                    throw new InvalidConfig_1.default(this, 'Cannot have two leader statuses');
-                }
-                else {
-                    leaderFound = true;
-                }
-            }
-        }
-        if (!leaderFound) {
-            throw new InvalidConfig_1.default(this, 'One member status must be tagged as leader, found 0');
-        }
     }
     get member_status() {
         return this._member_status;
+    }
+    get leader_status() {
+        return this._leader_status;
+    }
+    get requester_status() {
+        return this._requester_status;
+    }
+    get new_member_status() {
+        return this._new_member_status;
     }
 }
 exports["default"] = AllianceConfig;
@@ -909,9 +912,9 @@ class MemberStatus {
         this._id = parseInt(rawYaml.id);
         this._key = rawYaml.key;
         this._description = rawYaml.description;
-        this._leader =
-            rawYaml.leader === 'true' ||
-                rawYaml.leader === true;
+        this._manager =
+            rawYaml.manager === 'true' ||
+                rawYaml.manager === true;
     }
     get id() {
         return this._id;
@@ -922,8 +925,8 @@ class MemberStatus {
     get description() {
         return this._description;
     }
-    get leader() {
-        return this._leader;
+    get manager() {
+        return this._manager;
     }
 }
 exports["default"] = MemberStatus;

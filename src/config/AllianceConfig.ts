@@ -4,21 +4,35 @@ import {
   HasRequiredKeys,
   Config,
   validate,
-  validateNoDuplicateIds
+  validateNoDuplicateIds,
+  HasIntegers
 } from '../validation';
-import InvalidConfig from '../error/InvalidConfig';
 
-const requiredKeys = ['member_status'];
+const requiredKeys = [
+  'member_status',
+  'leader_status',
+  'requester_status',
+  'new_member_status'
+];
+const integerKeys = ['leader_status', 'requester_status', 'new_member_status'];
 const requiredObjects = ['member_status'];
 
 interface RawAllianceConfig {
   member_status: {[key: string]: object};
+  leader_status: string;
+  requester_status: string;
+  new_member_status: string;
 }
 
 type MemberStatuses = {[key: string]: MemberStatus};
 
-class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
+class AllianceConfig
+  implements Config, HasRequiredKeys, HasObjects, HasIntegers
+{
   private readonly _member_status: MemberStatuses = {};
+  private readonly _leader_status: number;
+  private readonly _requester_status: number;
+  private readonly _new_member_status: number;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
@@ -32,38 +46,42 @@ class AllianceConfig implements Config, HasRequiredKeys, HasObjects {
       );
     }
 
+    this._leader_status = parseInt(
+      (rawYaml as RawAllianceConfig).leader_status
+    );
+    this._requester_status = parseInt(
+      (rawYaml as RawAllianceConfig).requester_status
+    );
+    this._new_member_status = parseInt(
+      (rawYaml as RawAllianceConfig).new_member_status
+    );
+
     validateNoDuplicateIds(
       this,
       'member_status',
       Object.values(this._member_status)
     );
-
-    let leaderFound = false;
-    for (const memberStatusKey in this.member_status) {
-      const member = this.member_status[memberStatusKey];
-      if (member.leader) {
-        if (leaderFound) {
-          throw new InvalidConfig(this, 'Cannot have two leader statuses');
-        } else {
-          leaderFound = true;
-        }
-      }
-    }
-
-    if (!leaderFound) {
-      throw new InvalidConfig(
-        this,
-        'One member status must be tagged as leader, found 0'
-      );
-    }
   }
 
   getRequiredKeys = (): string[] => requiredKeys;
   getObjects = (): string[] => requiredObjects;
+  getIntegers = (): string[] => integerKeys;
   getClassName = (): string => AllianceConfig.name;
 
   get member_status(): MemberStatuses {
     return this._member_status;
+  }
+
+  get leader_status(): number {
+    return this._leader_status;
+  }
+
+  get requester_status(): number {
+    return this._requester_status;
+  }
+
+  get new_member_status(): number {
+    return this._new_member_status;
   }
 }
 
