@@ -1,26 +1,25 @@
-import * as core from '@actions/core'
-import loadAllianceConfig from "./alliance";
-import FileLoadFailed from "./error/FileLoadFailed";
-import InvalidConfig from "./error/InvalidConfig";
-import YamlParseFailed from "./error/YamlParseFailed";
-import MissingRequiredKey from "./error/MissingRequiredKey";
-import loadAscensionsConfig from "./ascensions";
-import loadClassesConfig from "./classes";
-import loadCostumesConfig from "./costumes";
-import loadEmblemsConfig from "./emblems";
-import loadFamiliesConfig from "./families";
-import loadFiltersConfig from "./filters";
-import loadMaterialsConfig from "./materials";
-import loadSourcesConfig from "./sources";
-import loadSpeedsConfig from "./speeds";
-import loadTeamsConfig from "./teams";
-import loadTroopsConfig from "./troops";
-import loadUsersConfig from "./users";
-import loadHeroConfigs from "./heroes";
-import loadColorsConfig from "./colors";
-import ImageMissing from "./error/ImageMissing";
-import InvalidImage from "./error/InvalidImage";
-
+import * as core from '@actions/core';
+import loadAllianceConfig from './alliance';
+import FileLoadFailed from './error/FileLoadFailed';
+import InvalidConfig from './error/InvalidConfig';
+import YamlParseFailed from './error/YamlParseFailed';
+import MissingRequiredKey from './error/MissingRequiredKey';
+import loadAscensionsConfig from './ascensions';
+import loadClassesConfig from './classes';
+import loadCostumesConfig from './costumes';
+import loadEmblemsConfig from './emblems';
+import loadFamiliesConfig from './families';
+import loadFiltersConfig from './filters';
+import loadMaterialsConfig from './materials';
+import loadSourcesConfig from './sources';
+import loadSpeedsConfig from './speeds';
+import loadTeamsConfig from './teams';
+import loadTroopsConfig from './troops';
+import loadUsersConfig from './users';
+import loadHeroConfigs from './heroes';
+import loadColorsConfig from './colors';
+import ImageMissing from './error/ImageMissing';
+import InvalidImage from './error/InvalidImage';
 
 async function run(): Promise<void> {
   core.info('Running config validation');
@@ -35,7 +34,7 @@ async function run(): Promise<void> {
       filtersConfig,
       materialsConfig,
       sourcesConfig,
-      speedsConfig,
+      speedsConfig
     ] = await Promise.all([
       loadAllianceConfig(),
       loadAscensionsConfig(),
@@ -46,20 +45,27 @@ async function run(): Promise<void> {
       loadFiltersConfig(),
       loadMaterialsConfig(),
       loadSourcesConfig(),
-      loadSpeedsConfig(),
+      loadSpeedsConfig()
     ]);
     const [
       troopsConfig,
       usersConfig,
       emblemsConfig,
       teamsConfig,
-      heroesConfig,
+      heroesConfig
     ] = await Promise.all([
       loadTroopsConfig(),
       loadUsersConfig(),
       loadEmblemsConfig(classesConfig),
       loadTeamsConfig(classesConfig, colorsConfig),
-      loadHeroConfigs(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig),
+      loadHeroConfigs(
+        classesConfig,
+        familiesConfig,
+        sourcesConfig,
+        costumesConfig,
+        colorsConfig,
+        speedsConfig
+      )
     ]);
   } catch (error) {
     if (error instanceof FileLoadFailed) {
@@ -76,7 +82,7 @@ async function run(): Promise<void> {
       core.setFailed(error.message);
     } else {
       console.log(error);
-      core.setFailed("Encountered an unknown error");
+      core.setFailed('Encountered an unknown error');
     }
   }
   // TODO: Ensure classes are lower
@@ -85,4 +91,4 @@ async function run(): Promise<void> {
   // TODO: Ensure speeds are lower
 }
 
-run()
+run();

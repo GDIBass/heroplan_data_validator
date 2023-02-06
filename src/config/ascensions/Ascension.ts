@@ -6,27 +6,17 @@ import {
   HasStrings,
   validate,
   validateKeysMatch
-} from "../../validation";
-import validateAllIntegers from "../../validation/validateAllIntegers";
-import ohp from "../../util/ohp";
+} from '../../validation';
+import validateAllIntegers from '../../validation/validateAllIntegers';
+import ohp from '../../util/ohp';
 
-const requiredKeys = [
-  'key',
-  'description',
-];
+const requiredKeys = ['key', 'description'];
 
-const integerKeys = [
-  'key',
-];
+const integerKeys = ['key'];
 
-const stringKeys = [
-  'description',
-];
+const stringKeys = ['description'];
 
-const objectKeys = [
-  'star_max',
-  'limit_break',
-];
+const objectKeys = ['star_max', 'limit_break'];
 
 interface RawAscension {
   key: string;
@@ -35,7 +25,9 @@ interface RawAscension {
   limit_break: {[key: string]: string};
 }
 
-class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjects {
+class Ascension
+  implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasObjects
+{
   private readonly _key: number;
   private readonly _description: string;
   private readonly _star_max: {[key: number]: number} = {};
@@ -48,19 +40,25 @@ class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, Has
     this._description = (rawYaml as RawAscension).description;
 
     if (ohp(rawYaml, 'star_max')) {
-      const starMax: { [key: string]: string } = (rawYaml as RawAscension).star_max;
+      const starMax: {[key: string]: string} = (rawYaml as RawAscension)
+        .star_max;
       validateAllIntegers(this, 'star_max<keys>', Object.keys(starMax));
       validateAllIntegers(this, 'star_max<values>', Object.values(starMax));
 
-      for (let key in starMax) {
+      for (const key in starMax) {
         this._star_max[parseInt(key)] = parseInt(starMax[key]);
       }
     }
 
     if (ohp(rawYaml, 'limit_break')) {
-      const limitBreak: { [key: string]: string } = (rawYaml as RawAscension).limit_break;
+      const limitBreak: {[key: string]: string} = (rawYaml as RawAscension)
+        .limit_break;
       validateAllIntegers(this, 'limit_break<keys>', Object.keys(limitBreak));
-      validateAllIntegers(this, 'limit_break<values>', Object.values(limitBreak));
+      validateAllIntegers(
+        this,
+        'limit_break<values>',
+        Object.values(limitBreak)
+      );
 
       for (const key in limitBreak) {
         this._limit_break[parseInt(key)] = parseInt(limitBreak[key]);
@@ -74,7 +72,6 @@ class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, Has
   getIntegers = (): string[] => integerKeys;
   getObjects = (): string[] => objectKeys;
 
-
   get key(): number {
     return this._key;
   }
@@ -83,11 +80,11 @@ class Ascension implements Config, HasRequiredKeys, HasIntegers, HasStrings, Has
     return this._description;
   }
 
-  get star_max(): { [p: number]: number } {
+  get star_max(): {[p: number]: number} {
     return this._star_max;
   }
 
-  get limit_break(): { [p: number]: number } {
+  get limit_break(): {[p: number]: number} {
     return this._limit_break;
   }
 }

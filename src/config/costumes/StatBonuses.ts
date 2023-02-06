@@ -1,5 +1,4 @@
-import { Config, HasIntegers, HasRequiredKeys, validate } from "../../validation";
-
+import {Config, HasIntegers, HasRequiredKeys, validate} from '../../validation';
 
 const requiredKeys = ['attack', 'defense', 'health', 'mana'];
 const integerKeys = ['attack', 'defense', 'health', 'mana'];
@@ -12,10 +11,10 @@ interface RawStatsBonuses {
 }
 
 class StatBonuses implements Config, HasRequiredKeys, HasIntegers {
-  private readonly _attack:number;
-  private readonly _defense:number;
-  private readonly _health:number;
-  private readonly _mana:number;
+  private readonly _attack: number;
+  private readonly _defense: number;
+  private readonly _health: number;
+  private readonly _mana: number;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
@@ -28,7 +27,6 @@ class StatBonuses implements Config, HasRequiredKeys, HasIntegers {
   getClassName = (): string => StatBonuses.name;
   getRequiredKeys = (): string[] => requiredKeys;
   getIntegers = (): string[] => integerKeys;
-
 
   get attack(): number {
     return this._attack;

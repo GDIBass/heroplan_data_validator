@@ -1,10 +1,10 @@
-import Config from "./Config";
+import Config from './Config';
 
 interface HasIntegers extends Config {
-  getIntegers(): Array<string>;
+  getIntegers(): string[];
 }
 
 export const hasIntegers = (arg: any): arg is HasIntegers =>
-  typeof(arg?.getIntegers) === 'function';
+  typeof arg?.getIntegers === 'function';
 
 export default HasIntegers;

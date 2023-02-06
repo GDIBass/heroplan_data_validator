@@ -1,4 +1,4 @@
-import { Config, HasIntegers, HasRequiredKeys, validate } from "../../validation";
+import {Config, HasIntegers, HasRequiredKeys, validate} from '../../validation';
 
 const requiredKeys = [
   '1',
@@ -69,26 +69,26 @@ interface RawTotal {
 }
 
 class Total implements Config, HasRequiredKeys, HasIntegers {
-  private readonly "_1": number;
-  private readonly "_2": number;
-  private readonly "_3": number;
-  private readonly "_4": number;
-  private readonly "_5": number;
-  private readonly "_6": number;
-  private readonly "_7": number;
-  private readonly "_8": number;
-  private readonly "_9": number;
-  private readonly "_10": number;
-  private readonly "_11": number;
-  private readonly "_12": number;
-  private readonly "_13": number;
-  private readonly "_14": number;
-  private readonly "_15": number;
-  private readonly "_16": number;
-  private readonly "_17": number;
-  private readonly "_18": number;
-  private readonly "_19": number;
-  private readonly "_20": number;
+  private readonly '_1': number;
+  private readonly '_2': number;
+  private readonly '_3': number;
+  private readonly '_4': number;
+  private readonly '_5': number;
+  private readonly '_6': number;
+  private readonly '_7': number;
+  private readonly '_8': number;
+  private readonly '_9': number;
+  private readonly '_10': number;
+  private readonly '_11': number;
+  private readonly '_12': number;
+  private readonly '_13': number;
+  private readonly '_14': number;
+  private readonly '_15': number;
+  private readonly '_16': number;
+  private readonly '_17': number;
+  private readonly '_18': number;
+  private readonly '_19': number;
+  private readonly '_20': number;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
@@ -117,7 +117,6 @@ class Total implements Config, HasRequiredKeys, HasIntegers {
   getClassName = (): string => Total.name;
   getRequiredKeys = (): string[] => requiredKeys;
   getIntegers = (): string[] => integerKeys;
-
 
   get 1(): number {
     return this._1;

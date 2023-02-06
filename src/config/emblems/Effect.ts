@@ -7,22 +7,21 @@ import {
   validate,
   validateImageType,
   validateKeysMatch
-} from "../../validation";
-import Mode from "./Mode";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
-
+} from '../../validation';
+import Mode from './Mode';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
 
 const requiredKeys = ['key', 'description', 'effect', 'mode', 'image'];
 const stringKeys = ['key', 'description', 'effect', 'mode'];
 const imageKeys = ['image'];
 
 interface RawEffect {
-  key: string,
-  description: string,
-  effect: string,
-  mode: string,
-  image: string,
+  key: string;
+  description: string;
+  effect: string;
+  mode: string;
+  image: string;
 }
 
 class Effect implements Config, HasRequiredKeys, HasStrings, HasImages {
@@ -32,7 +31,11 @@ class Effect implements Config, HasRequiredKeys, HasStrings, HasImages {
   private readonly _mode: string;
   private readonly _image: string;
 
-  constructor(effectKey: string, rawYaml: object, modes: {[key: string]: Mode}) {
+  constructor(
+    effectKey: string,
+    rawYaml: object,
+    modes: {[key: string]: Mode}
+  ) {
     validate(this, rawYaml);
     validateKeysMatch(this, effectKey, (rawYaml as RawEffect).key);
     this._key = (rawYaml as RawEffect).key;
@@ -53,7 +56,6 @@ class Effect implements Config, HasRequiredKeys, HasStrings, HasImages {
   getRequiredKeys = (): string[] => requiredKeys;
   getStrings = (): string[] => stringKeys;
   getImages = (): string[] => imageKeys;
-
 
   get key(): string {
     return this._key;

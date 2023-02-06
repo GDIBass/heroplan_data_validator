@@ -1,10 +1,10 @@
-import { Config, ImageType } from "./index";
-import { checkImageType } from "./validateImageType";
-import ImageMissing from "../error/ImageMissing";
-import fs from "fs";
-import util from "util";
-import jimp from "jimp";
-import InvalidImage from "../error/InvalidImage";
+import {Config, ImageType} from './index';
+import {checkImageType} from './validateImageType';
+import ImageMissing from '../error/ImageMissing';
+import fs from 'fs';
+import util from 'util';
+import jimp from 'jimp';
+import InvalidImage from '../error/InvalidImage';
 
 const validImageSizes = new Set<number>([200, 201]);
 
@@ -39,16 +39,13 @@ const validateHeroImage = async (
     const fileBuffer = await readFile(imageFile);
     localImage = await jimp.read(fileBuffer);
   } catch (error) {
-    throw new ImageMissing(
-      heroName,
-      imageFile
-    );
+    throw new ImageMissing(heroName, imageFile);
   }
   if (localImage.getHeight() !== localImage.getWidth()) {
     throw new InvalidImage(
       heroName,
       'Local image must be square, but height and width do not match'
-    )
+    );
   }
   if (!validImageSizes.has(localImage.getHeight())) {
     throw new InvalidImage(
@@ -60,6 +57,6 @@ const validateHeroImage = async (
   // TODO: Check local image has the right stars
   // TODO: Load imgur image
   // TODO: Check imgur image matches local image
-}
+};
 
 export default validateHeroImage;

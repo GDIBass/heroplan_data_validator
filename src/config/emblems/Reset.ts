@@ -1,4 +1,10 @@
-import { HasImages, HasRequiredKeys, ImageType, validate, validateImageType } from "../../validation";
+import {
+  HasImages,
+  HasRequiredKeys,
+  ImageType,
+  validate,
+  validateImageType
+} from '../../validation';
 
 const requiredKeys = ['image'];
 const imageKeys = ['image'];
@@ -8,7 +14,6 @@ interface RawReset {
 }
 
 class Reset implements HasRequiredKeys, HasImages {
-
   private readonly _image: string;
 
   constructor(rawYaml: object) {

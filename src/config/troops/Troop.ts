@@ -1,30 +1,39 @@
-import Images from "./Images";
+import Images from './Images';
 import {
-  Config, HasId,
+  Config,
+  HasId,
   HasIntegers,
   HasObjects,
   HasRequiredKeys,
   HasStrings,
   validate,
   validateKeysMatch
-} from "../../validation";
+} from '../../validation';
 
 const requiredKeys = ['key', 'id', 'stars', 'name', 'description', 'images'];
 const stringKeys = ['key', 'name', 'description'];
 const objectKeys = ['images', 'manaBonus'];
-const integerKeys  = ['id', 'stars'];
+const integerKeys = ['id', 'stars'];
 
 interface RawTroop {
-  key: string,
-  id: string,
-  stars: string,
-  name: string,
-  description: string,
-  images: {[key: string]: object},
-  mana_bonus: {[key: string]: string},
+  key: string;
+  id: string;
+  stars: string;
+  name: string;
+  description: string;
+  images: {[key: string]: object};
+  mana_bonus: {[key: string]: string};
 }
 
-class Troop implements Config, HasRequiredKeys, HasStrings, HasObjects, HasIntegers, HasId {
+class Troop
+  implements
+    Config,
+    HasRequiredKeys,
+    HasStrings,
+    HasObjects,
+    HasIntegers,
+    HasId
+{
   private readonly _key: string;
   private readonly _id: number;
   private readonly _stars: number;
@@ -43,7 +52,7 @@ class Troop implements Config, HasRequiredKeys, HasStrings, HasObjects, HasInteg
     this._description = (rawYaml as RawTroop).description;
     this._images = new Images((rawYaml as RawTroop).images);
     const manaBonus = (rawYaml as RawTroop).mana_bonus || {};
-    for (let breakpoint in manaBonus) {
+    for (const breakpoint in manaBonus) {
       this._manaBonus[parseInt(breakpoint)] = parseInt(manaBonus[breakpoint]);
     }
   }
@@ -54,7 +63,6 @@ class Troop implements Config, HasRequiredKeys, HasStrings, HasObjects, HasInteg
   getStrings = (): string[] => stringKeys;
   getObjects = (): string[] => objectKeys;
   getId = (): number => this._id;
-
 
   get key(): string {
     return this._key;
@@ -80,7 +88,7 @@ class Troop implements Config, HasRequiredKeys, HasStrings, HasObjects, HasInteg
     return this._images;
   }
 
-  get manaBonus(): { [p: number]: number } {
+  get manaBonus(): {[p: number]: number} {
     return this._manaBonus;
   }
 }

@@ -8,7 +8,6 @@ class ImageMissing extends Error {
     this._fileName = fileName;
   }
 
-
   get heroName(): string {
     return this._heroName;
   }

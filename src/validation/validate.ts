@@ -1,18 +1,18 @@
-import {hasRequiredKeys} from "./interfaces/HasRequiredKeys";
-import Config from "./interfaces/Config";
-import verifyRequiredKeys from "./validators/verifyRequiredKeys";
-import { hasObjects } from "./interfaces/HasObjects";
-import verifyKeysAreObjects from "./validators/verifyKeysAreObjects";
-import { hasStrings } from "./interfaces/HasStrings";
-import verifyKeysAreStrings from "./validators/verifyKeysAreStrings";
-import { hasIntegers } from "./interfaces/HasIntegers";
-import verifyKeysAreIntegers from "./validators/verifyKeysAreIntegers";
-import { hasImages } from "./interfaces/HasImages";
-import verifyKeysAreImages from "./validators/verifyKeysAreImages";
-import { hasFloats } from "./interfaces/HasFloats";
-import verifyKeysAreFloats from "./validators/verifyKeysAreFloats";
-import { hasBooleans } from "./interfaces/HasBooleans";
-import verifyKeysAreBooleans from "./validators/verifyKeysAreBooleans";
+import {hasRequiredKeys} from './interfaces/HasRequiredKeys';
+import Config from './interfaces/Config';
+import verifyRequiredKeys from './validators/verifyRequiredKeys';
+import {hasObjects} from './interfaces/HasObjects';
+import verifyKeysAreObjects from './validators/verifyKeysAreObjects';
+import {hasStrings} from './interfaces/HasStrings';
+import verifyKeysAreStrings from './validators/verifyKeysAreStrings';
+import {hasIntegers} from './interfaces/HasIntegers';
+import verifyKeysAreIntegers from './validators/verifyKeysAreIntegers';
+import {hasImages} from './interfaces/HasImages';
+import verifyKeysAreImages from './validators/verifyKeysAreImages';
+import {hasFloats} from './interfaces/HasFloats';
+import verifyKeysAreFloats from './validators/verifyKeysAreFloats';
+import {hasBooleans} from './interfaces/HasBooleans';
+import verifyKeysAreBooleans from './validators/verifyKeysAreBooleans';
 
 const validate = (config: Config, rawObject: object): void => {
   if (hasRequiredKeys(config)) {
@@ -36,6 +36,6 @@ const validate = (config: Config, rawObject: object): void => {
   if (hasBooleans(config)) {
     verifyKeysAreBooleans(config, rawObject);
   }
-}
+};
 
 export default validate;

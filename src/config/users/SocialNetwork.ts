@@ -1,11 +1,17 @@
-import { Config, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
+import {
+  Config,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
 
 const requiredKeys = ['key', 'description'];
 const stringKeys = ['key', 'description'];
 
 interface RawSocialNetwork {
-  key: string,
-  description: string,
+  key: string;
+  description: string;
 }
 
 class SocialNetwork implements Config, HasRequiredKeys, HasStrings {
@@ -14,7 +20,11 @@ class SocialNetwork implements Config, HasRequiredKeys, HasStrings {
 
   constructor(socialNetworkKey: string, rawYaml: object) {
     validate(this, rawYaml);
-    validateKeysMatch(this, socialNetworkKey, (rawYaml as RawSocialNetwork).key);
+    validateKeysMatch(
+      this,
+      socialNetworkKey,
+      (rawYaml as RawSocialNetwork).key
+    );
     this._key = (rawYaml as RawSocialNetwork).key;
     this._description = (rawYaml as RawSocialNetwork).description;
   }

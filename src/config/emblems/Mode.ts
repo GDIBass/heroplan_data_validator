@@ -1,4 +1,10 @@
-import { Config, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
+import {
+  Config,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
 
 const requiredKeys = ['key', 'display'];
 const stringKeys = ['key', 'display'];

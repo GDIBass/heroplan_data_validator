@@ -1,10 +1,23 @@
-import Config from "../../validation/interfaces/Config";
-import HasRequiredKeys from "../../validation/interfaces/HasRequiredKeys";
-import { HasImages, HasIntegers, HasStrings, validate, validateKeysMatch } from "../../validation";
-import validateImageType, { ImageTypes as ImageType } from "../../validation/validateImageType";
+import Config from '../../validation/interfaces/Config';
+import HasRequiredKeys from '../../validation/interfaces/HasRequiredKeys';
+import {
+  HasImages,
+  HasIntegers,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
+import validateImageType, {
+  ImageTypes as ImageType
+} from '../../validation/validateImageType';
 
-
-const requiredKeys = ['code', 'key', 'description', 'avatarImage', 'badgeImage'];
+const requiredKeys = [
+  'code',
+  'key',
+  'description',
+  'avatarImage',
+  'badgeImage'
+];
 const integerKeys = ['code'];
 const stringKeys = ['key', 'description'];
 const imageKeys = ['avatarImage', 'badgeImage'];
@@ -17,8 +30,9 @@ interface RawColor {
   badgeImage: string;
 }
 
-class Color implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages {
-
+class Color
+  implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages
+{
   private readonly _code: number;
   private readonly _key: string;
   private readonly _description: string;

@@ -1,6 +1,7 @@
-import { Config, HasImages, HasRequiredKeys, validate } from "../../validation";
-import validateImageType, { ImageTypes as ImageType } from "../../validation/validateImageType";
-
+import {Config, HasImages, HasRequiredKeys, validate} from '../../validation';
+import validateImageType, {
+  ImageTypes as ImageType
+} from '../../validation/validateImageType';
 
 const requiredKeys = ['avatarImage', 'troopImage'];
 const imageKeys = ['avatarImage', 'troopImage'];
@@ -11,7 +12,6 @@ interface RawOpenColor {
 }
 
 class OpenColor implements Config, HasRequiredKeys, HasImages {
-
   private readonly _avatarImage: string;
   private readonly _troopImage: string;
 

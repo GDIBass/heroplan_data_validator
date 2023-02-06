@@ -230,6 +230,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const MemberStatus_1 = __importDefault(__nccwpck_require__(613));
 const validation_1 = __nccwpck_require__(7110);
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const requiredKeys = ['member_status'];
 const requiredObjects = ['member_status'];
 class AllianceConfig {
@@ -239,11 +240,27 @@ class AllianceConfig {
         this.getObjects = () => requiredObjects;
         this.getClassName = () => AllianceConfig.name;
         (0, validation_1.validate)(this, rawYaml);
-        const memberStatus = rawYaml.member_status;
+        const memberStatus = rawYaml
+            .member_status;
         for (const statusKey in memberStatus) {
             this._member_status[statusKey] = new MemberStatus_1.default(statusKey, memberStatus[statusKey]);
         }
         (0, validation_1.validateNoDuplicateIds)(this, 'member_status', Object.values(this._member_status));
+        let leaderFound = false;
+        for (const memberStatusKey in this.member_status) {
+            const member = this.member_status[memberStatusKey];
+            if (member.leader) {
+                if (leaderFound) {
+                    throw new InvalidConfig_1.default(this, 'Cannot have two leader statuses');
+                }
+                else {
+                    leaderFound = true;
+                }
+            }
+        }
+        if (!leaderFound) {
+            throw new InvalidConfig_1.default(this, 'One member status must be tagged as leader, found 0');
+        }
     }
     get member_status() {
         return this._member_status;
@@ -282,7 +299,8 @@ class AscensionsConfig {
         for (const maxKey in maxAscension) {
             this._max_ascension[parseInt(maxKey)] = parseInt(maxAscension[maxKey]);
         }
-        const ascensions = rawYaml.ascensions;
+        const ascensions = rawYaml
+            .ascensions;
         (0, validateAllIntegers_1.default)(this, 'ascensions<keys>', Object.keys(ascensions));
         for (const key in ascensions) {
             const intKey = parseInt(key);
@@ -321,7 +339,8 @@ class ClassesConfig {
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
-        const classes = rawYaml.classes;
+        const classes = rawYaml
+            .classes;
         for (const classKey in classes) {
             this._classes[classKey] = new Class_1.default(classKey, classes[classKey]);
         }
@@ -360,7 +379,8 @@ class ColorsConfig {
         for (const colorKey in colors) {
             this._colors[colorKey] = new Color_1.default(colorKey, colors[colorKey]);
         }
-        const openColors = rawYaml.open_color;
+        const openColors = rawYaml
+            .open_color;
         for (const openColorKey in openColors) {
             this._open_color[openColorKey] = openColors[openColorKey];
         }
@@ -399,7 +419,8 @@ class CostumesConfig {
         this.getObjects = () => objectKeys;
         (0, validation_1.validate)(this, rawYaml);
         this._images = new Images_1.default(rawYaml.images);
-        const bonuses = rawYaml.bonuses;
+        const bonuses = rawYaml
+            .bonuses;
         for (const bonusKey in bonuses) {
             this._bonuses[bonusKey] = new Bonus_1.default(bonusKey, bonuses[bonusKey]);
         }
@@ -873,18 +894,9 @@ exports["default"] = UsersConfig;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
-const requiredKeys = [
-    'key',
-    'id',
-    'description',
-];
-const requiredStrings = [
-    'key',
-    'description',
-];
-const requiredIntegers = [
-    'id',
-];
+const requiredKeys = ['key', 'id', 'description'];
+const requiredStrings = ['key', 'description'];
+const requiredIntegers = ['id'];
 class MemberStatus {
     constructor(statusKey, rawYaml) {
         this.getRequiredKeys = () => requiredKeys;
@@ -893,14 +905,13 @@ class MemberStatus {
         this.getIntegers = () => requiredIntegers;
         this.getId = () => this._id;
         (0, validation_1.validate)(this, rawYaml);
-        // @ts-ignore
         (0, validation_1.validateKeysMatch)(this, statusKey, rawYaml.key);
-        // @ts-ignore
         this._id = parseInt(rawYaml.id);
-        // @ts-ignore
         this._key = rawYaml.key;
-        // @ts-ignore
         this._description = rawYaml.description;
+        this._leader =
+            rawYaml.leader === 'true' ||
+                rawYaml.leader === true;
     }
     get id() {
         return this._id;
@@ -910,6 +921,9 @@ class MemberStatus {
     }
     get description() {
         return this._description;
+    }
+    get leader() {
+        return this._leader;
     }
 }
 exports["default"] = MemberStatus;
@@ -929,20 +943,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
 const validateAllIntegers_1 = __importDefault(__nccwpck_require__(2288));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
-const requiredKeys = [
-    'key',
-    'description',
-];
-const integerKeys = [
-    'key',
-];
-const stringKeys = [
-    'description',
-];
-const objectKeys = [
-    'star_max',
-    'limit_break',
-];
+const requiredKeys = ['key', 'description'];
+const integerKeys = ['key'];
+const stringKeys = ['description'];
+const objectKeys = ['star_max', 'limit_break'];
 class Ascension {
     constructor(statusKey, rawYaml) {
         this._star_max = {};
@@ -957,15 +961,17 @@ class Ascension {
         this._key = parseInt(rawYaml.key);
         this._description = rawYaml.description;
         if ((0, ohp_1.default)(rawYaml, 'star_max')) {
-            const starMax = rawYaml.star_max;
+            const starMax = rawYaml
+                .star_max;
             (0, validateAllIntegers_1.default)(this, 'star_max<keys>', Object.keys(starMax));
             (0, validateAllIntegers_1.default)(this, 'star_max<values>', Object.values(starMax));
-            for (let key in starMax) {
+            for (const key in starMax) {
                 this._star_max[parseInt(key)] = parseInt(starMax[key]);
             }
         }
         if ((0, ohp_1.default)(rawYaml, 'limit_break')) {
-            const limitBreak = rawYaml.limit_break;
+            const limitBreak = rawYaml
+                .limit_break;
             (0, validateAllIntegers_1.default)(this, 'limit_break<keys>', Object.keys(limitBreak));
             (0, validateAllIntegers_1.default)(this, 'limit_break<values>', Object.values(limitBreak));
             for (const key in limitBreak) {
@@ -1067,7 +1073,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
 const validateImageType_1 = __importStar(__nccwpck_require__(8475));
-const requiredKeys = ['code', 'key', 'description', 'avatarImage', 'badgeImage'];
+const requiredKeys = [
+    'code',
+    'key',
+    'description',
+    'avatarImage',
+    'badgeImage'
+];
 const integerKeys = ['code'];
 const stringKeys = ['key', 'description'];
 const imageKeys = ['avatarImage', 'badgeImage'];
@@ -1165,8 +1177,8 @@ exports["default"] = Bonus;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
-const requiredKeys = ["costume", "maxcostume"];
-const imageKeys = ["costume", "maxcostume"];
+const requiredKeys = ['costume', 'maxcostume'];
+const imageKeys = ['costume', 'maxcostume'];
 class Images {
     constructor(rawYaml) {
         this.getClassName = () => Images.name;
@@ -1175,8 +1187,8 @@ class Images {
         (0, validation_1.validate)(this, rawYaml);
         this._costume = rawYaml.costume;
         this._maxcostume = rawYaml.maxcostume;
-        (0, validation_1.validateImageType)(this, "costume", this._costume, validation_1.ImageType.PNG);
-        (0, validation_1.validateImageType)(this, "maxcostume", this._maxcostume, validation_1.ImageType.PNG);
+        (0, validation_1.validateImageType)(this, 'costume', this._costume, validation_1.ImageType.PNG);
+        (0, validation_1.validateImageType)(this, 'maxcostume', this._maxcostume, validation_1.ImageType.PNG);
     }
     get costume() {
         return this._costume;
@@ -1325,18 +1337,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
-const requiredKeys = [
-    'key',
-    'type',
-    'amount',
-];
-const stringKeys = [
-    'key',
-    'type',
-];
-const integerKeys = [
-    'amount'
-];
+const requiredKeys = ['key', 'type', 'amount'];
+const stringKeys = ['key', 'type'];
+const integerKeys = ['amount'];
 class Node {
     constructor(effectKey, rawYaml, effects) {
         this.getClassName = () => Node.name;
@@ -1653,19 +1656,9 @@ const requiredKeys = [
     '17',
     '18',
     '19',
-    '20',
+    '20'
 ];
-const stringKeys = [
-    'key',
-    '1',
-    '4',
-    '7',
-    '10',
-    '12',
-    '15',
-    '18',
-    '20',
-];
+const stringKeys = ['key', '1', '4', '7', '10', '12', '15', '18', '20'];
 const objectKeys = [
     '2',
     '3',
@@ -1678,7 +1671,7 @@ const objectKeys = [
     '14',
     '16',
     '17',
-    '19',
+    '19'
 ];
 class Tree {
     constructor(effectKey, rawYaml, nodes, classesConfig) {
@@ -1811,20 +1804,9 @@ exports["default"] = validateNode;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
-const requiredKeys = [
-    'key',
-    'code',
-    'description',
-    'image',
-    'bonus',
-];
-const stringKeys = [
-    'key',
-    'description',
-];
-const integerKeys = [
-    'code',
-];
+const requiredKeys = ['key', 'code', 'description', 'image', 'bonus'];
+const stringKeys = ['key', 'description'];
+const integerKeys = ['code'];
 const imageKeys = ['image'];
 const arrayKeys = ['bonus'];
 class Family {
@@ -1843,7 +1825,7 @@ class Family {
         this._code = parseInt(rawYaml.code);
         this._description = rawYaml.description;
         this._image = rawYaml.image;
-        for (let bonusItem of rawYaml.bonus) {
+        for (const bonusItem of rawYaml.bonus) {
             this._bonus.push(bonusItem);
         }
         (0, validation_1.validateImageType)(this, 'image', this._image, validation_1.ImageType.PNG);
@@ -1897,7 +1879,7 @@ class Filter {
         if ((0, ohp_1.default)(rawYaml, 'ascensions')) {
             // this.ascensions = {};
             const ascensions = rawYaml.ascensions;
-            for (let ascension in ascensions) {
+            for (const ascension in ascensions) {
                 this._ascensions[parseInt(ascension)] = parseInt(ascensions[ascension]);
             }
         }
@@ -1940,7 +1922,17 @@ const validation_1 = __nccwpck_require__(7110);
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateHeroImage_1 = __importDefault(__nccwpck_require__(8803));
-const requiredKeys = ['class', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
+const requiredKeys = [
+    'class',
+    'power',
+    'attack',
+    'defense',
+    'health',
+    'skill',
+    'effects',
+    'types',
+    'image'
+];
 const stringKeys = ['class', 'skill', 'family', 'image', 'bonuses'];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
 const arrayKeys = ['effets', 'types'];
@@ -1963,11 +1955,11 @@ class Costume {
         this._image = rawYaml.image;
         this._bonuses = rawYaml.bonuses;
         const effects = rawYaml.effects;
-        for (let effect of effects) {
+        for (const effect of effects) {
             this._effects.push(effect);
         }
         const types = rawYaml.types;
-        for (let type of types) {
+        for (const type of types) {
             this._types.push(type);
         }
         // validate class is valid
@@ -2046,7 +2038,20 @@ const Costume_1 = __importDefault(__nccwpck_require__(4335));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateHeroImage_1 = __importDefault(__nccwpck_require__(8803));
-const requiredKeys = ['name', 'class', 'source', 'speed', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
+const requiredKeys = [
+    'name',
+    'class',
+    'source',
+    'speed',
+    'power',
+    'attack',
+    'defense',
+    'health',
+    'skill',
+    'effects',
+    'types',
+    'image'
+];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
 const stringKeys = ['name', 'class', 'source', 'speed', 'skill', 'family'];
 const objectKeys = ['costume', 'costume2'];
@@ -2102,7 +2107,8 @@ class Hero {
             throw new InvalidConfig_1.default(this, `${this._name} has an invalid source ${this._source}`);
         }
         // Validate family is valid (if set)
-        if (this._family && !(0, ohp_1.default)(familiesConfig.families, this._family.toLowerCase())) {
+        if (this._family &&
+            !(0, ohp_1.default)(familiesConfig.families, this._family.toLowerCase())) {
             throw new InvalidConfig_1.default(this, `${this._name} has an invalid family ${this._family}`);
         }
     }
@@ -2267,7 +2273,7 @@ const requiredKeys = [
     'shortName',
     'description',
     'tiles',
-    'breakPoints',
+    'breakPoints'
 ];
 const stringKeys = ['key', 'shortName', 'description', 'breakPoints'];
 const intKeys = ['code'];
@@ -2290,14 +2296,14 @@ class Speed {
         this._code = parseInt(rawYaml.code);
         this._shortName = rawYaml.shortName;
         this._description = rawYaml.description;
-        for (let tile of rawYaml.tiles) {
+        for (const tile of rawYaml.tiles) {
             this._tiles.push(parseFloat(tile));
         }
         const breakpoints = rawYaml.breakPoints;
-        for (let breakpointRaw in breakpoints) {
+        for (const breakpointRaw in breakpoints) {
             const breakpoint = parseInt(breakpointRaw);
             this._breakPoints[breakpoint] = [];
-            for (let breakpointItem of breakpoints[breakpoint]) {
+            for (const breakpointItem of breakpoints[breakpoint]) {
                 this._breakPoints[breakpoint].push(parseFloat(breakpointItem));
             }
         }
@@ -2364,15 +2370,15 @@ class Category {
         }
         this._typeset = typeset;
         const colors = rawYaml.colors || [];
-        for (let color of colors) {
+        for (const color of colors) {
             if (!(0, ohp_1.default)(colorsConfig.colors, color)) {
                 throw new InvalidConfig_1.default(this, `Color for team category ${this._category} is invalid: ${color}`);
             }
             this._colors.add(color);
         }
         const stars = rawYaml.stars || [];
-        for (let star of stars) {
-            let starVal = parseInt(star);
+        for (const star of stars) {
+            const starVal = parseInt(star);
             if (isNaN(starVal) || starVal < 1 || starVal > 5) {
                 throw new InvalidConfig_1.default(this, `Invalid stars for team category ${this._category} is invalid: ${star}`);
             }
@@ -2472,7 +2478,7 @@ class Type {
         this._type = parseInt(rawYaml.type);
         this._description = rawYaml.description;
         const classes = rawYaml.classes || [];
-        for (let className of classes) {
+        for (const className of classes) {
             if (!(0, ohp_1.default)(classesConfig.classes, className)) {
                 throw new InvalidConfig_1.default(this, `Class for team type ${this._description} is invalid: ${className}`);
             }
@@ -2522,7 +2528,7 @@ class TypeSet {
         (0, validation_1.validateKeysMatch)(this, typesetKey, key);
         this._key = rawYaml.key;
         const types = rawYaml.types;
-        for (let type in types) {
+        for (const type in types) {
             this._types[type] = new Type_1.default(type, types[type], classesConfig);
         }
         (0, validation_1.validateNoDuplicateIds)(this, 'types', Object.values(this._types));
@@ -2653,7 +2659,7 @@ class Troop {
         this._description = rawYaml.description;
         this._images = new Images_1.default(rawYaml.images);
         const manaBonus = rawYaml.mana_bonus || {};
-        for (let breakpoint in manaBonus) {
+        for (const breakpoint in manaBonus) {
             this._manaBonus[parseInt(breakpoint)] = parseInt(manaBonus[breakpoint]);
         }
     }
@@ -3168,8 +3174,8 @@ const yaml_1 = __nccwpck_require__(9912);
 const loadHeroConfigs = (classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig, heroesDirectory = './data/heroes/', heroImagesDirectory = './img/heroes/') => __awaiter(void 0, void 0, void 0, function* () {
     core.info('Loading Heroes Config');
     const heroesConfig = new HeroesConfig_1.default(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig, heroImagesDirectory);
-    for (let color in colorsConfig.colors) {
-        for (let star of [1, 2, 3, 4, 5]) {
+    for (const color in colorsConfig.colors) {
+        for (const star of [1, 2, 3, 4, 5]) {
             core.info(`Loading ${star} star ${color} Heroes`);
             const file = `${heroesDirectory}${color}/${star}star.yml`;
             heroesConfig.addHeroes(color, star, yield (0, yaml_1.loadYamlFileArray)(file));
@@ -3249,7 +3255,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         core.info('Running config validation');
         try {
-            const [allianceConfig, ascensionsConfig, classesConfig, colorsConfig, costumesConfig, familiesConfig, filtersConfig, materialsConfig, sourcesConfig, speedsConfig,] = yield Promise.all([
+            const [allianceConfig, ascensionsConfig, classesConfig, colorsConfig, costumesConfig, familiesConfig, filtersConfig, materialsConfig, sourcesConfig, speedsConfig] = yield Promise.all([
                 (0, alliance_1.default)(),
                 (0, ascensions_1.default)(),
                 (0, classes_1.default)(),
@@ -3259,14 +3265,14 @@ function run() {
                 (0, filters_1.default)(),
                 (0, materials_1.default)(),
                 (0, sources_1.default)(),
-                (0, speeds_1.default)(),
+                (0, speeds_1.default)()
             ]);
-            const [troopsConfig, usersConfig, emblemsConfig, teamsConfig, heroesConfig,] = yield Promise.all([
+            const [troopsConfig, usersConfig, emblemsConfig, teamsConfig, heroesConfig] = yield Promise.all([
                 (0, troops_1.default)(),
                 (0, users_1.default)(),
                 (0, emblems_1.default)(classesConfig),
                 (0, teams_1.default)(classesConfig, colorsConfig),
-                (0, heroes_1.default)(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig),
+                (0, heroes_1.default)(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig)
             ]);
         }
         catch (error) {
@@ -3290,7 +3296,7 @@ function run() {
             }
             else {
                 console.log(error);
-                core.setFailed("Encountered an unknown error");
+                core.setFailed('Encountered an unknown error');
             }
         }
         // TODO: Ensure classes are lower
@@ -4000,7 +4006,7 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const verifyKeysAreBooleans = (config, source) => {
     const keys = config.getBooleans();
-    for (let key of keys) {
+    for (const key of keys) {
         // @ts-ignore
         const item = (source[key] || '').toString().toLowerCase();
         if (!(0, ohp_1.default)(source, key)) {
@@ -4033,7 +4039,7 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const verifyKeysAreFloats = (config, source) => {
     const keys = config.getFloats();
-    for (let key of keys) {
+    for (const key of keys) {
         // @ts-ignore
         if (!source[key] instanceof String || isNaN(parseFloat(source[key]))) {
             if (!(0, ohp_1.default)(source, key)) {
@@ -4061,7 +4067,7 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const verifyKeysAreImages = (config, source) => {
     const keys = config.getImages();
-    for (let key of keys) {
+    for (const key of keys) {
         if (!(0, ohp_1.default)(source, key)) {
             continue;
         }
@@ -4071,7 +4077,8 @@ const verifyKeysAreImages = (config, source) => {
         if (!value instanceof String) {
             throw new InvalidConfig_1.default(config, `key is not an imgur link: ${key}:${value}`);
         }
-        if (!value.startsWith("https://i.imgur.com/") && !value.startsWith("https://i.imgur.io/")) {
+        if (!value.startsWith('https://i.imgur.com/') &&
+            !value.startsWith('https://i.imgur.io/')) {
             throw new InvalidConfig_1.default(config, `key is not an imgur link: ${key}:${value}`);
         }
     }
@@ -4094,7 +4101,7 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const verifyKeysAreIntegers = (config, source) => {
     const keys = config.getIntegers();
-    for (let key of keys) {
+    for (const key of keys) {
         // @ts-ignore
         if (!source[key] instanceof String || isNaN(parseInt(source[key]))) {
             if (!(0, ohp_1.default)(source, key)) {
@@ -4121,7 +4128,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const verifyKeysAreObjects = (config, source) => {
     const keys = config.getObjects();
-    for (let key of keys) {
+    for (const key of keys) {
         // @ts-ignore
         if (!source[key] instanceof Object) {
             throw new InvalidConfig_1.default(config, `key is not an object: ${key}`);
@@ -4146,7 +4153,7 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const verifyKeysAreStrings = (config, source) => {
     const keys = config.getStrings();
-    for (let key of keys) {
+    for (const key of keys) {
         if (!(0, ohp_1.default)(source, key)) {
             continue;
         }
@@ -4174,7 +4181,7 @@ const ohp_1 = __importDefault(__nccwpck_require__(1439));
 const MissingRequiredKey_1 = __importDefault(__nccwpck_require__(2230));
 const verifyRequiredKeys = (config, source) => {
     const requiredKeys = config.getRequiredKeys();
-    for (let key of requiredKeys) {
+    for (const key of requiredKeys) {
         if (!(0, ohp_1.default)(source, key)) {
             throw new MissingRequiredKey_1.default(config, key, source);
         }
@@ -4252,9 +4259,9 @@ const loadFile = (filename) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.loadFile = loadFile;
-const loadYamlFile = (filename) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, exports.loadFile)(filename); });
+const loadYamlFile = (filename) => __awaiter(void 0, void 0, void 0, function* () { return (yield (0, exports.loadFile)(filename)); });
 exports.loadYamlFile = loadYamlFile;
-const loadYamlFileArray = (filename) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, exports.loadFile)(filename); });
+const loadYamlFileArray = (filename) => __awaiter(void 0, void 0, void 0, function* () { return (yield (0, exports.loadFile)(filename)); });
 exports.loadYamlFileArray = loadYamlFileArray;
 
 

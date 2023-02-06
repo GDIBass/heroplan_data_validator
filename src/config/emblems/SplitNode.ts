@@ -1,17 +1,16 @@
-import Node from "./Node";
-import { Config, HasRequiredKeys, HasStrings, validate } from "../../validation";
-import validateNode from "./validateNode";
+import Node from './Node';
+import {Config, HasRequiredKeys, HasStrings, validate} from '../../validation';
+import validateNode from './validateNode';
 
 const requiredKeys = ['l', 'r'];
 const stringKeys = ['l', 'r'];
 
 interface RawSplitNode {
-  l: string,
-  r: string,
+  l: string;
+  r: string;
 }
 
 class SplitNode implements Config, HasRequiredKeys, HasStrings {
-
   private readonly _l: string;
   private readonly _r: string;
 
@@ -25,7 +24,6 @@ class SplitNode implements Config, HasRequiredKeys, HasStrings {
   getClassName = (): string => SplitNode.name;
   getRequiredKeys = (): string[] => requiredKeys;
   getStrings = (): string[] => stringKeys;
-
 
   get l(): string {
     return this._l;

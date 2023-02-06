@@ -1,22 +1,29 @@
-import { Config, HasImages, HasRequiredKeys, ImageType, validate, validateImageType } from "../../validation";
+import {
+  Config,
+  HasImages,
+  HasRequiredKeys,
+  ImageType,
+  validate,
+  validateImageType
+} from '../../validation';
 
 const requiredKeys = ['purple', 'yellow', 'blue', 'green', 'red'];
 const imageKeys = ['purple', 'yellow', 'blue', 'green', 'red'];
 
 interface RawImageSet {
-  purple: string,
-  yellow: string,
-  blue: string,
-  green: string,
-  red: string,
+  purple: string;
+  yellow: string;
+  blue: string;
+  green: string;
+  red: string;
 }
 
 class ImageSet implements Config, HasRequiredKeys, HasImages {
-  private readonly _purple:string;
-  private readonly _yellow:string;
-  private readonly _blue:string;
-  private readonly _green:string;
-  private readonly _red:string;
+  private readonly _purple: string;
+  private readonly _yellow: string;
+  private readonly _blue: string;
+  private readonly _green: string;
+  private readonly _red: string;
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);

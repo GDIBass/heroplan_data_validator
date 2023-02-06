@@ -16,17 +16,15 @@ export const loadFile = async (filename: string): Promise<unknown> => {
   }
 
   try {
-    return yaml.load(
-      Buffer.from(fileContents).toString()
-    );
+    return yaml.load(Buffer.from(fileContents).toString());
   } catch (error) {
     core.setFailed(`Could not parse yaml file at ${filename}`);
     throw new YamlParseFailed(filename, 'Could not parse yaml file');
   }
-}
+};
 
 export const loadYamlFile = async (filename: string): Promise<Object> =>
-  await loadFile(filename) as Object;
+  (await loadFile(filename)) as Object;
 
 export const loadYamlFileArray = async (filename: string): Promise<object[]> =>
-  await loadFile(filename) as object[];
+  (await loadFile(filename)) as object[];

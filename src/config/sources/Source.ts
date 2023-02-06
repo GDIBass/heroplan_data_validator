@@ -1,17 +1,26 @@
-import { Config, HasId, HasIntegers, HasRequiredKeys, HasStrings, validate, validateKeysMatch } from "../../validation";
+import {
+  Config,
+  HasId,
+  HasIntegers,
+  HasRequiredKeys,
+  HasStrings,
+  validate,
+  validateKeysMatch
+} from '../../validation';
 
 interface RawSource {
-  key: string,
-  code: string,
-  description: string,
+  key: string;
+  code: string;
+  description: string;
 }
 
 const requiredKeys = ['key', 'code', 'description'];
 const stringKeys = ['key', 'description'];
 const integerKey = ['code'];
 
-
-class Source implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId {
+class Source
+  implements Config, HasRequiredKeys, HasStrings, HasIntegers, HasId
+{
   private readonly _key: string;
   private readonly _code: number;
   private readonly _description: string;

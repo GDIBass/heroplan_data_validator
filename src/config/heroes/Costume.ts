@@ -3,30 +3,40 @@ import {
   HasIntegers,
   HasRequiredKeys,
   HasStrings,
-  validate,
-} from "../../validation";
-import ClassesConfig from "../ClassesConfig";
-import CostumesConfig from "../CostumesConfig";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
-import validateHeroImage from "../../validation/validateHeroImage";
+  validate
+} from '../../validation';
+import ClassesConfig from '../ClassesConfig';
+import CostumesConfig from '../CostumesConfig';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
+import validateHeroImage from '../../validation/validateHeroImage';
 
-const requiredKeys = ['class', 'power', 'attack', 'defense', 'health', 'skill', 'effects', 'types', 'image'];
+const requiredKeys = [
+  'class',
+  'power',
+  'attack',
+  'defense',
+  'health',
+  'skill',
+  'effects',
+  'types',
+  'image'
+];
 const stringKeys = ['class', 'skill', 'family', 'image', 'bonuses'];
 const integerKeys = ['power', 'attack', 'defense', 'health'];
 const arrayKeys = ['effets', 'types'];
 
 interface RawCostume {
-  class: string,
-  power: string,
-  attack: string,
-  defense: string,
-  health: string,
-  skill: string,
-  effects: Array<string>,
-  types: Array<string>,
-  image: string,
-  bonuses: string,
+  class: string;
+  power: string;
+  attack: string;
+  defense: string;
+  health: string;
+  skill: string;
+  effects: string[];
+  types: string[];
+  image: string;
+  bonuses: string;
 }
 
 class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
@@ -36,8 +46,8 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
   private readonly _defense: string;
   private readonly _health: string;
   private readonly _skill: string;
-  private readonly _effects: Array<string> = [];
-  private readonly _types: Array<string> = [];
+  private readonly _effects: string[] = [];
+  private readonly _types: string[] = [];
   private readonly _image: string;
   private readonly _bonuses: string;
 
@@ -59,11 +69,11 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
     this._image = (rawYaml as RawCostume).image;
     this._bonuses = (rawYaml as RawCostume).bonuses;
     const effects = (rawYaml as RawCostume).effects;
-    for (let effect of effects) {
+    for (const effect of effects) {
       this._effects.push(effect);
     }
     const types = (rawYaml as RawCostume).types;
-    for (let type of types) {
+    for (const type of types) {
       this._types.push(type);
     }
 
@@ -84,7 +94,7 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
     // TODO: Populate default variant if bonuses isn't set
   }
 
-  public static build = async (
+  static build = async (
     stars: number,
     color: string,
     name: string,
@@ -101,16 +111,23 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
       costumesConfig,
       costumeVariant
     );
-    await validateHeroImage(costume, name, costume._image, color, stars, heroImagesDirectory, costumeVariant);
+    await validateHeroImage(
+      costume,
+      name,
+      costume._image,
+      color,
+      stars,
+      heroImagesDirectory,
+      costumeVariant
+    );
     return costume;
-  }
+  };
 
   getClassName = (): string => Costume.name;
   getRequiredKeys = (): string[] => requiredKeys;
   getIntegers = (): string[] => integerKeys;
   getStrings = (): string[] => stringKeys;
   getArrays = (): string[] => arrayKeys;
-
 
   get class(): string {
     return this._class;
@@ -136,11 +153,11 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
     return this._skill;
   }
 
-  get effects(): Array<string> {
+  get effects(): string[] {
     return this._effects;
   }
 
-  get types(): Array<string> {
+  get types(): string[] {
     return this._types;
   }
 

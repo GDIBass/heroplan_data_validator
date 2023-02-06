@@ -1,24 +1,25 @@
-import TypeSet from "./TypeSet";
-import ColorsConfig from "../ColorsConfig";
+import TypeSet from './TypeSet';
+import ColorsConfig from '../ColorsConfig';
 import {
-  Config, HasArrays,
+  Config,
+  HasArrays,
   HasBooleans,
   HasId,
   HasIntegers,
   HasRequiredKeys,
   HasStrings,
-  validate,
-} from "../../validation";
-import ohp from "../../util/ohp";
-import InvalidConfig from "../../error/InvalidConfig";
+  validate
+} from '../../validation';
+import ohp from '../../util/ohp';
+import InvalidConfig from '../../error/InvalidConfig';
 
 interface RawCategory {
-  category: string,
-  description: string,
-  typeset: string,
-  distinct: string,
-  stars: Array<string>,
-  colors: Array<string>,
+  category: string;
+  description: string;
+  typeset: string;
+  distinct: string;
+  stars: string[];
+  colors: string[];
 }
 
 const requiredKeys = ['category', 'description', 'typeset'];
@@ -27,7 +28,16 @@ const booleanKeys = ['distinct'];
 const integerKeys = ['category'];
 const arrayKeys = ['stars', 'colors'];
 
-class Category implements Config, HasId, HasRequiredKeys, HasStrings, HasBooleans, HasIntegers, HasArrays {
+class Category
+  implements
+    Config,
+    HasId,
+    HasRequiredKeys,
+    HasStrings,
+    HasBooleans,
+    HasIntegers,
+    HasArrays
+{
   private readonly _description: string;
   private readonly _category: number;
   private readonly _distinct: boolean = false;
@@ -35,7 +45,12 @@ class Category implements Config, HasId, HasRequiredKeys, HasStrings, HasBoolean
   private readonly _colors: Set<string> = new Set<string>();
   private readonly _stars: Set<number> = new Set<number>();
 
-  constructor (categoryKey: string, rawYaml: object, typesets: {[key: string]: TypeSet}, colorsConfig: ColorsConfig) {
+  constructor(
+    categoryKey: string,
+    rawYaml: object,
+    typesets: {[key: string]: TypeSet},
+    colorsConfig: ColorsConfig
+  ) {
     validate(this, rawYaml);
     this._description = (rawYaml as RawCategory).description;
     this._category = parseInt((rawYaml as RawCategory).category);
@@ -48,7 +63,7 @@ class Category implements Config, HasId, HasRequiredKeys, HasStrings, HasBoolean
     }
     this._typeset = typeset;
     const colors = (rawYaml as RawCategory).colors || [];
-    for (let color of colors) {
+    for (const color of colors) {
       if (!ohp(colorsConfig.colors, color)) {
         throw new InvalidConfig(
           this,
@@ -58,8 +73,8 @@ class Category implements Config, HasId, HasRequiredKeys, HasStrings, HasBoolean
       this._colors.add(color);
     }
     const stars = (rawYaml as RawCategory).stars || [];
-    for (let star of stars) {
-      let starVal = parseInt(star);
+    for (const star of stars) {
+      const starVal = parseInt(star);
       if (isNaN(starVal) || starVal < 1 || starVal > 5) {
         throw new InvalidConfig(
           this,
@@ -77,7 +92,6 @@ class Category implements Config, HasId, HasRequiredKeys, HasStrings, HasBoolean
   getRequiredKeys = (): string[] => requiredKeys;
   getStrings = (): string[] => stringKeys;
   getArrays = (): string[] => arrayKeys;
-
 
   get description(): string {
     return this._description;

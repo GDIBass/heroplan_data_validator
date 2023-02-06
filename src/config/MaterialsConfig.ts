@@ -1,26 +1,26 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
-import Ascension from "./materials/Ascension";
-
-
+import {Config, HasObjects, HasRequiredKeys, validate} from '../validation';
+import Ascension from './materials/Ascension';
 
 const requiredKeys = ['ascension'];
 const objectKeys = ['ascension'];
 
 interface RawMaterialsConfig {
-  ascension: {[key: string]: object},
+  ascension: {[key: string]: object};
 }
 
-type Ascensions = { [key: string]: Ascension };
+type Ascensions = {[key: string]: Ascension};
 
 class MaterialsConfig implements Config, HasRequiredKeys, HasObjects {
-
   private readonly _ascension: Ascensions = {};
 
   constructor(rawYaml: object) {
     validate(this, rawYaml);
     const ascension = (rawYaml as RawMaterialsConfig).ascension;
     for (const ascensionKey in ascension) {
-      this._ascension[ascensionKey] = new Ascension(ascensionKey, ascension[ascensionKey]);
+      this._ascension[ascensionKey] = new Ascension(
+        ascensionKey,
+        ascension[ascensionKey]
+      );
     }
   }
 

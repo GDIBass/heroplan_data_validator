@@ -7,8 +7,8 @@ import {
   validate,
   validateKeysMatch,
   validateImageType,
-  ImageType,
-} from "../../validation";
+  ImageType
+} from '../../validation';
 
 const requiredKeys = ['code', 'key', 'description', 'image'];
 const integerKeys = ['code'];
@@ -22,7 +22,9 @@ interface RawClass {
   image: string;
 }
 
-class Class implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages {
+class Class
+  implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImages
+{
   private readonly _code: number;
   private readonly _key: string;
   private readonly _description: string;
@@ -46,7 +48,6 @@ class Class implements Config, HasRequiredKeys, HasIntegers, HasStrings, HasImag
   getIntegers = (): string[] => integerKeys;
   getStrings = (): string[] => stringKeys;
   getImages = (): string[] => imageKeys;
-
 
   get code(): number {
     return this._code;

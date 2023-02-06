@@ -1,5 +1,11 @@
-import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
-import Family from "./families/Family";
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  validate,
+  validateNoDuplicateIds
+} from '../validation';
+import Family from './families/Family';
 
 const requiredKeys = ['families'];
 const objectKeys = ['families'];
@@ -8,10 +14,9 @@ interface RawFamiliesConfig {
   families: {[key: string]: object};
 }
 
-type Families = { [key: string]: Family };
+type Families = {[key: string]: Family};
 
 class FamiliesConfig implements Config, HasRequiredKeys, HasObjects {
-
   private readonly _families: Families = {};
 
   constructor(rawYaml: object) {

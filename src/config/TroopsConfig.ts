@@ -1,18 +1,23 @@
-import { Config, HasObjects, HasRequiredKeys, validate, validateNoDuplicateIds } from "../validation";
-import Troop from "./troops/Troop";
-
+import {
+  Config,
+  HasObjects,
+  HasRequiredKeys,
+  validate,
+  validateNoDuplicateIds
+} from '../validation';
+import Troop from './troops/Troop';
 
 const requiredKeys = ['troops', 'max_level_by_stars'];
 const objectKeys = ['troops', 'max_level_by_stars'];
 
 interface RawTroopsConfig {
-  troops: {[key: string]: object},
-  max_level_by_stars: {[key: string]: string},
+  troops: {[key: string]: object};
+  max_level_by_stars: {[key: string]: string};
 }
 
-type Troops = { [key: string]: Troop };
+type Troops = {[key: string]: Troop};
 
-type Numbers = { [key: number]: number };
+type Numbers = {[key: number]: number};
 
 class TroopsConfig implements Config, HasRequiredKeys, HasObjects {
   private readonly _troops: Troops = {};
@@ -37,7 +42,6 @@ class TroopsConfig implements Config, HasRequiredKeys, HasObjects {
   getClassName = (): string => TroopsConfig.name;
   getRequiredKeys = (): string[] => requiredKeys;
   getObjects = (): string[] => objectKeys;
-
 
   get troops(): Troops {
     return this._troops;

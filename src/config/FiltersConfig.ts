@@ -1,14 +1,14 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../validation";
-import Filter from "./filters/Filter";
+import {Config, HasObjects, HasRequiredKeys, validate} from '../validation';
+import Filter from './filters/Filter';
 
 interface RawFiltersConfig {
-  filters: {[key: string]: object},
+  filters: {[key: string]: object};
 }
 
 const requiredKeys = ['filters'];
 const objectKeys = ['filters'];
 
-type Filters = { [key: string]: Filter };
+type Filters = {[key: string]: Filter};
 
 class FiltersConfig implements Config, HasRequiredKeys, HasObjects {
   private readonly _filters: Filters = {};

@@ -1,19 +1,19 @@
-import { Config, HasObjects, HasRequiredKeys, validate } from "../../validation";
-import ImageSet from "./ImageSet";
+import {Config, HasObjects, HasRequiredKeys, validate} from '../../validation';
+import ImageSet from './ImageSet';
 
 const requiredKeys = ['full', 'half'];
 const objectKeys = ['full', 'half'];
 
 interface RawImages {
-  full: object,
-  half: object,
+  full: object;
+  half: object;
 }
 
 class Images implements Config, HasRequiredKeys, HasObjects {
   private readonly _full: ImageSet;
   private readonly _half: ImageSet;
 
-  constructor (rawYaml: object) {
+  constructor(rawYaml: object) {
     validate(this, rawYaml);
     this._full = new ImageSet((rawYaml as RawImages).full);
     this._half = new ImageSet((rawYaml as RawImages).half);

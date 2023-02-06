@@ -1,10 +1,9 @@
-import Config from "../../validation/interfaces/Config";
-import HasRequiredKeys from "../../validation/interfaces/HasRequiredKeys";
-import HasStrings from "../../validation/interfaces/HasStrings";
-import HasObjects from "../../validation/interfaces/HasObjects";
-import { validate, validateKeysMatch } from "../../validation";
-import StatBonuses from "./StatBonuses";
-
+import Config from '../../validation/interfaces/Config';
+import HasRequiredKeys from '../../validation/interfaces/HasRequiredKeys';
+import HasStrings from '../../validation/interfaces/HasStrings';
+import HasObjects from '../../validation/interfaces/HasObjects';
+import {validate, validateKeysMatch} from '../../validation';
+import StatBonuses from './StatBonuses';
 
 const requiredKeys = ['key', 'max', '4', '3', '2'];
 const stringKeys = ['key'];
@@ -19,12 +18,11 @@ interface RawBonus {
 }
 
 class Bonus implements Config, HasRequiredKeys, HasStrings, HasObjects {
-
   private readonly _key: string;
   private readonly _max: StatBonuses;
-  private readonly "_4": StatBonuses;
-  private readonly "_3": StatBonuses;
-  private readonly "_2": StatBonuses;
+  private readonly '_4': StatBonuses;
+  private readonly '_3': StatBonuses;
+  private readonly '_2': StatBonuses;
 
   constructor(bonusKey: string, rawYaml: object) {
     validate(this, rawYaml);
