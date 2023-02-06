@@ -18,7 +18,7 @@ interface RawMemberStatus {
   key: string;
   id: string;
   description: string;
-  leader: string | boolean;
+  manager: string | boolean;
 }
 
 class MemberStatus
@@ -27,7 +27,7 @@ class MemberStatus
   private readonly _id: number;
   private readonly _key: string;
   private readonly _description: string;
-  private readonly _leader: boolean;
+  private readonly _manager: boolean;
 
   constructor(statusKey: string, rawYaml: object) {
     validate(this, rawYaml);
@@ -35,9 +35,9 @@ class MemberStatus
     this._id = parseInt((rawYaml as RawMemberStatus).id);
     this._key = (rawYaml as RawMemberStatus).key;
     this._description = (rawYaml as RawMemberStatus).description;
-    this._leader =
-      (rawYaml as RawMemberStatus).leader === 'true' ||
-      (rawYaml as RawMemberStatus).leader === true;
+    this._manager =
+      (rawYaml as RawMemberStatus).manager === 'true' ||
+      (rawYaml as RawMemberStatus).manager === true;
   }
 
   getRequiredKeys = (): string[] => requiredKeys;
@@ -58,8 +58,8 @@ class MemberStatus
     return this._description;
   }
 
-  get leader(): boolean {
-    return this._leader;
+  get manager(): boolean {
+    return this._manager;
   }
 }
 
