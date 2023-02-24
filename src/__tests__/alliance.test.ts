@@ -1,18 +1,22 @@
-import {expect, test} from '@jest/globals'
-import AllianceConfig from "../src/config/AllianceConfig";
-import alliance from "../src/alliance";
-import InvalidConfig from "../src/error/InvalidConfig";
-import YamlParseFailed from "../src/error/YamlParseFailed";
-import MissingRequiredKey from "../src/error/MissingRequiredKey";
-import FileLoadFailed from "../src/error/FileLoadFailed";
+import {expect, test} from '@jest/globals';
+import AllianceConfig from '../config/AllianceConfig';
+import alliance from '../alliance';
+import InvalidConfig from '../error/InvalidConfig';
+import YamlParseFailed from '../error/YamlParseFailed';
+import MissingRequiredKey from '../error/MissingRequiredKey';
+import FileLoadFailed from '../error/FileLoadFailed';
 
 test('valid alliance file succeeds', async () => {
-  const result: AllianceConfig = await alliance('./testData/alliance/valid_alliance.yml');
+  const result: AllianceConfig = await alliance(
+    './testData/alliance/valid_alliance.yml'
+  );
   expect(result).toBeInstanceOf(AllianceConfig);
 });
 
 test('valid alliance file has two statuses', async () => {
-  const result: AllianceConfig = await alliance('./testData/alliance/valid_alliance.yml');
+  const result: AllianceConfig = await alliance(
+    './testData/alliance/valid_alliance.yml'
+  );
   expect(result.member_status).toHaveProperty('none');
   expect(result.member_status.none.id).toEqual(0);
 });
@@ -23,7 +27,9 @@ test('duplicate id for member_status fails', async () => {
   } catch (error) {
     expect(error).toBeInstanceOf(InvalidConfig);
     if (error instanceof InvalidConfig) {
-      expect(error.message).toContain('Duplicate ID found | child=member_status');
+      expect(error.message).toContain(
+        'Duplicate ID found | child=member_status'
+      );
     }
   }
 });
@@ -45,7 +51,9 @@ test('key mismatch fails', async () => {
   } catch (error) {
     expect(error).toBeInstanceOf(InvalidConfig);
     if (error instanceof InvalidConfig) {
-      expect(error.message).toContain('MemberStatus:keys do not match: request:requestoooo');
+      expect(error.message).toContain(
+        'MemberStatus:keys do not match: request:requestoooo'
+      );
     }
   }
 });
@@ -56,7 +64,9 @@ test('missing member status fails', async () => {
   } catch (error) {
     expect(error).toBeInstanceOf(MissingRequiredKey);
     if (error instanceof MissingRequiredKey) {
-      expect(error.message).toContain('Config is missing key | AllianceConfig:member_status');
+      expect(error.message).toContain(
+        'Config is missing key | AllianceConfig:member_status'
+      );
     }
   }
 });

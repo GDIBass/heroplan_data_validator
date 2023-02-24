@@ -1,8 +1,8 @@
 import {expect, test, it, describe} from '@jest/globals';
-import MemberStatus from '../../../src/config/alliance/MemberStatus';
-import MissingRequiredKey from '../../../src/error/MissingRequiredKey';
+import MemberStatus from '../../../config/alliance/MemberStatus';
+import MissingRequiredKey from '../../../error/MissingRequiredKey';
 import {fail} from 'assert';
-import InvalidConfig from '../../../src/error/InvalidConfig';
+import InvalidConfig from '../../../error/InvalidConfig';
 
 const key = 'member_status';
 

@@ -1,9 +1,11 @@
-import {expect, test} from '@jest/globals'
-import AscensionsConfig from "../src/config/AscensionsConfig";
-import ascensions from "../src/ascensions";
+import {expect, test} from '@jest/globals';
+import AscensionsConfig from '../config/AscensionsConfig';
+import ascensions from '../ascensions';
 
 test('Valid ascensions file succeeds', async () => {
-  const result: AscensionsConfig = await ascensions('./testData/ascensions/valid.yml');
+  const result: AscensionsConfig = await ascensions(
+    './testData/ascensions/valid.yml'
+  );
   expect(result).toBeInstanceOf(AscensionsConfig);
 });
 
