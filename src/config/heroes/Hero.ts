@@ -165,7 +165,7 @@ class Hero
     costumesConfig: CostumesConfig,
     speedsConfig: SpeedsConfig,
     heroImagesDirectory: string
-  ) => {
+  ): Promise<Hero> => {
     const name = (rawYaml as RawHero).name;
     const costumeRaw = (rawYaml as RawHero).costume || null;
     const costume = costumeRaw

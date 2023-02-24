@@ -3680,6 +3680,19 @@ Object.defineProperty(exports, "ImageType", ({ enumerable: true, get: function (
 
 /***/ }),
 
+/***/ 414:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hasArrays = void 0;
+const hasArrays = (arg) => typeof (arg === null || arg === void 0 ? void 0 : arg.getArrays) === 'function';
+exports.hasArrays = hasArrays;
+
+
+/***/ }),
+
 /***/ 647:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -3807,6 +3820,8 @@ const HasFloats_1 = __nccwpck_require__(6642);
 const verifyKeysAreFloats_1 = __importDefault(__nccwpck_require__(4806));
 const HasBooleans_1 = __nccwpck_require__(647);
 const verifyKeysAreBooleans_1 = __importDefault(__nccwpck_require__(3691));
+const HasArrays_1 = __nccwpck_require__(414);
+const verifyKeysAreArrays_1 = __importDefault(__nccwpck_require__(2253));
 const validate = (config, rawObject) => {
     if ((0, HasRequiredKeys_1.hasRequiredKeys)(config)) {
         (0, verifyRequiredKeys_1.default)(config, rawObject);
@@ -3828,6 +3843,9 @@ const validate = (config, rawObject) => {
     }
     if ((0, HasBooleans_1.hasBooleans)(config)) {
         (0, verifyKeysAreBooleans_1.default)(config, rawObject);
+    }
+    if ((0, HasArrays_1.hasArrays)(config)) {
+        (0, verifyKeysAreArrays_1.default)(config, rawObject);
     }
 };
 exports["default"] = validate;
@@ -3992,6 +4010,34 @@ const validateNoDuplicateIds = (config, child, elements) => {
     }
 };
 exports["default"] = validateNoDuplicateIds;
+
+
+/***/ }),
+
+/***/ 2253:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
+const ohp_1 = __importDefault(__nccwpck_require__(1439));
+const verifyKeysAreArrays = (config, source) => {
+    const keys = config.getArrays();
+    for (const key of keys) {
+        if (!(0, ohp_1.default)(source, key)) {
+            continue;
+        }
+        // @ts-ignore
+        if (!(source[key] instanceof Array)) {
+            throw new InvalidConfig_1.default(config, `key is not an array: ${key}`);
+        }
+    }
+};
+exports["default"] = verifyKeysAreArrays;
 
 
 /***/ }),
