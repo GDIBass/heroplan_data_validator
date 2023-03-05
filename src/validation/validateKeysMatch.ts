@@ -4,9 +4,9 @@ import Config from './interfaces/Config';
 const validateKeysMatch = (
   config: Config,
   inputKey: string | number,
-  setKey: string
+  setKey: string | number
 ): void => {
-  if (!setKey || inputKey.toString() !== setKey.toString()) {
+  if ((!setKey && setKey !== 0) || inputKey.toString() !== setKey.toString()) {
     throw new InvalidConfig(config, `keys do not match: ${inputKey}:${setKey}`);
   }
 };

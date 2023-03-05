@@ -50,9 +50,8 @@ class Family
   private readonly _image: string;
   private readonly _bonus: string[] = [];
 
-  constructor(filename: string, rawYaml: object) {
+  constructor(idAndName: IdAndName, rawYaml: object) {
     validate(this, rawYaml);
-    const idAndName: IdAndName = getIdAndNameFromFilename(filename);
     validateKeysMatch(this, idAndName.id, (rawYaml as RawFamily).code);
     validateNamesMatch(this, idAndName.name, (rawYaml as RawFamily).key);
     this._key = (rawYaml as RawFamily).key;
