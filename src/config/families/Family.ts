@@ -11,6 +11,10 @@ import {
   validateImageType,
   validateKeysMatch
 } from '../../validation';
+import getIdAndNameFromFilename, {
+  IdAndName
+} from '../../util/getIdAndNameFromFilename';
+import {validateNamesMatch} from '../../validation/validateKeysMatch';
 
 interface RawFamily {
   key: string;
@@ -46,9 +50,11 @@ class Family
   private readonly _image: string;
   private readonly _bonus: string[] = [];
 
-  constructor(familyKey: string, rawYaml: object) {
+  constructor(filename: string, rawYaml: object) {
     validate(this, rawYaml);
-    validateKeysMatch(this, familyKey, (rawYaml as RawFamily).key);
+    const idAndName: IdAndName = getIdAndNameFromFilename(filename);
+    validateKeysMatch(this, idAndName.id, (rawYaml as RawFamily).code);
+    validateNamesMatch(this, idAndName.name, (rawYaml as RawFamily).key);
     this._key = (rawYaml as RawFamily).key;
     this._code = parseInt((rawYaml as RawFamily).code);
     this._description = (rawYaml as RawFamily).description;
