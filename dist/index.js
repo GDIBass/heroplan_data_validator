@@ -527,14 +527,12 @@ const Family_1 = __importDefault(__nccwpck_require__(8066));
 const requiredKeys = ['families'];
 const objectKeys = ['families'];
 class FamiliesConfig {
-    constructor(rawYaml) {
+    constructor(families) {
         this._families = {};
         this.getClassName = () => FamiliesConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
-        (0, validation_1.validate)(this, rawYaml);
         // Populate families object
-        const families = rawYaml.families;
         for (const family in families) {
             this._families[family] = new Family_1.default(family, families[family]);
         }
@@ -1801,19 +1799,24 @@ exports["default"] = validateNode;
 /***/ }),
 
 /***/ 8066:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
+const getIdAndNameFromFilename_1 = __importDefault(__nccwpck_require__(1478));
+const validateKeysMatch_1 = __nccwpck_require__(8471);
 const requiredKeys = ['key', 'code', 'description', 'image', 'bonus'];
 const stringKeys = ['key', 'description'];
 const integerKeys = ['code'];
 const imageKeys = ['image'];
 const arrayKeys = ['bonus'];
 class Family {
-    constructor(familyKey, rawYaml) {
+    constructor(filename, rawYaml) {
         this._bonus = [];
         this.getClassName = () => Family.name;
         this.getRequiredKeys = () => requiredKeys;
@@ -1823,7 +1826,9 @@ class Family {
         this.getStrings = () => stringKeys;
         this.getId = () => this._code;
         (0, validation_1.validate)(this, rawYaml);
-        (0, validation_1.validateKeysMatch)(this, familyKey, rawYaml.key);
+        const idAndName = (0, getIdAndNameFromFilename_1.default)(filename);
+        (0, validation_1.validateKeysMatch)(this, idAndName.id, rawYaml.code);
+        (0, validateKeysMatch_1.validateNamesMatch)(this, idAndName.name, rawYaml.key);
         this._key = rawYaml.key;
         this._code = parseInt(rawYaml.code);
         this._description = rawYaml.description;
@@ -3062,13 +3067,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
+const fs_1 = __importDefault(__nccwpck_require__(7147));
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const yaml_1 = __nccwpck_require__(9912);
 const FamiliesConfig_1 = __importDefault(__nccwpck_require__(8106));
-const loadFamiliesConfig = (filePath = './data/families.yml') => __awaiter(void 0, void 0, void 0, function* () {
+const loadFamiliesConfig = (folderPath = './data/families/') => __awaiter(void 0, void 0, void 0, function* () {
     core.info('Loading Families Config');
-    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    const families = {};
+    const files = yield fs_1.default.promises.readdir(folderPath);
+    for (const file of files) {
+        if (file.endsWith('.yml')) {
+            families[file] = yield (0, yaml_1.loadYamlFile)(path_1.default.join(folderPath, file));
+        }
+    }
     // TODO: Validate image was uploaded and is correct dimensions
-    return new FamiliesConfig_1.default(config);
+    return new FamiliesConfig_1.default(families);
 });
 exports["default"] = loadFamiliesConfig;
 
@@ -3643,6 +3656,30 @@ exports["default"] = loadUsersConfig;
 
 /***/ }),
 
+/***/ 1478:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const getIdAndNameFromFilename = (filename) => {
+    const trimmed = filename.substring(0, filename.length - '.yml'.length);
+    const splitTrim = trimmed.split('-');
+    if (splitTrim.length !== 2) {
+        throw new Error(`Filename must be in <id>-<name>.yml format : filename:${filename}`);
+    }
+    if (isNaN(parseInt(splitTrim[0], 10))) {
+        throw new Error(`Id for filename must be an integer <id>-<name>.yml format : filename:${filename}`);
+    }
+    const id = parseInt(splitTrim[0], 10);
+    const name = splitTrim[1];
+    return { id, name };
+};
+exports["default"] = getIdAndNameFromFilename;
+
+
+/***/ }),
+
 /***/ 1439:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -3978,12 +4015,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validateNamesMatch = void 0;
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateKeysMatch = (config, inputKey, setKey) => {
     if (!setKey || inputKey.toString() !== setKey.toString()) {
         throw new InvalidConfig_1.default(config, `keys do not match: ${inputKey}:${setKey}`);
     }
 };
+const validateNamesMatch = (config, inputKey, setKey) => {
+    if (!setKey || inputKey.toString() !== setKey.toString()) {
+        throw new InvalidConfig_1.default(config, `Names do not match: ${inputKey}:${setKey}`);
+    }
+};
+exports.validateNamesMatch = validateNamesMatch;
 exports["default"] = validateKeysMatch;
 
 

@@ -10,19 +10,13 @@ import Family from './families/Family';
 const requiredKeys = ['families'];
 const objectKeys = ['families'];
 
-interface RawFamiliesConfig {
-  families: {[key: string]: object};
-}
-
 type Families = {[key: string]: Family};
 
-class FamiliesConfig implements Config, HasRequiredKeys, HasObjects {
+class FamiliesConfig {
   private readonly _families: Families = {};
 
-  constructor(rawYaml: object) {
-    validate(this, rawYaml);
+  constructor(families: {[key: string]: object}) {
     // Populate families object
-    const families = (rawYaml as RawFamiliesConfig).families;
     for (const family in families) {
       this._families[family] = new Family(family, families[family]);
     }
