@@ -1,29 +1,21 @@
-import {
-  Config,
-  HasObjects,
-  HasRequiredKeys,
-  validate,
-  validateNoDuplicateIds
-} from '../validation';
+import {validateNoDuplicateIds} from '../validation';
 import Source from './sources/Source';
-
-interface RawSourceConfig {
-  sources: {[Key: string]: object};
-}
+import getIdAndNameFromFilename, {
+  IdAndName
+} from '../util/getIdAndNameFromFilename';
 
 const requiredKeys = ['sources'];
 const objectKeys = ['sources'];
 
 type Sources = {[key: string]: Source};
 
-class SourcesConfig implements Config, HasRequiredKeys, HasObjects {
+class SourcesConfig {
   private readonly _sources: Sources = {};
 
-  constructor(rawYaml: object) {
-    validate(this, rawYaml);
-    const sources = (rawYaml as RawSourceConfig).sources;
+  constructor(sources: {[key: string]: object}) {
     for (const source in sources) {
-      this._sources[source] = new Source(source, sources[source]);
+      const idAndName: IdAndName = getIdAndNameFromFilename(source);
+      this._sources[idAndName.name] = new Source(idAndName, sources[source]);
     }
     validateNoDuplicateIds(this, 'sources', Object.values(this._sources));
   }

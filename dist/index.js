@@ -524,6 +524,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
 const Family_1 = __importDefault(__nccwpck_require__(8066));
+const getIdAndNameFromFilename_1 = __importDefault(__nccwpck_require__(1478));
 const requiredKeys = ['families'];
 const objectKeys = ['families'];
 class FamiliesConfig {
@@ -534,7 +535,8 @@ class FamiliesConfig {
         this.getObjects = () => objectKeys;
         // Populate families object
         for (const family in families) {
-            this._families[family] = new Family_1.default(family, families[family]);
+            const idAndName = (0, getIdAndNameFromFilename_1.default)(family);
+            this._families[idAndName.name] = new Family_1.default(idAndName, families[family]);
         }
         // verify no duplicate codes
         (0, validation_1.validateNoDuplicateIds)(this, 'families', Object.values(this._families));
@@ -677,18 +679,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
 const Source_1 = __importDefault(__nccwpck_require__(880));
+const getIdAndNameFromFilename_1 = __importDefault(__nccwpck_require__(1478));
 const requiredKeys = ['sources'];
 const objectKeys = ['sources'];
 class SourcesConfig {
-    constructor(rawYaml) {
+    constructor(sources) {
         this._sources = {};
         this.getClassName = () => SourcesConfig.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getObjects = () => objectKeys;
-        (0, validation_1.validate)(this, rawYaml);
-        const sources = rawYaml.sources;
         for (const source in sources) {
-            this._sources[source] = new Source_1.default(source, sources[source]);
+            const idAndName = (0, getIdAndNameFromFilename_1.default)(source);
+            this._sources[idAndName.name] = new Source_1.default(idAndName, sources[source]);
         }
         (0, validation_1.validateNoDuplicateIds)(this, 'sources', Object.values(this._sources));
     }
@@ -1799,16 +1801,12 @@ exports["default"] = validateNode;
 /***/ }),
 
 /***/ 8066:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
-const getIdAndNameFromFilename_1 = __importDefault(__nccwpck_require__(1478));
 const validateKeysMatch_1 = __nccwpck_require__(8471);
 const requiredKeys = ['key', 'code', 'description', 'image', 'bonus'];
 const stringKeys = ['key', 'description'];
@@ -1816,7 +1814,7 @@ const integerKeys = ['code'];
 const imageKeys = ['image'];
 const arrayKeys = ['bonus'];
 class Family {
-    constructor(filename, rawYaml) {
+    constructor(idAndName, rawYaml) {
         this._bonus = [];
         this.getClassName = () => Family.name;
         this.getRequiredKeys = () => requiredKeys;
@@ -1826,7 +1824,6 @@ class Family {
         this.getStrings = () => stringKeys;
         this.getId = () => this._code;
         (0, validation_1.validate)(this, rawYaml);
-        const idAndName = (0, getIdAndNameFromFilename_1.default)(filename);
         (0, validation_1.validateKeysMatch)(this, idAndName.id, rawYaml.code);
         (0, validateKeysMatch_1.validateNamesMatch)(this, idAndName.name, rawYaml.key);
         this._key = rawYaml.key;
@@ -2237,18 +2234,20 @@ exports["default"] = Ascension;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const validation_1 = __nccwpck_require__(7110);
+const validateKeysMatch_1 = __nccwpck_require__(8471);
 const requiredKeys = ['key', 'code', 'description'];
 const stringKeys = ['key', 'description'];
 const integerKey = ['code'];
 class Source {
-    constructor(sourceKey, rawYaml) {
+    constructor(idAndName, rawYaml) {
         this.getClassName = () => Source.name;
         this.getRequiredKeys = () => requiredKeys;
         this.getStrings = () => stringKeys;
         this.getIntegers = () => integerKey;
         this.getId = () => this._code;
         (0, validation_1.validate)(this, rawYaml);
-        (0, validation_1.validateKeysMatch)(this, sourceKey, rawYaml.key);
+        (0, validation_1.validateKeysMatch)(this, idAndName.id, rawYaml.code);
+        (0, validateKeysMatch_1.validateNamesMatch)(this, idAndName.name, rawYaml.key);
         this._key = rawYaml.key;
         this._code = parseInt(rawYaml.code);
         this._description = rawYaml.description;
@@ -3425,11 +3424,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const yaml_1 = __nccwpck_require__(9912);
 const SourcesConfig_1 = __importDefault(__nccwpck_require__(9830));
-const loadSourcesConfig = (filePath = './data/sources.yml') => __awaiter(void 0, void 0, void 0, function* () {
+const fs_1 = __importDefault(__nccwpck_require__(7147));
+const path_1 = __importDefault(__nccwpck_require__(1017));
+const loadSourcesConfig = (folderPath = './data/sources/') => __awaiter(void 0, void 0, void 0, function* () {
     core.info('Loading Sources Config');
-    const config = yield (0, yaml_1.loadYamlFile)(filePath);
+    const sources = {};
+    const files = yield fs_1.default.promises.readdir(folderPath);
+    for (const file of files) {
+        if (file.endsWith('.yml')) {
+            sources[file] = yield (0, yaml_1.loadYamlFile)(path_1.default.join(folderPath, file));
+        }
+    }
     // TODO: Validate image was uploaded and is correct dimensions
-    return new SourcesConfig_1.default(config);
+    return new SourcesConfig_1.default(sources);
 });
 exports["default"] = loadSourcesConfig;
 
@@ -4018,7 +4025,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.validateNamesMatch = void 0;
 const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 const validateKeysMatch = (config, inputKey, setKey) => {
-    if (!setKey || inputKey.toString() !== setKey.toString()) {
+    if ((!setKey && setKey !== 0) || inputKey.toString() !== setKey.toString()) {
         throw new InvalidConfig_1.default(config, `keys do not match: ${inputKey}:${setKey}`);
     }
 };

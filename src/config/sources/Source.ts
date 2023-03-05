@@ -7,6 +7,10 @@ import {
   validate,
   validateKeysMatch
 } from '../../validation';
+import getIdAndNameFromFilename, {
+  IdAndName
+} from '../../util/getIdAndNameFromFilename';
+import {validateNamesMatch} from '../../validation/validateKeysMatch';
 
 interface RawSource {
   key: string;
@@ -25,9 +29,10 @@ class Source
   private readonly _code: number;
   private readonly _description: string;
 
-  constructor(sourceKey: string, rawYaml: object) {
+  constructor(idAndName: IdAndName, rawYaml: object) {
     validate(this, rawYaml);
-    validateKeysMatch(this, sourceKey, (rawYaml as RawSource).key);
+    validateKeysMatch(this, idAndName.id, (rawYaml as RawSource).code);
+    validateNamesMatch(this, idAndName.name, (rawYaml as RawSource).key);
     this._key = (rawYaml as RawSource).key;
     this._code = parseInt((rawYaml as RawSource).code);
     this._description = (rawYaml as RawSource).description;
