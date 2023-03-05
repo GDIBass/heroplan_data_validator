@@ -16,6 +16,7 @@ import ohp from '../../util/ohp';
 import InvalidConfig from '../../error/InvalidConfig';
 import validateHeroImage from '../../validation/validateHeroImage';
 import SpeedsConfig from '../SpeedsConfig';
+import {IdAndName} from '../../util/getIdAndNameFromFilename';
 
 const requiredKeys = [
   'name',
@@ -158,6 +159,7 @@ class Hero
   static build = async (
     stars: number,
     color: string,
+    heroFile: string,
     rawYaml: object,
     classesConfig: ClassesConfig,
     familiesConfig: FamiliesConfig,
@@ -167,6 +169,11 @@ class Hero
     heroImagesDirectory: string
   ): Promise<Hero> => {
     const name = (rawYaml as RawHero).name;
+    if (heroFile.substring(0, heroFile.length - '.yml'.length) !== name) {
+      throw new Error(
+        `Hero name does not match filename | filename=${heroFile} | name=${name}`
+      );
+    }
     const costumeRaw = (rawYaml as RawHero).costume || null;
     const costume = costumeRaw
       ? await Costume.build(
