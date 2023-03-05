@@ -608,9 +608,9 @@ const InvalidConfig_1 = __importDefault(__nccwpck_require__(7119));
 class HeroesConfig {
     constructor(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig, heroImagesDirectory) {
         this._heroes = {};
-        this.addHeroes = (color, stars, rawYaml) => __awaiter(this, void 0, void 0, function* () {
-            for (const rawHero of rawYaml) {
-                const hero = yield Hero_1.default.build(stars, color, rawHero, this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.speedsConfig, this.heroImagesDirectory);
+        this.addHeroes = (color, stars, heroesToAdd) => __awaiter(this, void 0, void 0, function* () {
+            for (const heroFile in heroesToAdd) {
+                const hero = yield Hero_1.default.build(stars, color, heroFile, heroesToAdd[heroFile], this.classesConfig, this.familiesConfig, this.sourcesConfig, this.costumesConfig, this.speedsConfig, this.heroImagesDirectory);
                 if ((0, ohp_1.default)(this._heroes, hero.name)) {
                     throw new InvalidConfig_1.default(this, `Hero with name ${hero.name} already exists`);
                 }
@@ -2173,8 +2173,11 @@ class Hero {
     }
 }
 _a = Hero;
-Hero.build = (stars, color, rawYaml, classesConfig, familiesConfig, sourcesConfig, costumesConfig, speedsConfig, heroImagesDirectory) => __awaiter(void 0, void 0, void 0, function* () {
+Hero.build = (stars, color, heroFile, rawYaml, classesConfig, familiesConfig, sourcesConfig, costumesConfig, speedsConfig, heroImagesDirectory) => __awaiter(void 0, void 0, void 0, function* () {
     const name = rawYaml.name;
+    if (heroFile.substring(0, heroFile.length - '.yml'.length) !== name) {
+        throw new Error(`Hero name does not match filename | filename=${heroFile} | name=${name}`);
+    }
     const costumeRaw = rawYaml.costume || null;
     const costume = costumeRaw
         ? yield Costume_1.default.build(stars, color, name, costumeRaw, classesConfig, costumesConfig, 1, heroImagesDirectory)
@@ -3186,14 +3189,23 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const HeroesConfig_1 = __importDefault(__nccwpck_require__(10));
 const yaml_1 = __nccwpck_require__(9912);
+const fs_1 = __importDefault(__nccwpck_require__(7147));
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const loadHeroConfigs = (classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig, heroesDirectory = './data/heroes/', heroImagesDirectory = './img/heroes/') => __awaiter(void 0, void 0, void 0, function* () {
     core.info('Loading Heroes Config');
     const heroesConfig = new HeroesConfig_1.default(classesConfig, familiesConfig, sourcesConfig, costumesConfig, colorsConfig, speedsConfig, heroImagesDirectory);
     for (const color in colorsConfig.colors) {
         for (const star of [1, 2, 3, 4, 5]) {
             core.info(`Loading ${star} star ${color} Heroes`);
-            const file = `${heroesDirectory}${color}/${star}star.yml`;
-            heroesConfig.addHeroes(color, star, yield (0, yaml_1.loadYamlFileArray)(file));
+            const folder = `${heroesDirectory}${color}/${star}`;
+            const heroesToLoad = {};
+            const files = yield fs_1.default.promises.readdir(folder);
+            for (const file of files) {
+                if (file.endsWith('.yml')) {
+                    heroesToLoad[file] = yield (0, yaml_1.loadYamlFile)(path_1.default.join(folder, file));
+                }
+            }
+            yield heroesConfig.addHeroes(color, star, heroesToLoad);
         }
     }
     return heroesConfig;

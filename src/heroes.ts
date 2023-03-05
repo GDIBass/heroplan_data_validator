@@ -5,8 +5,10 @@ import FamiliesConfig from './config/FamiliesConfig';
 import SourcesConfig from './config/SourcesConfig';
 import CostumesConfig from './config/CostumesConfig';
 import ColorsConfig from './config/ColorsConfig';
-import {loadYamlFileArray} from './yaml';
+import {loadYamlFile, loadYamlFileArray} from './yaml';
 import SpeedsConfig from './config/SpeedsConfig';
+import fs from 'fs';
+import path from 'path';
 
 const loadHeroConfigs = async (
   classesConfig: ClassesConfig,
@@ -31,8 +33,15 @@ const loadHeroConfigs = async (
   for (const color in colorsConfig.colors) {
     for (const star of [1, 2, 3, 4, 5]) {
       core.info(`Loading ${star} star ${color} Heroes`);
-      const file = `${heroesDirectory}${color}/${star}star.yml`;
-      heroesConfig.addHeroes(color, star, await loadYamlFileArray(file));
+      const folder = `${heroesDirectory}${color}/${star}`;
+      const heroesToLoad: {[key: string]: object} = {};
+      const files = await fs.promises.readdir(folder);
+      for (const file of files) {
+        if (file.endsWith('.yml')) {
+          heroesToLoad[file] = await loadYamlFile(path.join(folder, file));
+        }
+      }
+      await heroesConfig.addHeroes(color, star, heroesToLoad);
     }
   }
   return heroesConfig;

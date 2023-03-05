@@ -8,6 +8,9 @@ import Hero from './heroes/Hero';
 import ohp from '../util/ohp';
 import InvalidConfig from '../error/InvalidConfig';
 import SpeedsConfig from './SpeedsConfig';
+import getIdAndNameFromFilename, {
+  IdAndName
+} from '../util/getIdAndNameFromFilename';
 
 type Heroes = {[key: string]: Hero};
 
@@ -42,13 +45,14 @@ class HeroesConfig implements Config {
   addHeroes = async (
     color: string,
     stars: number,
-    rawYaml: object[]
+    heroesToAdd: {[key: string]: object}
   ): Promise<void> => {
-    for (const rawHero of rawYaml) {
+    for (const heroFile in heroesToAdd) {
       const hero = await Hero.build(
         stars,
         color,
-        rawHero,
+        heroFile,
+        heroesToAdd[heroFile],
         this.classesConfig,
         this.familiesConfig,
         this.sourcesConfig,
