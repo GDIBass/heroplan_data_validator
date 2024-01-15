@@ -31,7 +31,7 @@ const validateHeroImage = async (
   } else if (costumeVariant === 2) {
     costumeAppend = 'costume2';
   }
-  const alphaName = (heroName.match(/[a-zA-Z]+/g) || []).join('').toLowerCase();
+  const alphaName = (heroName.match(/[a-zA-Z23]+/g) || []).join('').toLowerCase();
   const imageFile = `${heroImagesDirectory}${alphaName}${costumeAppend}.jpg`;
   const readFile = util.promisify(fs.readFile);
   let localImage;
