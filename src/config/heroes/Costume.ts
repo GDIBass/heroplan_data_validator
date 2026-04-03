@@ -85,12 +85,14 @@ class Costume implements HasRequiredKeys, HasStrings, HasIntegers, HasArrays {
       );
     }
     // validate bonuses are valid
-    if (this._bonuses && !ohp(costumesConfig.bonuses, this._bonuses)) {
-      throw new InvalidConfig(
-        this,
-        `${name}'s costume (${costumeVariant}) has an invalid bonus ${this._bonuses}`
-      );
-    }
+    //cvl75 disabled costume config check 2026-04-03
+    // if (this._bonuses && !ohp(costumesConfig.bonuses, this._bonuses)) {
+    //   throw new InvalidConfig(
+    //     this,
+    //     `${name}'s costume (${costumeVariant}) has an invalid bonus ${this._bonuses}`
+    //   );
+    // }
+    //end cvl75
     // TODO: Populate default variant if bonuses isn't set
   }
 
